@@ -64,7 +64,30 @@ create table HOADON(
  FOREIGN KEY (MaTiecCuoi ) REFERENCES TIECCUOI(MaTiecCuoi)
 
 )
+	
+CREATE TABLE SANH
+(
+	MaSanh char(10) PRIMARY KEY,
+	TenSanh nvarchar(100) NOT NULL,
+	MaLoaiSanh nvarchar(100) NOT NULL,
+	SoLuongBanToiDa INT NOT NULL,
+	DonGiaToiThieu money NOT NULL,
+	GhiChu nvarchar(100) NOT NULL
+)
 
+CREATE TABLE ChiTietBaoCao
+(
+	MaCTBaoCao INT PRIMARY KEY,
+	NGAY DATE NOT NULL,
+	SoLuong INT NOT NULL,
+	DoanhThu INT NOT NULL,
+)
+CREATE TABLE BaoCaoDoanhThu
+(
+	MaBaoCao INT PRIMARY KEY,
+	Thang char(20) NOT NULL,
+	TongDoanhThu INT NOT NULL
+)
 
 
 GO
@@ -91,12 +114,24 @@ ALTER TABLE NHANVIEN
 ADD FK_MaCa
 FOREIGN KEY (MaCa)
 REFERENCES CA(MaCa)
-
+	
+-- TABLE ChiTietBaoCao
+ALTER TABLE ChiTietBaoCao
+ADD FK_MaBaoCao
+FOREIGN KEY (MaBaoCao)
+REFERENCES BaoCaoDoanhThu(MaBaoCao)
 GO
 
 ------------ INSERT INTO DATA ----------------------------
 
-
+--- TABLE SANH
+insert into SANH (MaSanh, LoaiSanh, TenSanh, SoLuongBanToiDa, DonGiaToiThieu, GhiChu)
+	values
+		('S01','Loai A','Kim Cương','500','50000000','Không'),
+		('S02','Loai B','Bạch Kim','450','45000000','Không'),
+		('S03','Loai C','Vàng','400','40000000','Không'),
+		('S04','Loai D','Bạc','350','35000000','Không'),
+		('S05','Loai E','Đồng','300','30000000','Không');
 --- TABLE TIECCUOI
 INSERT INTO TIECCUOI (MaTiecCuoi, MaSanh, MaCa, MaThucDon, NgayToChuc, TienDatCoc, SoLuongBan, SoLuongBanDuTru)
     VALUES 
