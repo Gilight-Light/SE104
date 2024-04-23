@@ -1,8 +1,8 @@
 <<<<<<< HEAD
 -- Source ở đây, ae sẽ push source code sql ở đây nhé.
-create database  QUANLYTIECCUOI IF NOT EXISTS
+create database  QUANLYTIECCUOI 
 ---- CREATE TABLE 
-Create Table TIECCUOI IF NOT EXISTS (
+Create Table TIECCUOI  (
     MaTiecCuoi CHAR(10)  PRIMARY KEY,
     MaSanh CHAR(10) NOT NULL,
     MaCa CHAR(10) NOT NULL,
@@ -13,13 +13,13 @@ Create Table TIECCUOI IF NOT EXISTS (
     SoLuongBanDuTru INT NOT NULL,
 );
 
-Create Table CA IF NOT EXISTS (
+Create Table CA  (
     MaCa CHAR(10) PRIMARY KEY,
     ThoiGianBatDau DATETIME NOT NULL,
     ThoiGianKetThuc DATETIME NOT NULL,
 );
 
-Create Table NHANVIEN IF NOT EXISTS (
+Create Table NHANVIEN  (
     MaNhanVien CHAR(10) PRIMARY KEY,
     MaCa CHAR(10) NOT NULL,
     TenNhanVien NVARCHAR(100) NOT NULL,
@@ -27,7 +27,7 @@ Create Table NHANVIEN IF NOT EXISTS (
     ChucVu NVARCHAR(100) NOT NULL
 );
 
-Create table THUCDON
+Create table THUCDON 
 (
 	MaThucDon varchar(100) primary key,
 	MonKhaiVi nvarchar(100) not null,
@@ -41,7 +41,7 @@ Create table THUCDON
 	GiaThucDon money not null
 );
 
-Create table PHANHOI
+Create table PHANHOI 
 (
 	MaPhanHoi CHAR(10)  PRIMARY KEY,
 	MaKhachHang CHAR(10) NOT NULL,
@@ -54,42 +54,59 @@ Create table PHANHOI
 
 );
 
-create table HOADON(
-
+create table HOADON 
+(
  MaHoaDon char(10) primary key,
  MaTiecCuoi char(10) not null,
  NgayThanhToan date not null,
  TongTienBan int not null,
+ TongTienThucDon int not null,
  TongTienHoaDon int not null,
  FOREIGN KEY (MaTiecCuoi ) REFERENCES TIECCUOI(MaTiecCuoi)
 
 )
 	
-CREATE TABLE SANH
+CREATE TABLE SANH 
 (
 	MaSanh char(10) PRIMARY KEY,
 	TenSanh nvarchar(100) NOT NULL,
 	MaLoaiSanh nvarchar(100) NOT NULL,
 	SoLuongBanToiDa INT NOT NULL,
-	DonGiaToiThieu money NOT NULL,
+	DonGia money NOT NULL,
 	GhiChu nvarchar(100) NOT NULL
 )
 
-CREATE TABLE ChiTietBaoCao
+CREATE TABLE ChiTietBaoCao 
 (
-	MaCTBaoCao INT PRIMARY KEY,
+	MaCTBaoCao CHAR(10) PRIMARY KEY,
 	NGAY DATE NOT NULL,
 	SoLuong INT NOT NULL,
 	DoanhThu INT NOT NULL,
 )
-CREATE TABLE BaoCaoDoanhThu
+CREATE TABLE BaoCaoDoanhThu 
 (
-	MaBaoCao INT PRIMARY KEY,
+	MaBaoCao CHAR(10) PRIMARY KEY,
 	Thang char(20) NOT NULL,
 	TongDoanhThu INT NOT NULL
 )
 
+CREATE TABLE NGUOIDUNG (
+    UserID INT PRIMARY KEY IDENTITY,
+    FullName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(255) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    AccountType NVARCHAR(20) NOT NULL -- Ví dụ: 'customer', 'admin'
+);
 
+CREATE TABLE Permissions (
+    PermissionID INT PRIMARY KEY IDENTITY,
+    AccountType NVARCHAR(20) NOT NULL, -- Ví dụ: 'customer', 'admin'
+    CanAccessAdvancedFeatures BIT NOT NULL -- 0: Không, 1: Có
+);
+INSERT INTO Permissions (AccountType, CanAccessAdvancedFeatures)
+VALUES 
+    ('customer', 0), -- Khách hàng không có quyền truy cập các tính năng nâng cao
+    ('admin', 1);    -- Quản trị viên có quyền truy cập các tính năng nâng cao
 GO
 ----------- CREATE FOREIGN KEY ---------------------------- 
 
@@ -180,4 +197,7 @@ INSERT INTO HOADON VALUES
     (N'HD3', N'TC3', N'22-11-2023', 6000000, 6500000),
     (N'HD4', N'TC4', N'13-01-2023', 8000000, 8500000),
     (N'HD5', N'TC5', N'15-1-2024', 6000000, 6500000);
+
+
+
 >>>>>>> 69046701f1e6223057925776ca5f84b1d9e3c866
