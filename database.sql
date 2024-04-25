@@ -88,15 +88,15 @@ CREATE TABLE SANH
 )
 
 --Nhan dat tiec khi SANH trong
-SELECT *
-FROM SANH
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM TIECCUOI
-    WHERE TIECCUOI.MaSanh = MaSanh
-    AND TIECCUOI.NgayToChuc = 'Ngày muốn đặt'
-    AND TIECCUOI.MaCa = 'Ca muốn đặt'
-);
+--SELECT *
+--FROM SANH
+--WHERE NOT EXISTS (
+--    SELECT 1
+--   FROM TIECCUOI
+--    WHERE TIECCUOI.MaSanh = MaSanh
+--    AND TIECCUOI.NgayToChuc = 'Ngày muốn đặt'
+--    AND TIECCUOI.MaCa = 'Ca muốn đặt'
+--);
 
 CREATE TABLE ChiTietBaoCao 
 (
