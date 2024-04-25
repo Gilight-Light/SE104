@@ -12,7 +12,6 @@ Create Table TIECCUOI  (
     SoLuongBan INT NOT NULL,
     SoLuongBanDuTru INT NOT NULL,
 );
-
 Create Table CA  (
     MaCa CHAR(10) PRIMARY KEY,
     ThoiGianBatDau DATETIME NOT NULL,
@@ -198,6 +197,110 @@ INSERT INTO HOADON VALUES
     (N'HD4', N'TC4', N'13-01-2023', 8000000, 8500000),
     (N'HD5', N'TC5', N'15-1-2024', 6000000, 6500000);
 
+-- PROCEDURE
+-- Tạo procedure thêm, cập nhật, và xóa loại sảnh
+CREATE PROCEDURE QuanLyLoaiSanh
+    @MaSanh CHAR(10),
+    @TenSanh NVARCHAR(100),
+    @MaLoaiSanh NVARCHAR(100),
+    @SoLuongBanToiDa INT,
+    @DonGia MONEY,
+    @GhiChu NVARCHAR(100),
+    @Action NVARCHAR(10)
+AS
+BEGIN
+    IF @Action = 'INSERT'
+    BEGIN
+        INSERT INTO SANH (MaSanh, TenSanh, MaLoaiSanh, SoLuongBanToiDa, DonGia, GhiChu)
+        VALUES (@MaSanh, @TenSanh, @MaLoaiSanh, @SoLuongBanToiDa, @DonGia, @GhiChu);
+    END
+    ELSE IF @Action = 'UPDATE'
+    BEGIN
+        UPDATE SANH
+        SET TenSanh = @TenSanh,
+            MaLoaiSanh = @MaLoaiSanh,
+            SoLuongBanToiDa = @SoLuongBanToiDa,
+            DonGia = @DonGia,
+            GhiChu = @GhiChu
+        WHERE MaSanh = @MaSanh;
+    END
+    ELSE IF @Action = 'DELETE'
+    BEGIN
+        DELETE FROM SANH WHERE MaSanh = @MaSanh;
+    END
+END;
+GO
+-- Tạo procedure cho thêm, chỉnh sửa, và xóa thực đơn
+CREATE PROCEDURE QuanLyThucDon
+    @MaThucDon CHAR(10),
+    @MonKhaiVi NVARCHAR(100),
+    @MonChinh1 NVARCHAR(100),
+    @MonChinh2 NVARCHAR(100),
+    @MonChinh3 NVARCHAR(100),
+    @Lau NVARCHAR(100),
+    @TrangMieng NVARCHAR(100),
+    @Bia NVARCHAR(100),
+    @NuocNgot NVARCHAR(100),
+    @GiaThucDon MONEY,
+    @Action NVARCHAR(10)
+AS
+BEGIN
+    IF @Action = 'INSERT'
+    BEGIN
+        INSERT INTO THUCDON (MaThucDon, MonKhaiVi, MonChinh1, MonChinh2, MonChinh3, Lau, TrangMieng, Bia, NuocNgot, GiaThucDon)
+        VALUES (@MaThucDon, @MonKhaiVi, @MonChinh1, @MonChinh2, @MonChinh3, @Lau, @TrangMieng, @Bia, @NuocNgot, @GiaThucDon);
+    END
+    ELSE IF @Action = 'UPDATE'
+    BEGIN
+        UPDATE THUCDON
+        SET MonKhaiVi = @MonKhaiVi,
+            MonChinh1 = @MonChinh1,
+            MonChinh2 = @MonChinh2,
+            MonChinh3 = @MonChinh3,
+            Lau = @Lau,
+            TrangMieng = @TrangMieng,
+            Bia = @Bia,
+            NuocNgot = @NuocNgot,
+            GiaThucDon = @GiaThucDon
+        WHERE MaThucDon = @MaThucDon;
+    END
+    ELSE IF @Action = 'DELETE'
+    BEGIN
+        DELETE FROM THUCDON WHERE MaThucDon = @MaThucDon;
+    END
+END;
+GO
+
+-- Tạo procedure cho thêm, cập nhật, và xóa ca
+CREATE PROCEDURE QuanLyCa
+    @MaCa CHAR(10),
+    @ThoiGianBatDau DATETIME,
+    @ThoiGianKetThuc DATETIME,
+    @Action NVARCHAR(10)
+AS
+BEGIN
+    IF @Action = 'INSERT'
+    BEGIN
+        INSERT INTO CA (MaCa, ThoiGianBatDau, ThoiGianKetThuc)
+        VALUES (@MaCa, @ThoiGianBatDau, @ThoiGianKetThuc);
+    END
+    ELSE IF @Action = 'UPDATE'
+    BEGIN
+        UPDATE CA
+        SET ThoiGianBatDau = @ThoiGianBatDau,
+            ThoiGianKetThuc = @ThoiGianKetThuc
+        WHERE MaCa = @MaCa;
+    END
+    ELSE IF @Action = 'DELETE'
+    BEGIN
+        DELETE FROM CA WHERE MaCa = @MaCa;
+    END
+END;
+GO
+
+EXEC QuanLyLoaiSanh'S06', 'Loai F', 'Bạch Kim 2', 350, 25000000, 'Ghi chú', 'INSERT';
+EXEC QuanLyThucDon'TD006', 'Gỏi Cuốn', 'Bò Tái Chanh', 'Cá Hồi', 'Cánh Gà Chiên Nước Mắm', 'Lẩu Hải Sản', 'Kem Flan', 'Sapporo', 'Cocacola', 2200000, 'INSERT';
+EXEC QuanLyCa'Ca006', '2024-05-04 18:00:00', '2024-05-04 22:00:00', 'INSERT';
 
 
 >>>>>>> 69046701f1e6223057925776ca5f84b1d9e3c866
