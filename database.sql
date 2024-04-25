@@ -87,6 +87,17 @@ CREATE TABLE SANH
 	GhiChu nvarchar(100) NOT NULL
 )
 
+--Nhan dat tiec khi SANH trong
+SELECT *
+FROM SANH
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM TIECCUOI
+    WHERE TIECCUOI.MaSanh = MaSanh
+    AND TIECCUOI.NgayToChuc = 'Ngày muốn đặt'
+    AND TIECCUOI.MaCa = 'Ca muốn đặt'
+);
+
 CREATE TABLE ChiTietBaoCao 
 (
 	MaCTBaoCao CHAR(10) PRIMARY KEY,
@@ -428,3 +439,24 @@ BEGIN
     DELETE FROM CTE WHERE RowNum > 1;
 END;
 GO
+--Doanh thu thang tu dong cap nhat moi khi them, sua, xoa ChiTietBaoCao
+CREATE TRIGGER Update_Doanh_Thu_Thang
+ON ChiTietBaoCao
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    
+    
+    -- Lấy tháng của ChiTietBaoCao
+    SELECT  MONTH(Ngay) AS @Thang
+	FROM ChiTietBaoCao;
+
+    -- Cập nhật BaoCaoDoanhThu
+    UPDATE BaoCaoDoanhThu
+    SET DoanhThuThang = (
+        SELECT SUM(DoanhThu)
+        FROM ChiTietBaoCao
+        WHERE MONTH(NGAY) = @Thang
+    )
+    WHERE Thang = @Thang 
+END;
