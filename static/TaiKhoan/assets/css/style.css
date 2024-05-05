@@ -1,0 +1,408 @@
+.header{
+    height: 112px;
+    background-color: #ffffee;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-bottom: 30px;
+
+  }
+.header-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-nav_list{
+    display: flex;
+    align-items: center;
+    gap: 30px
+}
+
+.head{
+    font-family: "Newsreader", serif ;
+    font-size: 43px;
+    font-weight: 500;
+    color: #426B1F;
+}
+
+p{
+    font-family: "Niconne", cursive;
+    font-weight: 50;
+    font-style: normal;
+    font-size: 32px;
+    color: #000;
+}
+
+.divider{
+    height: 5px;
+    width: 100%;
+    background-color: #D9D9D9;
+
+}
+
+.info{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 40px;
+}
+
+.info-mail{
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.info-img{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:10px;
+  margin-left: 200px;
+  padding-left: 100px;
+}
+
+.desc{
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+}
+
+.img{
+  width: auto;
+  height: 50px;
+}
+
+
+nav{
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  background: #ffffee;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: ease-out 0.3s;
+
+
+}
+
+nav.hide{
+  width: 0; 
+}
+
+nav ul{
+  width: 100%;
+  list-style: none;
+  overflow: hidden;
+}
+
+nav ul li a{
+  width: 100%;
+  color: #000;
+  font-size:  20px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 15px;
+  transition: linear 0.3s;
+  
+}
+
+nav ul li a ion-icon{
+  margin: 0 20px;
+  color:#426B1F;
+  font-size: 16px;
+  transition: linear 0.3s;
+}
+
+nav ul li a:hover{
+  background-color: #426B1F;
+  color: #FFE4BB;
+}
+
+
+nav ul li a:hover ion-icon{
+  color: #FFE4BB;
+}
+
+.content{
+  background: #f1fff338;
+  position: absolute;
+  top: 0;
+  left: 250px;
+  width: calc(100% - 250px);
+  min-height: 100vh;
+  display: flex;
+  text-align: center;
+  align-items: start;
+  padding: 20px;
+  transition: ease-out 0.3s;
+}
+
+.content.expand{
+  width: 100%;
+  left: 0;
+}
+
+.content h2{
+  font-size: 30px;
+  color: #426B1F ;
+  text-transform: uppercase;
+}
+
+
+nav .toggle_menu{
+  position: absolute;
+  top: 20px;
+  right: -46px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffee;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  transition: linear 0.2s;
+  
+}
+
+nav .toggle_menu ion-icon{
+  color: #426B1F;
+  font-size: 16px;
+  transition: linear 0.2s;
+}
+
+nav .toggle_menu:hover{
+  background: #426B1F;
+}
+
+nav .toggle_menu:hover ion-icon{
+  color: #FFE4BB;
+}
+
+article{
+  padding-top: 160px;
+  float: left;
+  width: 100%;
+
+}
+.wrapper-info{
+  text-align: center;
+}
+
+
+
+
+aside{
+  padding-top: 250px;
+  float: right;
+  width: 20%;
+}
+
+
+.form-info{
+  width: 100%;
+  max-width: 500px;
+  margin-inline: auto;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  border-radius: 12px;
+  background: #ffffee;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-input {
+  padding: 15px 25px;
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  outline: none;
+  transition: linear 0.25s;
+}
+
+.form-input:focus {
+  border-color: #1dc071;
+}
+
+.form-btn {
+  display: inline-block;
+  padding: 16px 40px;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  background-color: #5abe03;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.form-btn:hover::before {
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+
+.form-btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: auto;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background-color: #fff;
+  opacity: 0.1;
+  z-index: -1;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.wrapperr-main{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 150px;
+
+}
+
+.wrapper-img{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 100px;
+}
+
+/* Authen modal */
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-container {
+  background-color: #fff;
+  width: 500px;
+  max-width: calc(100% - 32px);
+  min-height: 500px;
+  position: relative;
+  border-radius: 10px;
+  animation: modalFadeIn ease 0.4s; 
+}
+
+.modal-icon-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 12px;
+  color: #000;
+  font-size: 18px;
+  border-radius: 50%;
+}
+
+.modal-icon-close:hover {
+  background-color: #fafafa;
+}
+
+.save-btn:hover {
+  opacity: 0.8;
+}
+
+.modal-header {
+  margin-top: 32px;
+  text-align: left;
+  padding: 32px 16px;
+  font-size: 30px;
+  color: #000;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+}
+
+.password-rule {
+  font-size: 14px;
+  margin: 0 16px;
+  opacity: 0.9;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+.modal-input {
+  margin: 8px 0;
+  font-size: 15px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.save-btn {
+  font-size: 15px;
+  width: 100%;
+  border: none;
+  background-color: #667EEA;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 30px;
+}
+
+.modal-footer {
+  text-align: right;
+  padding: 0 18px 18px 18px;
+}
+
+.modal-footer a {
+  color: #667EEA;
+}
+
+@keyframes modalFadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-140px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+

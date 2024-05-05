@@ -1,0 +1,348 @@
+.container{
+    padding-block: 40px;
+}
+
+
+.distant{
+    padding-block: 200px;
+}
+
+.header{
+    height: 90px;
+    background-color: #ff941993;
+}
+
+.header-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.logo-wrapper{
+  display: flex;
+    align-items: center;
+    height: 40px;
+    padding-top: 10px;
+}
+
+.logo{
+  width: 250px;
+
+}
+
+
+.header-nav_list{
+    display: flex;
+    align-items: center;
+    gap: 61px;
+}
+
+.header-nav_link{
+  font-family: "Ingrid Darling", cursive;
+  text-decoration: none;
+  font-weight: 10;
+  font-style: normal;
+  font-size: 50px;
+  color: #FFE4BB;
+  position: relative;
+  display: block;
+  padding: 1px 0px;
+
+}
+
+.header-nav_link::after{
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  background-color: #ffffffe0;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.header-nav_link:hover{
+  color: #ffffffe0;
+  transition: all 0.3s ease-in-out;
+}
+
+.header-nav_link:hover::after{
+  transform: scaleX(1);
+}
+
+
+html, body{
+    font-family: "Ingrid Darling", cursive;
+    font-weight: 50;
+    font-style: normal;
+    font-size: 35px;
+    color: #FFE4BB;
+}
+
+.wrapper{
+    max-width: 1440px;
+    width: 100%;
+    margin-left: auto;
+    margin-top: 2%;
+
+}
+
+
+  p{
+    font-family: "Niconne", cursive;
+    font-weight: 50;
+    font-style: normal;
+    font-size: 55px;
+    color: #FFE4BB;
+  }
+
+
+  .image-wrap1{
+    display: flex;
+    align-items: start;
+    gap: 50px;
+  }
+
+  .image-wrap2{
+    display: flex;
+    align-items: end;
+    margin-right: 40px;
+    gap: 50px;
+  }
+
+  .corner-image{
+    width: 35px; 
+    height: 35px;
+
+  }
+
+  .wrapper-image{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1%;
+  }
+
+
+  .ig-button {
+    display: inline-block;
+  }
+  .ig-button:hover .social-link {
+    width: 220px;
+  }
+  .ig-button:hover .text {
+    display: block;
+    color: #f43f5e;
+  }
+  .ig-button:hover .icon {
+    background-color: #ffeaed;
+  }
+  .ig-button .social-link {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-out;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #fff;
+
+  }
+  .ig-button .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 60px;
+    transition: all 0.3s ease-out;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: #fff;
+    position: relative;
+  }
+ 
+  .ig-button .text {
+    font-family: "Niconne", cursive;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 60px;
+    margin-left: 10px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-out;
+  }
+
+  .fb-button {
+    display: inline-block;
+  }
+  .fb-button:hover .social-link {
+    width: 220px;
+  }
+  .fb-button:hover .text {
+    display: block;
+    color: #5365d6;
+  }
+  .fb-button:hover .icon {
+    background-color: #ebe8ff;
+  }
+  .fb-button .social-link {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-out;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #fff;
+
+  }
+  .fb-button .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 60px;
+    transition: all 0.3s ease-out;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: #fff;
+    position: relative;
+  }
+ 
+  .fb-button .text {
+    font-family: "Niconne", cursive;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 60px;
+    margin-left: 10px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-out;
+  }
+  @keyframes turnCircle {
+    100% {
+      transform: rotate(45deg);
+    }
+  }
+
+  .phone-button {
+    display: inline-block;
+  }
+  .phone-button:hover .social-link {
+    width: 220px;
+  }
+  .phone-button:hover .text {
+    display: block;
+    color: #8eb7fe;
+  }
+  .phone-button:hover .icon {
+    background-color: #c7d6fc;
+  }
+  .phone-button .social-link {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-out;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #fff;
+
+  }
+  .phone-button .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 60px;
+    transition: all 0.3s ease-out;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: #fff;
+    position: relative;
+  }
+ 
+  .phone-button .text {
+    font-family: "Niconne", cursive;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 60px;
+    margin-left: 10px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-out;
+  }
+  @keyframes turnCircle {
+    100% {
+      transform: rotate(45deg);
+    }
+  }
+
+  .mail-button {
+    display: inline-block;
+  }
+  .mail-button:hover .social-link {
+    width: 300px;
+  }
+  .mail-button:hover .text {
+    display: block;
+    color: #e0704d;
+  }
+  .mail-button:hover .icon {
+    background-color: #ebe8ff;
+  }
+  .mail-button .social-link {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-out;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #fff;
+
+  }
+  .mail-button .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 100rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 60px;
+    transition: all 0.3s ease-out;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: #fff;
+    position: relative;
+  }
+ 
+  .mail-button .text {
+    font-family: "Niconne", cursive;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 60px;
+    margin-left: 10px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-out;
+  }
+  @keyframes turnCircle {
+    100% {
+      transform: rotate(45deg);
+    }
+  }
+  
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="../fontawesome-free-6.4.2-web/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+</head>
+<body>
+
+    <nav>
+        <div class="toggle_menu"><ion-icon name="menu-outline"></ion-icon></div>
+        <ul>
+            <li>
+                <a href="http://127.0.0.1:5500/TrangChu/index.html">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <strong>Trang Chủ</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <strong>Thông tin của tôi</strong>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:5500/SanhCuoi/index.html">
+                    <ion-icon name="flower-outline"></ion-icon>
+                    <strong>Sảnh cưới</strong>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:5500/DichVu/index.html">
+                    <ion-icon name="beer-outline"></ion-icon>
+                    <strong>Dịch vụ</strong>
+                </a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:5500/TuyChinh/index.html">
+                    <ion-icon name="build-outline"></ion-icon>
+                    <strong>Tùy chỉnh</strong>
+                </a>
+            </li>
+            <li class="change-password">
+                <a href="#">
+                    <ion-icon name="key-outline"></ion-icon>
+                    <strong>Thay đổi mật khẩu</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <ion-icon name="exit-outline"></ion-icon>
+                    <strong>Đăng xuất</strong>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <div class="wrapper-main">
+            <div class="wrapper">
+                <div class="info">
+                    <h2>Thông tin người dùng</h2> 
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="wrapper">
+                    <div class="wrapper-info">
+                        <h2>Profile</h2>
+                        <div class="form-info">
+                            <form class="form" autocomplete="off">
+                                <div class="form-group">
+                                    <label for="email"><strong>Email</strong></label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        id="email"
+                                        placeholder="email"
+                                        class="form-input"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="name"><strong>Họ tên</strong></label>
+                                    <input
+                                        type="text"
+                                        name="Họ tên"
+                                        id="name"
+                                        placeholder="Họ tên"
+                                        class="form-input"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone-number"><strong>Số điện thoại</strong></label>
+                                    <input
+                                        type="text"
+                                        name="Số điện thoại"
+                                        id="phone-number"
+                                        placeholder="Số điện thoại"
+                                        class="form-input"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Role"><strong>Role</strong></label>
+                                    <input
+                                        type="text"
+                                        name="Role"
+                                        id="Role"
+                                        placeholder="Role"
+                                        class="form-input"
+                                    />
+                                </div>
+                                <button type="submit" class="form-btn">
+                                    Save
+                                </button>
+                            </form>
+                         </div>
+                    </div>
+            </div>  
+        </div>
+        <div class="wrapper-img">
+            <div class="info-img">
+                <div class="info-mail">
+                    <h3><b>Văn A</b></h3>
+                    <p class="desc">user001@gmail.com</p>
+                </div>
+                <img src="./assets/img/info.png" alt="" class="img">
+            </div>
+            <img src="./assets/img/info.png" alt="" width="300px">
+        </div>  
+    </main>
+
+    <!-- Modal -->
+    <div class="modal js-modal">
+        <div class="modal-container js-modal-container">
+
+            <div class="icon-close js-modal-close">
+                <i class="modal-icon-close fa-solid fa-xmark"></i>
+            </div>
+            
+            <header class="modal-header">Đổi mật khẩu</header>
+            <p class="password-rule">Mật khẩu của bạn phải có tối thiểu 6 ký tự, đồng thời bao gồm cả chữ số,
+                 chữ cái và ký tự đặc biệt (!$@%).</p>
+            <div class="modal-body">
+                <input type="password" id="quantity" class="modal-input" placeholder="Mật khẩu hiện tại">
+                <input type="password" id="email" class="modal-input" placeholder="Mật khẩu mới">
+                <input type="password" id="email" class="modal-input" placeholder="Nhập lại mật khẩu mới">
+                
+                <button class="save-btn">Đổi mật khẩu</button>
+            </div>
+
+            <footer class="modal-footer">
+                Need <a href="">help?</a>
+            </footer>
+        </div>
+    </div>
+
+    <script src="./assets/js/changePassword.js"></script>
+    <script src="./assets/js/scpript.js"></script>
+</body>
+
+
+</html>
+

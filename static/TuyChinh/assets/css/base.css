@@ -1,0 +1,87 @@
+:root{
+    --primary: #426B1F;
+    --secondary: #000000;
+    --skin: #FFE4BB;
+    --ground: #FAFAF5;
+    --stroke: #C2C2C2;
+}
+
+html, body{
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.wrapper{
+    max-width: 1440px;
+    width: 100%;
+    margin-inline: auto;
+    margin-top: 2%;
+
+}
+
+.button{
+    height: 40px;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    font-weight: 500;
+    color: inherit;
+}
+
+.btn--border{
+    border-radius: 8px;
+    background-color: #FFE4BB;
+    color:#000000;    
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    text-transform: capitalize;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+}
+
+
+  .btn--border::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    width: 60px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0.5s;
+    filter: blur(30px);
+    transform: translateX(-130px) skewX(-15deg);
+  }
+  .btn--border::after {
+    content: "";
+    display: block;
+    position: absolute;
+    background: rgba(255, 255, 255, 0);
+    width: 30px;
+    height: 100%;
+    left: 30px;
+    top: 0;
+    opacity: 0;
+    filter: blur(30px);
+    transform: translateX(-100px) skewX(-15deg);
+  }
+  .btn--border:hover {
+    background-color: #426B1F;
+    color: #FFE4BB;
+  }
+  .btn--border:hover::before {
+    transform: translateX(300px) skewX(-15deg);
+    opacity: 0.6;
+    transition: all linear 0.5s;
+  }
+  .btn--border:hover::after {
+    transform: translateX(300px) skewX(-15deg);
+    opacity: 0.6;
+    transition: all linear 0.5s;
+  }
