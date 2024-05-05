@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/registration.css">
-    <link rel="stylesheet" href="../fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Dangnhap/css/registration.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Dangnhap/css/all.min.css') }}">
 </head>
 
 <body>
     <div class="main">
 
-        <form action="" method="POST" class="form" id="sign-up-form">
+        <form action="" method="POST" class="form" id="sign-up-form"  >
             <h3 class="heading">Đăng ký</h3>
 
             <div class="spacer"></div>
@@ -51,13 +51,13 @@
             </div>
 
             <button class="form-submit sign-in">Đăng ký tài khoản</button>
-            <p class="have-Account">Nhấn vào <a href="http://127.0.0.1:5500/signIn_signUp/signIn.html" class="change-signin">đây</a> để đăng nhập</p>
+            <p class="have-Account">Nhấn vào <a href="/login" class="change-signin">đây</a> để đăng nhập</p>
             
         </form>
 
     </div>
 
-    <script src="./assets/js/validator.js"></script>
+    <script src="{{ url_for('static', filename='Dangnhap/js/validator.js') }}"></script>
       <script>
 
         var form = new Validator("#sign-up-form")
