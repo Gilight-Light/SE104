@@ -6,7 +6,7 @@ from SanhCuoi import sanhcuoi_bp
 from TaiKhoan import taikhoan_bp
 from TrangChu import home_bp
 from TuyChinh import tuychinh_bp
-
+from flask import session 
 ## config flask
 
 app = Flask(__name__)
@@ -18,6 +18,9 @@ app.config['SESSION_TYPE'] = 'filesystem'  # Có thể sử dụng 'sqlalchemy',
 app.config['SESSION_PERMANENT'] = False
 Session(app)
 
+
+
+# Đăng ký Blueprint
 app.register_blueprint(login_bp, url_prefix ='/login')
 app.register_blueprint(offering_bp, url_prefix = '/offering')
 app.register_blueprint(sanhcuoi_bp, url_prefix = '/sanhcuoi')

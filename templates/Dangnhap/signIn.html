@@ -12,7 +12,7 @@
 <body>
     <div class="main">
 
-        <form action="{{ url_for('login_bp.authe') }}" method="POST" class="form" id="sign-in-form">
+        <form action="{{ url_for('login_bp.authelogin') }}" method="POST" class="form" id="sign-in-form">
             <h3 class="heading">Đăng nhập</h3>
 
             <div class="spacer"></div>
@@ -21,35 +21,58 @@
                 <i class="user-icon fa-solid fa-user"></i>
                 <input id="fullname" name="fullname" rules="required" type="text" placeholder="Tên đăng nhập" class="form-control">
                 <div></div>
-                <span class="form-message"></span>
+                <span class="form-message" id="fullname-message"></span>
             </div>
 
             <div class="form-group">
                 <i class="key-icon fa-solid fa-key"></i>
                 <input id="password" name="password" rules="required|min:8" type="password" placeholder="Mật khẩu" class="form-control">
-                <span class="form-message"></span>
+                <span class="form-message" id="password-message"></span>
             </div>
-
-
-            <button class="form-submit sign-in" type="submit">Đăng nhập</button>
-            <a href="" class="forgot-password">Quên mật khẩu?</a>
-            <a href="/login/signup" class="form-submit sign-up background-white">Đăng ký tài khoản</a>
-
+            {% if error %}
+                <span id="login-error" class="login-error" style="color: red;">{{ error }}</span>
+            {% endif %}
+                <button class="form-submit sign-in" type="submit">Đăng nhập</button>
+                <a href="" class="forgot-password">Quên mật khẩu?</a>
+                <a href="/login/signup" class="form-submit sign-up background-white">Đăng ký tài khoản</a>
             
         </form>
 
     </div>
 
-    <script src="{{ url_for('static', filename='Dangnhap/js/validator.js') }}"></script>
-      <script>
-            var form = new Validator("#sign-in-form");
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sign-in-form').submit(function (event) {
+                event.preventDefault(); // Ngăn chặn gửi form mặc định
 
-            form.onsubmit = function(data) {
-                console.log(data);
-                // Sau khi validate xong, gửi dữ liệu form
-                this.submit();
-            };
-      </script>
+                // Xóa thông báo cũ
+                $('.form-message').text('');
+
+                // Lấy giá trị của các trường nhập
+                var fullname = $('#fullname').val().trim();
+                var password = $('#password').val().trim();
+
+                // Kiểm tra tên đăng nhập không được trống
+                if (fullname === '') {
+                    $('#fullname-message').text('Tên đăng nhập không được trống');
+                    return;
+                }
+
+                // Kiểm tra mật khẩu không được trống và ít nhất 8 ký tự
+                if (password === '') {
+                    $('#password-message').text('Mật khẩu không được trống');
+                    return;
+                } else if (password.length < 8) {
+                    $('#password-message').text('Mật khẩu phải có ít nhất 8 ký tự');
+                    return;
+                }
+
+                // Nếu tất cả đều hợp lệ, gửi form
+                $(this).unbind('submit').submit();
+            });
+        });
+    </script>
 </body>
 
 </html>

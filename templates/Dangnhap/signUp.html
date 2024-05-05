@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Đăng ký</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='Dangnhap/css/registration.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='Dangnhap/css/all.min.css') }}">
 </head>
@@ -12,61 +12,109 @@
 <body>
     <div class="main">
 
-        <form action="" method="POST" class="form" id="sign-up-form"  >
+        <form action="{{ url_for('login_bp.authesignup') }}" method="POST" class="form" id="sign-up-form">
             <h3 class="heading">Đăng ký</h3>
 
             <div class="spacer"></div>
 
             <div class="form-group">
                 <i class="user-icon fa-solid fa-user"></i>
-                <input id="nameaccount" name="nameaccount" rules="required" type="text" placeholder="Tên tài khoản" class="form-control">
+                <input id="nameaccount" name="nameaccount" type="text" placeholder="Tên tài khoản" class="form-control">
                 <div></div>
-                <span class="form-message"></span>
+                <span class="form-message" id="nameaccount-message"></span>
             </div>
 
             <div class="form-group">
                 <i class="user-icon fa-solid fa-file-signature"></i>
-                <input id="fullname" name="fullname" rules="required" type="text" placeholder="Họ và tên" class="form-control">
+                <input id="fullname" name="fullname" type="text" placeholder="Họ và tên" class="form-control">
                 <div></div>
-                <span class="form-message"></span>
+                <span class="form-message" id="fullname-message"></span>
             </div>
 
             <div class="form-group">
                 <i class="user-icon fa-solid fa-envelope"></i>
-                <input id="email" name="email" rules="required|email" type="text" placeholder="Email" class="form-control">
-                <span class="form-message"></span>
+                <input id="email" name="email" type="text" placeholder="Email" class="form-control">
+                <span class="form-message" id="email-message"></span>
             </div>
 
             <div class="form-group">
                 <i class="key-icon fa-solid fa-key"></i>
-                <input id="password" name="password" rules="required|min:8" type="password" placeholder="Mật khẩu" class="form-control">
-                <span class="form-message"></span>
+                <input id="password" name="password" type="password" placeholder="Mật khẩu" class="form-control">
+                <span class="form-message" id="password-message"></span>
             </div>
 
             <div class="form-group">
                 <i class="key-icon fa-solid fa-phone"></i>
-                <input id="password_confirmation" rules="required" name="password_confirmation" placeholder="Số điện thoại"
+                <input id="password_confirmation" name="password_confirmation" placeholder="Số điện thoại"
                     type="password" class="form-control">
-                <span class="form-message"></span>
+                <span class="form-message" id="password_confirmation-message"></span>
             </div>
-
-            <button class="form-submit sign-in">Đăng ký tài khoản</button>
+            {% if flag %}
+                <span id="signup-error" class="signup-error" style="color: red;">{{ flag }}</span>
+            {% endif %}
+            <button class="form-submit sign-in" type="submit">Đăng ký tài khoản</button>
             <p class="have-Account">Nhấn vào <a href="/login" class="change-signin">đây</a> để đăng nhập</p>
-            
         </form>
 
     </div>
 
-    <script src="{{ url_for('static', filename='Dangnhap/js/validator.js') }}"></script>
-      <script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sign-up-form').submit(function (event) {
+                event.preventDefault(); // Ngăn chặn gửi form mặc định
 
-        var form = new Validator("#sign-up-form")
+                // Xóa thông báo cũ
+                $('.form-message').text('');
 
-        form.onsubmit = function(data) {
-            console.log(data)
+                // Lấy giá trị của các trường nhập
+                var nameaccount = $('#nameaccount').val().trim();
+                var fullname = $('#fullname').val().trim();
+                var email = $('#email').val().trim();
+                var password = $('#password').val().trim();
+                var password_confirmation = $('#password_confirmation').val().trim();
+
+                // Kiểm tra tên tài khoản không được trống
+                if (nameaccount === '') {
+                    $('#nameaccount-message').text('Tên tài khoản không được trống');
+                    return;
+                }
+
+                // Kiểm tra họ và tên không được trống
+                if (fullname === '') {
+                    $('#fullname-message').text('Họ và tên không được trống');
+                    return;
+                }
+
+                // Kiểm tra email không được trống và phải đúng định dạng
+                if (email === '') {
+                    $('#email-message').text('Email không được trống');
+                    return;
+                } else if (!isValidEmail(email)) {
+                    $('#email-message').text('Email không đúng định dạng');
+                    return;
+                }
+
+                // Kiểm tra mật khẩu không được trống và ít nhất 8 ký tự
+                if (password === '') {
+                    $('#password-message').text('Mật khẩu không được trống');
+                    return;
+                } else if (password.length < 8) {
+                    $('#password-message').text('Mật khẩu phải có ít nhất 8 ký tự');
+                    return;
+                }
+
+                // Nếu tất cả đều hợp lệ, gửi form
+                $(this).unbind('submit').submit();
+            });
+        });
+
+        // Hàm kiểm tra định dạng email
+        function isValidEmail(email) {
+            var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return pattern.test(email);
         }
-
-      </script>
+    </script>
 </body>
 
 </html>
