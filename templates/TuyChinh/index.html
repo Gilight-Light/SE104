@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/grid.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="../fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/grid.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/all.min.css') }}">
 
 </head>
 
@@ -17,7 +17,7 @@
     <div class="main">
         <div class="side-bar">
             <div class="navbar-user">
-                <img src="./assets/img/info.png"
+                <img src="static/TuyChinh/img/info.png"
                     alt="" class="navbar-user-img">
                 <span class="navbar-user-name">useradmin@gmail.com</span>
             </div>
@@ -27,7 +27,7 @@
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-circle-info"></i>Thông tin cá nhân</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-user"></i></i>Khách hàng</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Thống kê</li>
-                    <li class="navbar-item"><a href="http://127.0.0.1:5500/TrangChu/index.html"><i
+                    <li class="navbar-item"><a href="/home"><i
                                 class="navbar-icon fa-solid fa-house"></i></i>Về trang chủ</a></li>
                 </ul>
             </div>
@@ -39,7 +39,7 @@
                     <p class="user-name">Van A</p>
                     <p class="user-email">useradmin@gmail.com</p>
                 </div>
-                <img src="./assets/img/info.png"
+                <img src="static/TuyChinh/img/info.png"
                     alt="" class="user-img">
             </div>
 
@@ -73,7 +73,7 @@
 
 
                         <div class="self-info-img">
-                            <img src="./assets/img/info.png"
+                            <img src="static/TuyChinh/img/info.png"
                                 alt="" class="self-img">
                         </div>
                     </div>
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <script src="./assets/js/script.js"></script>
+    <script src="static/TuyChinh/js/script.js"></script>
 </body>
 
 </html>

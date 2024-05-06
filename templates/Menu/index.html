@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Menu/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Menu/css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Menu/css/style.css') }}">
 </head>
 <body>
     <header class="header">
@@ -15,22 +15,22 @@
             <nav class="header-nav">
                 <ul class="header-nav_list">
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/TrangChu/index.html" tittle="Trang chủ" class="header-nav_link button btn--border"><b>Trang chủ</b></a>
+                        <a href="/home" tittle="Trang chủ" class="header-nav_link button btn--border"><b>Trang chủ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/SanhCuoi/index.html" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
+                        <a href="/sanhcuoi" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/Menu/index.html" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
+                        <a href="templates/Menu/index.html" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/DichVu/index.html" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
+                        <a href="/offering" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/TaiKhoan/index.html" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
+                        <a href="/taikhoan" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/signIn_signUp/signIn.html" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
+                        <a href="/login" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
                     </li>
                 </ul>
             </nav>

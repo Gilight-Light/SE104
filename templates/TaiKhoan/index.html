@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/style.css') }}">
     <link rel="stylesheet" href="../fontawesome-free-6.4.2-web/css/all.min.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 
@@ -18,7 +17,7 @@
         <div class="toggle_menu"><ion-icon name="menu-outline"></ion-icon></div>
         <ul>
             <li>
-                <a href="http://127.0.0.1:5500/TrangChu/index.html">
+                <a href="/home">
                     <ion-icon name="home-outline"></ion-icon>
                     <strong>Trang Chủ</strong>
                 </a>
@@ -30,19 +29,19 @@
                 </a>
             </li>
             <li>
-                <a href="http://127.0.0.1:5500/SanhCuoi/index.html">
+                <a href="/sanhcuoi">
                     <ion-icon name="flower-outline"></ion-icon>
                     <strong>Sảnh cưới</strong>
                 </a>
             </li>
             <li>
-                <a href="http://127.0.0.1:5500/DichVu/index.html">
+                <a href="/offering">
                     <ion-icon name="beer-outline"></ion-icon>
                     <strong>Dịch vụ</strong>
                 </a>
             </li>
             <li>
-                <a href="http://127.0.0.1:5500/TuyChinh/index.html">
+                <a href="/tuychinh">
                     <ion-icon name="build-outline"></ion-icon>
                     <strong>Tùy chỉnh</strong>
                 </a>
@@ -129,9 +128,9 @@
                     <h3><b>Văn A</b></h3>
                     <p class="desc">user001@gmail.com</p>
                 </div>
-                <img src="./assets/img/info.png" alt="" class="img">
+                <img src="static/TaiKhoan/img/info.png" alt="" class="img">
             </div>
-            <img src="./assets/img/info.png" alt="" width="300px">
+            <img src="static/TaiKhoan/img/info.png" alt="" width="300px">
         </div>  
     </main>
 
@@ -160,8 +159,8 @@
         </div>
     </div>
 
-    <script src="./assets/js/changePassword.js"></script>
-    <script src="./assets/js/scpript.js"></script>
+    <script src="static/TaiKhoan/js/changePassword.js"></script>
+    <script src="static/TaiKhoan/js/scpript.js"></script>
 </body>
 
 

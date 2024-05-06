@@ -5,4 +5,4 @@ taikhoan_bp = Blueprint('taikhoan_bp', __name__,
                      static_folder = 'static')
 @taikhoan_bp.route('/')
 def taikhoan():
-    return render_template('TaiKhoan\index.html')
+    return render_template('TaiKhoan/index.html')

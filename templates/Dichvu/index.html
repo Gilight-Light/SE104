@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="static/DichVu/css/base.css">
-    <link rel="stylesheet" href="static/DichVu/css/reset.css">
-    <link rel="stylesheet" href="static/DichVu/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='DichVu/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='DichVu/css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='DichVu/css/style.css') }}">
 </head>
 <body>
     <header class="header">
@@ -15,22 +15,22 @@
             <nav class="header-nav">
                 <ul class="header-nav_list">
                     <li class="header-nav_item">
-                        <a href="templates/Trangchu/index.html" tittle="Trang chủ" class="header-nav_link button btn--border"><b>Trang chủ</b></a>
+                        <a href="/home" tittle="Trang chủ" class="header-nav_link button btn--border"><b>Trang chủ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="templates/Sanhcuoi/index.html" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
+                        <a href="/sanhcuoi" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
                     </li>
                     <li class="header-nav_item">
                         <a href="templates/Menu/index.html" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="templates/Dichvu/index.html" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
+                        <a href="/offering" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="templates/TaiKhoan/index.html" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
+                        <a href="/taikhoan" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="templates/Dangnhap/signIn.html" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
+                        <a href="/login" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
                     </li>
                 </ul>
             </nav>

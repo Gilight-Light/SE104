@@ -5,4 +5,4 @@ tuychinh_bp = Blueprint('tuychinh_bp', __name__,
                      static_folder = 'static')
 @tuychinh_bp.route('/')
 def login():
-    return render_template('TuyChinh/signIn.html')
+    return render_template('TuyChinh/index.html')

@@ -10,14 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ingrid+Darling&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TrangChu/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TrangChu/css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TrangChu/css/style.css') }}">
     <style>
         body {
             background-repeat: no-repeat;
             background-size: cover;
-            background-image: url("./assets/img/image\ 7.png")
+            background-image: url("static/TrangChu/img/image 7.png")
         }
       </style>
 <body>
@@ -25,30 +25,30 @@
         <div class="wrapper header-wrapper">
             <div class="logo-wrapper">
                 <div class="logo">
-                    <a href="http://127.0.0.1:5500/TrangChu/index.html">
-                        <img src="./assets/img/Logo.png" alt="">
+                    <a href="/home">
+                        <img src="static/TrangChu/img/Logo.png" alt="">
                     </a>
                 </div>
             </div>
             <nav class="header-nav">
                 <ul class="header-nav_list">
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/TrangChu/index.html" tittle="Trang chủ" class="header-nav_link "><b>Trang chủ</b></a>
+                        <a href="/home" tittle="Trang chủ" class="header-nav_link "><b>Trang chủ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/SanhCuoi/index.html" tittle="Sảnh cưới" class="header-nav_link "><b>Sảnh Cưới</b></a>
+                        <a href="/sanhcuoi" tittle="Sảnh cưới" class="header-nav_link "><b>Sảnh Cưới</b></a>
                     </li>
                     <li class="header-nav_item">
                         <a href="http://127.0.0.1:5500/Menu/index.html" tittle="Thực Đơn" class="header-nav_link"><b>Thực đơn</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/DichVu/index.html" tittle="Dịch Vụ" class="header-nav_link"><b>Dịch Vụ</b></a>
+                        <a href="/offering" tittle="Dịch Vụ" class="header-nav_link"><b>Dịch Vụ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/TaiKhoan/index.html" tittle="Tài Khoản" class="header-nav_link"><b>Tài Khoản</b></a>
+                        <a href="/taikhoan" tittle="Tài Khoản0." class="header-nav_link"><b>Tài Khoản</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/signIn_signUp/signIn.html" tittle="Tài Khoản" class="header-nav_link"><b>Đăng nhập</b></a>
+                        <a href="/login" tittle="Tài Khoản" class="header-nav_link"><b>Đăng nhập</b></a>
                     </li>
                 </ul>
             </nav>
@@ -67,7 +67,7 @@
                 <div class="ig-button">
                     <a href="#" class="social-link" title="Instagram">
                       <div class="icon">
-                        <img src="./assets/img/ig.png" class="corner-image">
+                        <img src="static/TrangChu/img/ig.png" class="corner-image">
                       </div>
                       <span class="text">Instagram</span>
                     </a>
@@ -75,7 +75,7 @@
                 <div class="fb-button">
                     <a href="#" class="social-link" title="Facebook">
                     <div class="icon">
-                        <img src="./assets/img//fb.png" class="corner-image">
+                        <img src="static/TrangChu/img//fb.png" class="corner-image">
                     </div>
                       <span class="text">Facebook</span>
                     </a>
@@ -85,7 +85,7 @@
                 <div class="phone-button">
                     <a href="#" class="social-link" title="Phone-number">
                       <div class="icon">
-                        <img src="./assets/img/phone.png" class="corner-image">
+                        <img src="static/TrangChu/img/phone.png" class="corner-image">
                       </div>
                       <span class="text">0934123456</span>
                     </a>
@@ -93,7 +93,7 @@
                 <div class="mail-button">
                     <a href="#" class="social-link" title="Email">
                     <div class="icon">
-                        <img src="./assets/img//mail.png" class="corner-image">
+                        <img src="static/TrangChu/img//mail.png" class="corner-image">
                     </div>
                       <span class="text">admin@gmail.com</span>
                     </a>

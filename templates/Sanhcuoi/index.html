@@ -8,11 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    
-</head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='SanhCuoi/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='SanhCuoi/css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='SanhCuoi/css/style.css') }}">
 
 <div>
     <!-- Header-->
@@ -22,22 +20,22 @@
             <nav class="header-nav">
                 <ul class="header-nav_list">
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/TrangChu/index.html" tittle="Trang chủ" class="header-nav_link button btn--border"><b>Trang chủ</b></a>
+                        <a href="/home" tittle="Trang chủ" class="header-nav_link button btn--border"><b>Trang chủ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/SanhCuoi/index.html" tittle="Sảnh cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
+                        <a href="/sanhcuoi" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/Menu/index.html" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
+                        <a href="templates/Menu/index.html" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/DichVu/index.html" tittle="Dich Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
+                        <a href="/offering" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/TaiKhoan/index.html" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
+                        <a href="/taikhoan" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="http://127.0.0.1:5500/signIn_signUp/signIn.html" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
+                        <a href="/login" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
                     </li>
                 </ul>
             </nav>
@@ -54,7 +52,7 @@
                 <nav class="content-nav">
                     <div class="content-nav_list">
                         <div class="content-nav_item">
-                            <a href="http://127.0.0.1:5500/SanhCuoi/listview.html" tittle="List view" class="content-nav_link button btn--border"><b>List view</b></a>
+                            <a href="/sanhcuoi/list" tittle="List view" class="content-nav_link button btn--border"><b>List view</b></a>
                         </div>
                     </div>
                 </nav>
@@ -72,7 +70,7 @@
                     <div class="card">
                         <div class="card-image">
                             <img
-                                src="./assets/img/image 6.png"
+                                src="static/SanhCuoi/img/image 6.png"
                                 alt="easy template"
                             />
                         </div>
@@ -102,7 +100,7 @@
                     <div class="card">
                         <div class="card-image">
                             <img
-                                src="./assets/img/image 5.jpg"
+                                src="static/SanhCuoi/img/image 5.jpg"
                                 alt="easy template"
                             />
                         </div>
@@ -132,7 +130,7 @@
                     <div class="card">
                         <div class="card-image">
                             <img
-                                src="./assets/img/image 4.png"
+                                src="static/SanhCuoi/img/image 4.png"
                                 alt="easy template"
                             />
                         </div>
@@ -171,7 +169,7 @@
                 <div class="ig-button">
                     <a href="#" class="social-link" title="Instagram">
                       <div class="icon">
-                        <img src="./assets/img/ig.png" class="corner-image">
+                        <img src="static/SanhCuoi/img/ig.png" class="corner-image">
                       </div>
                       <span class="text">Instagram</span>
                     </a>
@@ -179,7 +177,7 @@
                 <div class="fb-button">
                     <a href="#" class="social-link" title="Facebook">
                     <div class="icon">
-                        <img src="./assets/img//fb.png" class="corner-image">
+                        <img src="static/SanhCuoi/img//fb.png" class="corner-image">
                     </div>
                       <span class="text">Facebook</span>
                     </a>
@@ -189,7 +187,7 @@
                 <div class="phone-button">
                     <a href="#" class="social-link" title="Phone-number">
                       <div class="icon">
-                        <img src="./assets/img/phone.png" class="corner-image">
+                        <img src="static/SanhCuoi/img/phone.png" class="corner-image">
                       </div>
                       <span class="text">0934123456</span>
                     </a>
@@ -197,7 +195,7 @@
                 <div class="mail-button">
                     <a href="#" class="social-link" title="Email">
                     <div class="icon">
-                        <img src="./assets/img//mail.png" class="corner-image">
+                        <img src="static/SanhCuoi/img//mail.png" class="corner-image">
                     </div>
                       <span class="text">admin@gmail.com</span>
                     </a>

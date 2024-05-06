@@ -5,4 +5,8 @@ sanhcuoi_bp = Blueprint('sanhcuoi_bp', __name__,
                      static_folder = 'static')
 @sanhcuoi_bp.route('/')
 def login():
-    return render_template('Sanhcuoi/signIn.html')
+    return render_template('Sanhcuoi/index.html')
+
+@sanhcuoi_bp.route('/list')
+def list():
+    return render_template('Sanhcuoi/listview.html')
