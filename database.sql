@@ -46,7 +46,8 @@ CREATE TABLE NGUOIDUNG (
     FullName NVARCHAR(100) NOT NULL,
     Email NVARCHAR(255) UNIQUE NOT NULL,
     PasswordHash NVARCHAR(255) NOT NULL,
-    AccountType NVARCHAR(20) NOT NULL -- Ví dụ: 'customer', 'admin'
+    AccountType NVARCHAR(20) NOT NULL, -- Ví dụ: 'customer', 'admin'
+    PhoneNumber NVARCHAR(20) NOT NULL
 );
 
 Create table PHANHOI 
@@ -192,14 +193,14 @@ INSERT INTO THUCDON VALUES(N'TD005',N'Chả Giò Venus',N'Chim Cút Roti + Bánh
 
 
 --- TABLE NGUOIDUNG
-INSERT INTO NGUOIDUNG (UserID, FullName, Email, PasswordHash, AccountType)
+INSERT INTO NGUOIDUNG (UserID, FullName, Email, PasswordHash, AccountType,PhoneNumber)
 VALUES 
-    ('KH001', N'Nguyễn Văn Khánh', 'khanh@example.com', 'hashed_password1', 'customer'),
-    ('KH002', N'Trần Thị Hương', 'huong@example.com', 'hashed_password2', 'customer'),
-    ('KH003', N'Lê Minh Anh', 'anh@example.com', 'hashed_password3', 'customer'),
-    ('KH004', N'Phạm Quốc Trung', 'trung@example.com', 'hashed_password4', 'customer'),
-    ('KH005', N'Huỳnh Thị Lan', 'lan@example.com', 'hashed_password5', 'customer'),
-    ('AD001', N'Admin', 'admin@example.com', 'hashed_admin_password', 'admin');
+    ('KH001', N'Nguyễn Văn Khánh', 'khanh@example.com', 'hashed_password1', 'customer','0918123456'),
+    ('KH002', N'Trần Thị Hương', 'huong@example.com', 'hashed_password2', 'customer','0987123456'),
+    ('KH003', N'Lê Minh Anh', 'anh@example.com', 'hashed_password3', 'customer','0917123456'),
+    ('KH004', N'Phạm Quốc Trung', 'trung@example.com', 'hashed_password4', 'customer','0908123456'),
+    ('KH005', N'Huỳnh Thị Lan', 'lan@example.com', 'hashed_password5', 'customer','0978123456'),
+    ('AD001', N'Admin', 'admin@example.com', 'hashed_admin_password', 'admin','0987654321');
 
 -- TABLE TIECCUOI
 INSERT INTO TIECCUOI (MaTiecCuoi, MaSanh, MaCa, MaThucDon, NgayToChuc, TienDatCoc, SoLuongBan, SoLuongBanDuTru, UserID)

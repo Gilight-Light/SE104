@@ -26,12 +26,18 @@
                     <li class="header-nav_item">
                         <a href="/offering" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
                     </li>
-                    <li class="header-nav_item">
-                        <a href="/taikhoan" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
-                    </li>
-                    <li class="header-nav_item">
-                        <a href="/login" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
-                    </li>
+                    {% if user is not none %}
+                        <li class="header-nav_item">
+                            <a href="/taikhoan" tittle="Tài Khoản0." class="header-nav_link"><b>Hi - {{ user }}</b></a>
+                        </li>
+                        <li class="header-nav_item">
+                            <a href="/login" tittle="Tài Khoản" class="header-nav_link"><b>LogOut</b></a>
+                        </li>
+                    {% else %}               
+                        <li class="header-nav_item">
+                            <a href="/login" tittle="Tài Khoản" class="header-nav_link"><b>Đăng nhập</b></a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

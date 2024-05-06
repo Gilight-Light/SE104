@@ -9,4 +9,4 @@ def login():
 
 @sanhcuoi_bp.route('/list')
 def list():
-    return render_template('Sanhcuoi/listview.html')
+    return render_template('Sanhcuoi/listview.html', user = session['userid'])

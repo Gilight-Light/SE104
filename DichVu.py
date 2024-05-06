@@ -5,4 +5,4 @@ offering_bp = Blueprint('offering_bp', __name__,
                      static_folder = 'static')
 @offering_bp.route('/')
 def offering():
-    return render_template('Dichvu/index.html')
+    return render_template('Dichvu/index.html', user = session['userid'])

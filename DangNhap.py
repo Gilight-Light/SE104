@@ -6,6 +6,12 @@ login_bp = Blueprint('login_bp', __name__,
 
 @login_bp.route('/')
 def login():
+    session['userid'] = None
+    session['userauth'] = None
+    session['pwd'] = None
+    session['fullname'] = None
+    session['email'] = None
+    session['phonenumber'] = None
     return render_template('Dangnhap/signIn.html')
 
 
@@ -22,24 +28,29 @@ def authelogin():
 
     # Câu lệnh SQL
     sql_query = """
-            SELECT CASE 
-                WHEN EXISTS (
-                    SELECT 1 FROM NGUOIDUNG 
-                    WHERE UserID = ? AND PasswordHash = ?
-                )
-                THEN (
-                    SELECT TOP 1 AccountType FROM NGUOIDUNG 
-                    WHERE UserID = ? AND PasswordHash = ?
-                )
-                ELSE 'NO' 
-            END AS Result
-        """
+        IF EXISTS (
+            SELECT 1
+                FROM NGUOIDUNG
+                WHERE UserID = 'hoang' AND PasswordHash = 'H@150523h'
+            )
+        BEGIN
+            SELECT AccountType, FullName, Email, PhoneNumber
+            FROM NGUOIDUNG
+            WHERE UserID = 'hoang' AND PasswordHash = 'H@150523h'
+        END
+        ELSE
+        BEGIN
+            SELECT 'NO' AS Result
+        END
+    """
 
     # Thực thi câu lệnh SQL với tham số
-    cursor.execute(sql_query, (userid, pwd,userid, pwd))
-        
+    cursor.execute(sql_query, (userid, pwd, userid, pwd))
+            
+
     # Lấy kết quả
     users = cursor.fetchall()[0]
+
 
     # Đóng kết nối
     cursor.close()
@@ -50,7 +61,11 @@ def authelogin():
     else:
         session['userid'] = userid
         session['userauth'] = users[0]
-        return render_template('Dangnhap/signUp.html')
+        session['pwd'] = pwd
+        session['fullname'] = users[1]
+        session['email'] = users[2]
+        session['phonenumber'] = users[3]
+        return render_template('TrangChu/index.html', user = session['userid'])
 
 @login_bp.route('/signup')
 def signup():
