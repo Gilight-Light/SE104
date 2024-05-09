@@ -61,23 +61,20 @@
 
     <div class="wrapper">
         <ul class="card-list">
+            <!-- Bắt đầu vòng lặp for -->
+            {% for post in posts %}
             <li class="card-item">
                 <div class="card">
                     <div class="card-image">
-                        <img
-                            src="static/DichVu/img/1.jpg"
-                            alt="easy template"
-                        />
+                        <img src="{{ post['DuongDanAnh'] }}" alt="easy template"/>
                     </div>
                     <div class="cardbody">
                         <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Ca Sĩ
-                            </a>
+                            <a href="#" class="card-title-link">{{ post['TenDichVu'] }}</a>
                         </h3>
                         <div class="card-meta">
                             <div class="card-price">
-                                <p class="card-price-current">Giá dịch vụ: 30.000.000 VND</p>
+                                <p class="card-price-current">Giá dịch vụ: {{ post['DonGia'] }} VND</p>
                             </div>
                         </div>
                         <div class="card-detail">
@@ -87,136 +84,8 @@
                     </div>
                 </div>
             </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="static/DichVu/img/2.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Bánh Kem                         
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá dịch vụ: 1.200.000 VND</p>
-                            </div>
-                        </div>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt dịch vụ</a>
-                            <a href="#" class="card-btn">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="static/DichVu/img/3.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Váy Cưới
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá dịch vụ: 150.000.000 VND</p>
-                            </div>
-                        </div>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt dịch vụ</a>
-                            <a href="#" class="card-btn">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="static/DichVu/img/4.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Tuxedo
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá dịch vụ: 50.000.000 VND</p>
-                            </div>
-                        </div>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt dịch vụ</a>
-                            <a href="#" class="card-btn">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="static/DichVu/img/5.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Chụp Hình
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá dịch vụ: 800.000 VND</p>
-                            </div>
-                        </div>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt dịch vụ</a>
-                            <a href="#" class="card-btn">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="static/DichVu/img/6.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Trang Điểm
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá dịch vụ: 2.000.000 VND</p>
-                            </div>
-                        </div>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt dịch vụ</a>
-                            <a href="#" class="card-btn">Xem Chi Tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
+            {% endfor %}
+            <!-- Kết thúc vòng lặp for -->
         </ul>
     </div>
 

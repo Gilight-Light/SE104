@@ -31,12 +31,12 @@ def authelogin():
         IF EXISTS (
             SELECT 1
                 FROM NGUOIDUNG
-                WHERE UserID = 'hoang' AND PasswordHash = 'H@150523h'
+                WHERE UserID = ? AND PasswordHash = ?
             )
         BEGIN
             SELECT AccountType, FullName, Email, PhoneNumber
             FROM NGUOIDUNG
-            WHERE UserID = 'hoang' AND PasswordHash = 'H@150523h'
+            WHERE UserID = ? AND PasswordHash = ?
         END
         ELSE
         BEGIN
