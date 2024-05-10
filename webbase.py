@@ -6,6 +6,7 @@ from SanhCuoi import sanhcuoi_bp
 from TaiKhoan import taikhoan_bp
 from TrangChu import home_bp
 from TuyChinh import tuychinh_bp
+from ThucDon import thucdon_bp
 from flask import session 
 ## config flask
 
@@ -27,7 +28,7 @@ app.register_blueprint(sanhcuoi_bp, url_prefix = '/sanhcuoi')
 app.register_blueprint(taikhoan_bp, url_prefix = '/taikhoan')
 app.register_blueprint(home_bp, url_prefix = '/home')
 app.register_blueprint(tuychinh_bp, url_prefix = '/tuychinh')
-
+app.register_blueprint(thucdon_bp, url_prefix = '/thucdon')
 
 if __name__ == '__main__':
     app.run(debug=True)

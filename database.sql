@@ -4,11 +4,12 @@
 ---- CREATE TABLE 
 Create Table TIECCUOI  (
     MaTiecCuoi CHAR(10)  PRIMARY KEY,
-    MaSanh CHAR(10) NOT NULL,
+    MaSanh INT NOT NULL,
     MaCa CHAR(10) NOT NULL,
-    MaThucDon CHAR(10) NOT NULL,
+    MaThucDon INT NOT NULL,
     NgayToChuc DATE NOT NULL,
     TienDatCoc INT NOT NULL,
+    MaDichVu INT NOT NULL,
     SoLuongBan INT NOT NULL,
     SoLuongBanDuTru INT NOT NULL,
 	UserID CHAR(10) NOT NULL
@@ -16,7 +17,7 @@ Create Table TIECCUOI  (
 Create Table CA  (
     MaCa CHAR(10) PRIMARY KEY,
     ThoiGianBatDau DATETIME NOT NULL,
-    ThoiGianKetThuc DATETIME NOT NULL,
+    ThoiGianKetThuc DATETIME NOT NULL
 );
 
 Create Table NHANVIEN  (
@@ -29,7 +30,7 @@ Create Table NHANVIEN  (
 
 Create table THUCDON 
 (
-	MaThucDon CHAR(10) primary key,
+	MaThucDon INT primary key,
 	MonKhaiVi nvarchar(100) not null,
 	MonChinh1 nvarchar(100)not null,
 	MonChinh2 nvarchar(100) not null,
@@ -50,19 +51,6 @@ CREATE TABLE NGUOIDUNG (
     PhoneNumber NVARCHAR(20) NOT NULL
 );
 
-Create table PHANHOI 
-(
-	MaPhanHoi CHAR(10)  PRIMARY KEY,
-	UserID  CHAR(10)  NOT NULL,
-	MaTiecCuoi CHAR(10) NOT NULL,
-	NoiDung NVARCHAR(100) NOT NULL,
-    NgayDanhGia DATE NOT NULL, 
-	GhiChu NVARCHAR(100),
-	FOREIGN KEY (UserID) REFERENCES NGUOIDUNG(UserID),
-	FOREIGN KEY (MaTiecCuoi ) REFERENCES TIECCUOI(MaTiecCuoi)
-
-);
-
 
 
 create table HOADON 
@@ -76,17 +64,26 @@ create table HOADON
  FOREIGN KEY (MaTiecCuoi ) REFERENCES TIECCUOI(MaTiecCuoi)
 
 )
-	
-CREATE TABLE SANH 
+
+CREATE TABLE THANHTOAN
 (
-	MaSanh char(10) PRIMARY KEY,
-	LoaiSanh nvarchar(10) NOT NULL,
-	TenSanh nvarchar(100) NOT NULL,
-	MaLoaiSanh nvarchar(100) NOT NULL,
-	SoLuongBanToiDa INT NOT NULL,
-	DonGia money NOT NULL,
-	GhiChu nvarchar(100) NOT NULL
-)
+    MaThanhToan INT PRIMARY KEY,
+    MaHoaDon char(10),
+    NgayThanhToan date not null
+);
+	
+CREATE TABLE SANH (
+    MaSanh INT PRIMARY KEY,
+    TenSanh VARCHAR(255),
+    DonGia DECIMAL(10, 2),
+    DiaChi NVARCHAR(255)
+);
+
+CREATE TABLE DICHVU (
+    MaDichVu INT PRIMARY KEY,
+    TenDichVu NVARCHAR(255),
+    DonGia DECIMAL(13, 2)
+);
 
 --Nhan dat tiec khi SANH trong
 --SELECT *
@@ -101,27 +98,18 @@ CREATE TABLE SANH
 
 CREATE TABLE ChiTietBaoCao 
 (
-	MaCTBaoCao CHAR(10) PRIMARY KEY,
+	MaCTBaoCao INT PRIMARY KEY,
 	NGAY DATE NOT NULL,
 	SoLuong INT NOT NULL,
 	DoanhThu INT NOT NULL,
 )
 CREATE TABLE BaoCaoDoanhThu 
 (
-	MaBaoCao CHAR(10) PRIMARY KEY,
+	MaBaoCao INT PRIMARY KEY,
 	Thang char(20) NOT NULL,
 	TongDoanhThu INT NOT NULL
 )
 
-CREATE TABLE Permissions (
-    PermissionID INT PRIMARY KEY IDENTITY,
-    AccountType NVARCHAR(20) NOT NULL, -- Ví dụ: 'customer', 'admin'
-    CanAccessAdvancedFeatures BIT NOT NULL -- 0: Không, 1: Có
-);
-INSERT INTO Permissions (AccountType, CanAccessAdvancedFeatures)
-VALUES 
-    ('customer', 0), -- Khách hàng không có quyền truy cập các tính năng nâng cao
-    ('admin', 1);    -- Quản trị viên có quyền truy cập các tính năng nâng cao
 GO
 ----------- CREATE FOREIGN KEY ---------------------------- 
 
@@ -145,33 +133,55 @@ ADD CONSTRAINT FK_NguoiDung
 FOREIGN KEY (UserID)
 REFERENCES NGUOIDUNG(UserID)
 
+ALTER TABLE TIECCUOI
+ADD CONSTRAINT FK_HoaDon
+FOREIGN KEY (MaHoaDon)
+REFERENCES HOADON(MaHoaDon)
+
+ALTER TABLE TIECCUOI
+ADD CONSTRAINT FK_DichVu
+FOREIGN KEY (MaDichVu)
+REFERENCES DICHVU(MaDichVu)
+GO
 -- TABLE NHANVIEN 
 ALTER TABLE NHANVIEN
 ADD CONSTRAINT FK_MaCa
 FOREIGN KEY (MaCa)
 REFERENCES CA(MaCa)
-	
+
+GO
 -- TABLE ChiTietBaoCao
 ALTER TABLE ChiTietBaoCao
 ADD CONSTRAINT FK_MaBaoCao
 FOREIGN KEY (MaBaoCao)
 REFERENCES BaoCaoDoanhThu(MaBaoCao)
 
+GO
 -- Table HoaDon
 ALTER TABLE HOADON
 ALTER COLUMN TongTienHoaDon INT NULL;
+
+GO
+--- Table THANHTOAN 
+ALTER TABLE THANHTOAN
+ADD CONSTRAINT FK_THANHTOAN
+FOREIGN KEY (MaHoaDon)
+REFERENCES HOADON(MaHoaDon)
 GO
 
 ------------ INSERT INTO DATA ----------------------------
 
 -- TABLE SANH
-INSERT INTO SANH (MaSanh, LoaiSanh, TenSanh, MaLoaiSanh, SoLuongBanToiDa, DonGia, GhiChu)
-VALUES
-    ('S001', 'Loai A', 'Tên Sảnh A', 'Kim Cương', 500, 50000000, 'Không'),
-    ('S002', 'Loai B', 'Tên Sảnh B', 'Bạch Kim', 450, 45000000, 'Không'),
-    ('S003', 'Loai C', 'Tên Sảnh C', 'Vàng', 400, 40000000, 'Không'),
-    ('S004', 'Loai D', 'Tên Sảnh D', 'Bạc', 350, 35000000, 'Không'),
-    ('S005', 'Loai E', 'Tên Sảnh E', 'Đồng', 300, 30000000, 'Không');
+INSERT INTO SANH (MaSanh, TenSanh, DonGia, DiaChi) VALUES
+    (1, 'EmpTower Center', 372.00, N'30 Bình Dã - Quận 3 - Tp.HCM'),
+    (2, 'Venues Center', 350.00, N'98/2 Bình Dũ - Quận 2 - TP.HCM'),
+    (3, 'Hoàng Gia Center', 400.00, N'70/10 Lê Đại Hành - Quận 1 - TP.HCM'),
+    (4, 'White Palace', 420.00, N'194 Hoàng Văn Thụ, Q. Phú Nhuận, TP. Hồ Chí Minh'),
+    (5, 'Grand Palace', 400.00, N'588 Phạm Văn Đồng, Thủ Đức, TP. Hồ Chí Minh'),
+    (6, 'Riverside Palace', 380.00, N'360D Bến Vân Đồn, Quận 4, TP. HCM'),
+    (7, 'Melisa Center', 350.00, N'85 Thoại Ngọc Hầu, Quận Tân Phú, TP. HCM'),
+    (8, 'Diamond Place', 380.00, N'03 Đặng Văn Sâm, Q. Phú Nhuận, TP. HCM'),
+    (9, 'Aqua Palace', 420.00, N'90 Hai Bà Trưng, Q.1, TP. HCM');
 
 	
 -- TABLE CA
@@ -185,11 +195,11 @@ VALUES
 
 
 --- TABLE THUCDON
-INSERT INTO THUCDON VALUES(N'TD001',N'Chả Giò Rế Hà Nội',N'Gà Ấp Chảo + Bánh Bao',N'Dê Hấp Lá Tía Tô',N'Tôm Sông Rang Muối',N'Lẩu Thái Hải Sản',N'Thanh Nhiệt Sâm Sâm',N'Heniken',N'Pepsi',N'2000000')
-INSERT INTO THUCDON VALUES(N'TD002',N'Suop Cua Gà Xé',N'Gà Bó Xôi',N'Bò Nấu Đậu + Bánh Mì',N'Vịt Quay Bắc Kinh',N'Lẩu Nắm Hải Sản',N'Chè Hạt Sen',N'Tiger Bạc',N'Trà Xanh',N'1800000')
-INSERT INTO THUCDON VALUES(N'TD003',N'Gỏi Gó Sen Tôm Thit',N'Gà Hấp Hành + Xôi',N'Cá Điêu Hồng Chưng Tương',N'Chim Cút Roti + Bánh Mì',N'Lẩu Thái Hải Sản',N'Chè Hạt Sen',N'Heniken',N'Cocacola',N'2000000')
-INSERT INTO THUCDON VALUES(N'TD004',N'Suop Hải Sản Nấm Tuyết',N'Gà Nấu Lagu + Bánh Mì',N'Cá Điêu Hồng Hấp HongKong',N'Gà Bó Xôi',N'Lẩu Cua Đồng',N'Rau Câu Ngũ Sắc',N'Tiger',N'Pepsi',N'1800000')
-INSERT INTO THUCDON VALUES(N'TD005',N'Chả Giò Venus',N'Chim Cút Roti + Bánh Mì',N'Tôm Sông Rang Muối',N'Cá Điêu Hồng Chưng Tương',N'Lẩu Cá Bớp',N'Chè Khúc Bạch',N'Heniken',N'Pepsi',N'2000000')
+INSERT INTO THUCDON VALUES(1,N'Chả Giò Rế Hà Nội',N'Gà Ấp Chảo + Bánh Bao',N'Dê Hấp Lá Tía Tô',N'Tôm Sông Rang Muối',N'Lẩu Thái Hải Sản',N'Thanh Nhiệt Sâm Sâm',N'Heniken',N'Pepsi',N'2000000')
+INSERT INTO THUCDON VALUES(2,N'Suop Cua Gà Xé',N'Gà Bó Xôi',N'Bò Nấu Đậu + Bánh Mì',N'Vịt Quay Bắc Kinh',N'Lẩu Nắm Hải Sản',N'Chè Hạt Sen',N'Tiger Bạc',N'Trà Xanh',N'1800000')
+INSERT INTO THUCDON VALUES(3,N'Gỏi Gó Sen Tôm Thit',N'Gà Hấp Hành + Xôi',N'Cá Điêu Hồng Chưng Tương',N'Chim Cút Roti + Bánh Mì',N'Lẩu Thái Hải Sản',N'Chè Hạt Sen',N'Heniken',N'Cocacola',N'2000000')
+INSERT INTO THUCDON VALUES(4,N'Suop Hải Sản Nấm Tuyết',N'Gà Nấu Lagu + Bánh Mì',N'Cá Điêu Hồng Hấp HongKong',N'Gà Bó Xôi',N'Lẩu Cua Đồng',N'Rau Câu Ngũ Sắc',N'Tiger',N'Pepsi',N'1800000')
+INSERT INTO THUCDON VALUES(5,N'Chả Giò Venus',N'Chim Cút Roti + Bánh Mì',N'Tôm Sông Rang Muối',N'Cá Điêu Hồng Chưng Tương',N'Lẩu Cá Bớp',N'Chè Khúc Bạch',N'Heniken',N'Pepsi',N'2000000')
 
 
 --- TABLE NGUOIDUNG
@@ -202,15 +212,15 @@ VALUES
     ('KH005', N'Huỳnh Thị Lan', 'lan@example.com', 'hashed_password5', 'customer','0978123456'),
     ('AD001', N'Admin', 'admin@example.com', 'hashed_admin_password', 'admin','0987654321');
 
--- TABLE TIECCUOI
-INSERT INTO TIECCUOI (MaTiecCuoi, MaSanh, MaCa, MaThucDon, NgayToChuc, TienDatCoc, SoLuongBan, SoLuongBanDuTru, UserID)
-VALUES 
-    ('TC001', 'S001', 'Ca001', 'TD001', '2024-05-01', 5000000, 10, 2, 'KH001'),
-    ('TC002', 'S002', 'Ca002', 'TD002', '2024-05-02', 6000000, 15, 3, 'KH002'),
-    ('TC003', 'S003', 'Ca001', 'TD003', '2024-05-03', 7000000, 20, 4, 'KH003'),
-    ('TC004', 'S002', 'Ca002', 'TD002', '2024-05-04', 8000000, 25, 5, 'KH004'),
-    ('TC005', 'S001', 'Ca001', 'TD001', '2024-05-05', 9000000, 30, 6, 'KH005');
 
+-- TABLE TIECCUOI
+INSERT INTO TIECCUOI (MaTiecCuoi, MaSanh, MaCa, MaThucDon, NgayToChuc, TienDatCoc, MaDichVu, SoLuongBan, SoLuongBanDuTru, UserID)
+VALUES
+    ('TC001', 1, 'Ca001', 1, '2024-05-01', 5000000, 1, 10, 2, 'KH001'),
+    ('TC002', 2, 'Ca002', 2, '2024-05-02', 6000000, 2, 15, 3, 'KH002'),
+    ('TC003', 3, 'Ca001', 3, '2024-05-03', 7000000, 3, 20, 4, 'KH003'),
+    ('TC004', 2, 'Ca002', 2, '2024-05-04', 8000000, 4, 25, 5, 'KH004'),
+    ('TC005', 1, 'Ca001', 1, '2024-05-05', 9000000, 5, 30, 6, 'KH005');
 
 -- TABLE NHANVIEN
 INSERT INTO NHANVIEN (MaNhanVien, MaCa, TenNhanVien, SoDienThoai, ChucVu)
@@ -222,14 +232,6 @@ VALUES
     ('NV005', 'Ca005', N'Huỳnh Văn E', '0123987654', N'Nhân viên dọn dẹp');
 
 
--- TABLE PHANHOI
-INSERT INTO PHANHOI (MaPhanHoi, UserID, MaTiecCuoi, NoiDung, NgayDanhGia, GhiChu)
-VALUES 
-    ('PH1', 'KH001', 'TC004', N'Dịch vụ tốt, đồ ăn ngon, không gian thoáng mát', '2023-01-10', N'NONE'),
-    ('PH2', 'KH002', 'TC001', N'Phục vụ chu đáo, thực đơn đặc sắc', '2024-01-12', N'NONE'),
-    ('PH3', 'KH003', 'TC005', N'Không gian nhà hàng rộng rãi, sang trọng, được bài trí đẹp mắt và rất phù hợp cho tiệc cưới', '2023-11-22', N'NONE'),
-    ('PH4', 'KH004', 'TC002', N'Nhân viên phục vụ nhiệt tình, chu đáo và luôn sẵn sàng hỗ trợ chúng tôi trong suốt quá trình tổ chức tiệc', '2023-04-09', N'NONE'),
-    ('PH5', 'KH005', 'TC003', N'Một địa điểm tuyệt vời để tổ chức tiệc cưới', '2023-10-20', N'NONE');
 
 -- TABLE HOADON
 INSERT INTO HOADON (MaHoaDon, MaTiecCuoi, NgayThanhToan, TongTienBan, TongTienThucDon, TongTienHoaDon)
@@ -259,42 +261,51 @@ VALUES
     ('BC004', 'Tháng 4', 45000000),
     ('BC005', 'Tháng 5', 55000000);
 
+
+
+INSERT INTO DICHVU(MaDichVu, TenDichVu, DonGia)  VALUES
+(1, N'Ca Sĩ', 30000000.00),
+(2, N'Bánh Kem', 1200000.00),
+(3, N'Váy Cưới', 150000000.00),
+(4, N'Tuxedo', 50000000.00),
+(5, N'Chụp Hình', 800000.00),
+(6, N'Trang Điểm', 2000000.00)
+
+
+
 -- PROCEDURE
 -- Tạo procedure thêm, cập nhật, và xóa loại sảnh
 CREATE PROCEDURE QuanLyLoaiSanh
-    @MaSanh CHAR(10),
-    @TenSanh NVARCHAR(100),
-    @MaLoaiSanh NVARCHAR(100),
-    @SoLuongBanToiDa INT,
-    @DonGia MONEY,
-    @GhiChu NVARCHAR(100),
+    @MaSanh INT,
+    @TenSanh NVARCHAR(255),
+    @DonGia DECIMAL(10, 2),
+    @DiaChi NVARCHAR(255),
     @Action NVARCHAR(10)
 AS
 BEGIN
     IF @Action = 'INSERT'
     BEGIN
-        INSERT INTO SANH (MaSanh, TenSanh, MaLoaiSanh, SoLuongBanToiDa, DonGia, GhiChu)
-        VALUES (@MaSanh, @TenSanh, @MaLoaiSanh, @SoLuongBanToiDa, @DonGia, @GhiChu);
+        INSERT INTO SANH (MaSanh, TenSanh, DonGia, DiaChi)
+        VALUES (@MaSanh, @TenSanh, @DonGia, @DiaChi);
     END
     ELSE IF @Action = 'UPDATE'
     BEGIN
         UPDATE SANH
         SET TenSanh = @TenSanh,
-            MaLoaiSanh = @MaLoaiSanh,
-            SoLuongBanToiDa = @SoLuongBanToiDa,
             DonGia = @DonGia,
-            GhiChu = @GhiChu
+            DiaChi = @DiaChi
         WHERE MaSanh = @MaSanh;
     END
     ELSE IF @Action = 'DELETE'
     BEGIN
-        DELETE FROM SANH WHERE MaSanh = @MaSanh;
+        DELETE FROM SANH
+        WHERE MaSanh = @MaSanh;
     END
 END;
 GO
 -- Tạo procedure cho thêm, chỉnh sửa, và xóa thực đơn
 CREATE PROCEDURE QuanLyThucDon
-    @MaThucDon CHAR(10),
+    @MaThucDon INT,
     @MonKhaiVi NVARCHAR(100),
     @MonChinh1 NVARCHAR(100),
     @MonChinh2 NVARCHAR(100),
@@ -371,7 +382,7 @@ CREATE PROCEDURE InsertHoaDon
     @NgayToChuc DATE,
     @SoLuongBan INT,
     @MaSanh CHAR(10),
-    @MaThucDon CHAR(10),
+    @MaThucDon INT,
     @UserID CHAR(10)
 AS
 BEGIN
