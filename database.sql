@@ -61,15 +61,15 @@ create table HOADON
  TongTienBan int not null,
  TongTienThucDon int not null,
  TongTienHoaDon int not null,
- FOREIGN KEY (MaTiecCuoi ) REFERENCES TIECCUOI(MaTiecCuoi)
 
 )
 
 CREATE TABLE THANHTOAN
 (
     MaThanhToan INT PRIMARY KEY,
-    MaHoaDon char(10),
-    NgayThanhToan date not null
+    MaHoaDon INT,
+    NgayThanhToan date not null,
+    SoTienPhat INT
 );
 	
 CREATE TABLE SANH (
