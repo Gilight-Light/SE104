@@ -588,7 +588,7 @@ BEGIN
     END CATCH
 END;
 ---Procdure Xóa THUCDON => Xóa các bảng ràng buộc liên quan ( TIECCUOI)
-CREATE PROCEDURE sp_XoaThucDon
+CREATE PROCEDURE XoaThucDon
     @MaThucDon INT
 AS
 BEGIN
