@@ -506,7 +506,112 @@ BEGIN
         MaTiecCuoi = @MaTiecCuoi;
 END;
 GO
+---Procdure Them TIECCUOI
+--IF trung SANH & CA -> "Sảnh và thời gian đã có người đặt"
+--ELSE -> "Đặt thành công"
+CREATE PROCEDURE ThemTiecCuoi
+    @MaTiecCuoi CHAR(10),
+    @MaSanh INT,
+    @MaCa CHAR(10),
+    @MaThucDon INT,
+    @NgayToChuc DATE,
+    @TienDatCoc INT,
+    @MaDichVu INT,
+    @SoLuongBan INT,
+    @SoLuongBanDuTru INT,
+    @UserID CHAR(10)
+AS
+BEGIN
+    -- Kiểm tra trùng lặp MaSanh và MaCa
+    IF EXISTS (SELECT 1
+               FROM TIECCUOI
+               WHERE MaSanh = @MaSanh AND MaCa = @MaCa AND NgayToChuc = @NgayToChuc)
+    BEGIN
+        -- Nếu trùng lặp, trả về thông báo lỗi
+        SELECT 'Sảnh và thời gian đã có người đặt' AS KetQua;
+    END
+    ELSE
+    BEGIN
+        -- Nếu không trùng lặp, tiến hành thêm tiệc cưới mới
+        INSERT INTO TIECCUOI (
+            MaTiecCuoi, 
+            MaSanh, 
+            MaCa, 
+            MaThucDon, 
+            NgayToChuc, 
+            TienDatCoc, 
+            MaDichVu, 
+            SoLuongBan, 
+            SoLuongBanDuTru, 
+            UserID
+        )
+        VALUES (
+            @MaTiecCuoi, 
+            @MaSanh, 
+            @MaCa, 
+            @MaThucDon, 
+            @NgayToChuc, 
+            @TienDatCoc, 
+            @MaDichVu, 
+            @SoLuongBan, 
+            @SoLuongBanDuTru, 
+            @UserID
+        );
 
+        -- Trả về thông báo thành công
+        SELECT 'Đặt Thành Công' AS KetQua;
+    END
+END;
+---Procdure Xóa SANH =>  Xóa các bảng ràng buộc liên quan luôn ( TIECCUOI )
+CREATE PROCEDURE XoaSanh
+    @MaSanh INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Xóa các bản ghi liên quan trong bảng TIECCUOI
+        DELETE FROM TIECCUOI
+        WHERE MaSanh = @MaSanh;
+
+        -- Xóa bản ghi trong bảng SANH
+        DELETE FROM SANH
+        WHERE MaSanh = @MaSanh;
+
+        COMMIT TRANSACTION;
+        SELECT 'Xóa thành công' AS KetQua;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        SELECT @ErrorMessage AS KetQua;
+    END CATCH
+END;
+---Procdure Xóa THUCDON => Xóa các bảng ràng buộc liên quan ( TIECCUOI)
+CREATE PROCEDURE sp_XoaThucDon
+    @MaThucDon INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Xóa các bản ghi liên quan trong bảng TIECCUOI
+        DELETE FROM TIECCUOI
+        WHERE MaThucDon = @MaThucDon;
+
+        -- Xóa bản ghi trong bảng THUCDON
+        DELETE FROM THUCDON
+        WHERE MaThucDon = @MaThucDon;
+
+        COMMIT TRANSACTION;
+        SELECT 'Xóa thành công' AS KetQua;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        SELECT @ErrorMessage AS KetQua;
+    END CATCH
+END;
 
 ---- TRIGER 
 -- Xoa bo trung lap MaTiecCuoi trong bang HOADON
