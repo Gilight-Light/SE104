@@ -12,6 +12,9 @@ def login():
     session['fullname'] = None
     session['email'] = None
     session['phonenumber'] = None
+    session['Order_SanhCuoi'] = None
+    session['Order_ThucDon'] = None
+    session['Order_DichVu'] = None
     return render_template('Dangnhap/signIn.html')
 
 
@@ -22,7 +25,7 @@ def authelogin():
         # Tạo kết nối
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
                               'SERVER=DESKTOP-VB58721;'
-                              'DATABASE=test;'
+                              'DATABASE=SE104;'
                               'Trusted_Connection=yes;')
     cursor = conn.cursor()
 
@@ -80,7 +83,7 @@ def authesignup():
     phome = request.form.get('phone')
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
                               'SERVER=DESKTOP-VB58721;'
-                              'DATABASE=test;'
+                              'DATABASE=SE104;'
                               'Trusted_Connection=yes;')
     cursor = conn.cursor()
 

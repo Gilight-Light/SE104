@@ -21,16 +21,23 @@
                         <a href="/sanhcuoi" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="/menu" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
+                        <a href="/thucdon" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
                     </li>
                     <li class="header-nav_item">
                         <a href="/offering" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
                     </li>
-                    <li class="header-nav_item">
-                        <a href="/taikhoan" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Tài Khoản</b></a>
-                    </li>
-                    <li class="header-nav_item">
-                        <a href="/login" tittle="Tài Khoản" class="header-nav_link button btn--border"><b>Đăng nhập</b></a>
+                    {% if user is not none %}
+                        <li class="header-nav_item">
+                            <a href="/taikhoan" tittle="Tài Khoản0." class="header-nav_link"><b>Hi  {{ user }}</b></a>
+                        </li>
+                        <li class="header-nav_item">
+                            <a href="/login" tittle="Tài Khoản" class="header-nav_link"><b>LogOut</b></a>
+                        </li>
+                    {% else %}               
+                        <li class="header-nav_item">
+                            <a href="/login" tittle="Tài Khoản" class="header-nav_link"><b>Đăng nhập</b></a>
+                        </li>
+                    {% endif %} 
                     </li>
                 </ul>
             </nav>
@@ -55,23 +62,24 @@
 
     <div class="wrapper">
         <ul class="card-list">
+            {% for post in posts %}
             <li class="card-item">
                 <div class="card">
                     <div class="card-image">
                         <img
-                            src="./assets/img/menu-1.jpg"
+                            src="{{ post['DuongDanAnh']}}"
                             alt="easy template"
                         />
                     </div>
                     <div class="cardbody">
                         <h3 class="card-title">
                             <a href="#" class="card-title-link">
-                                Menu 1
+                                {{ post['TenThucDon']}}
                             </a>
                         </h3>
                         <div class="card-meta">
                             <div class="card-price">
-                                <p class="card-price-current">Giá: 1.250.000 VND</p>
+                                <p class="card-price-current">Giá: {{ post['DonGia']}} VND</p>
                             </div>
                         </div>
                         <form id="FORM_1">
@@ -82,7 +90,7 @@
                                         <span id="num">1</span>
                                     </p>
                                     <p id="food-name">
-                                        Soup bắp cua
+                                        {{ post['Mon1']}}
                                     </p>
                                     <p id="food-divider">
                                     </p>
@@ -92,7 +100,7 @@
                                         <span id="num">2</span>
                                     </p>
                                     <p id="food-name">
-                                        Gỏi ngó sen tôm thịt
+                                        {{ post['Mon2']}}
                                     </p>
                                     <p id="food-divider">
                                     </p>
@@ -102,7 +110,7 @@
                                         <span id="num">3</span>
                                     </p>
                                     <p id="food-name">
-                                        Cá tai tượng chiên xù
+                                        {{ post['Mon3']}}
                                     </p>
                                     <p id="food-divider">
                                     </p>
@@ -112,7 +120,7 @@
                                         <span id="num">4</span>
                                     </p>
                                     <p id="food-name">
-                                        Cơm hải sản
+                                        {{ post['Mon4']}}
                                     </p>
                                     <p id="food-divider">
                                     </p>
@@ -122,7 +130,37 @@
                                         <span id="num">5</span>
                                     </p>
                                     <p id="food-name">
-                                        Rau câu
+                                        {{ post['Mon5']}}
+                                    </p>
+                                    <p id="food-divider">
+                                    </p>
+                                </li>
+                                <li id="food-list">
+                                    <p id="food-span">
+                                        <span id="num">6</span>
+                                    </p>
+                                    <p id="food-name">
+                                        {{ post['Mon6']}}
+                                    </p>
+                                    <p id="food-divider">
+                                    </p>
+                                </li>
+                                <li id="food-list">
+                                    <p id="food-span">
+                                        <span id="num">7</span>
+                                    </p>
+                                    <p id="food-name">
+                                        {{ post['Bia']}}
+                                    </p>
+                                    <p id="food-divider">
+                                    </p>
+                                </li>
+                                <li id="food-list">
+                                    <p id="food-span">
+                                        <span id="num">8</span>
+                                    </p>
+                                    <p id="food-name">
+                                        {{ post['NuocNgot']}}
                                     </p>
                                     <p id="food-divider">
                                     </p>
@@ -130,583 +168,21 @@
                             </ul>
                         </form>
                         <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
+                            <a href="/thucdon" class="card-btn" onclick="submitBooking('{{ post.MaThucDon }}','{{ post.TenThucDon }}', '{{ post.DonGia }}', '{{ post.DuongDanAnh }}', '{{ post.Mon1 }}','{{ post.Mon2 }}','{{ post.Mon3 }}','{{ post.Mon4 }}','{{ post.Mon5 }}','{{ post.Mon6 }}','{{ post.Bia }}','{{ post.NuocNgot }}')">Đặt đơn</a>
                         </div>
                     </div>
                 </div>
             </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-2.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 2
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.200.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gỏi tôm củ hủ dừa
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Soup hải sản
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Nai né
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Lẩu gà lá giang
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Dưa hấu
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-3.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 3
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.400.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Chả giò + chạo tôm
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Soup bắp cua gà
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Cơm chiên hải sản
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Cá diêu hồng hấp
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Panna cotta
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-4.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 4
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.350.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Chả giò hải sản
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gỏi củ hủ dừa
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gà chiên nước mắm
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Lẩu hải sản thái
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Bánh plan
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                            
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-5.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 5
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.450.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Chả giò + trứng cá
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Soup tuyết nhĩ cua
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Lẩu đầu cá hồi
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gà lá chanh
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Kem tươi
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-6.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 6
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.750.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Soup bắp cua
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gà quay bánh bao
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Cá tai tượng chưng tương
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Lẩu bao tử hầm tiêu
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Rau câu
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-7.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 7
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.800.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Soup bong bóng cá
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gà hấp đông cô
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Giò heo chiên nước mắm
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Lươn xào lăng
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Bánh bông lan
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="card-item">
-                <div class="card">
-                    <div class="card-image">
-                        <img
-                            src="./assets/img/menu-8.jpg"
-                            alt="easy template"
-                        />
-                    </div>
-                    <div class="cardbody">
-                        <h3 class="card-title">
-                            <a href="#" class="card-title-link">
-                                Menu 8
-                            </a>
-                        </h3>
-                        <div class="card-meta">
-                            <div class="card-price">
-                                <p class="card-price-current">Giá: 1.850.000 VND</p>
-                            </div>
-                        </div>
-                        <form id="FORM_1">
-                            <input type="hidden" name="_token" value="nHOFBedoyCAWT1f4rnSZXCSYCkeUWiqgIL53hGw4" id="INPUT_2" />
-                            <ul id="menu-list">
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">1</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Soup cua vi cá
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">2</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Gà nấu tiêu xanh
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">3</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Cá tai tượng chiên xù
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">4</span>
-                                    </p>
-                                    <p id="food-name">
-                                        Cơm dương châu
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                                <li id="food-list">
-                                    <p id="food-span">
-                                        <span id="num">5</span>
-                                    </p>
-                                    <p id="food-name">
-                                        panna cotta
-                                    </p>
-                                    <p id="food-divider">
-                                    </p>
-                                </li>
-                            </ul>
-                        </form>
-                        <div class="card-detail">
-                            <a href="#" class="card-btn">Đặt đơn</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-
-    <div class="wrapper">
+            {% endfor %}
+            
+    <!-- <div class="wrapper">
         <div class="wrapper-content">
             <h1><b>Thực đơn tự chọn</b></h1>
         </div>
     </div>
-    <div class="divider"></div>
+    <div class="divider"></div> -->
     
-    <div class="wrapper">
+    <!-- <div class="wrapper">
         <ul class="card-list">
             <li class="card-item">
                 <div class="card">
@@ -1355,7 +831,7 @@
                 </div>
             </li>
         </ul>
-    </div>
+    </div> -->
 
 
 
@@ -1368,11 +844,18 @@
     
     <div class="wrapper">
         <div class="wrapper-image">
-            <div class="image-wrap1">
+           
+            
+            {% if orders is not none %}
+                <div class="success-message" id="successMessage">Đã Thêm Vào Đám Cưới Của Tôi</div>
+            {% else %}
+                <div class="success-message" id="successMessage">Chưa Đặt Thực Đơn</div>
+            {% endif %}
+                <div class="image-wrap1">
                 <div class="ig-button">
                     <a href="#" class="social-link" title="Instagram">
                       <div class="icon">
-                        <img src="./assets/img/ig.png" class="corner-image">
+                        <img src="static/SanhCuoi/img/ig.png" class="corner-image">
                       </div>
                       <span class="text">Instagram</span>
                     </a>
@@ -1380,7 +863,7 @@
                 <div class="fb-button">
                     <a href="#" class="social-link" title="Facebook">
                     <div class="icon">
-                        <img src="./assets/img/fb.png" class="corner-image">
+                        <img src="static/SanhCuoi/img//fb.png" class="corner-image">
                     </div>
                       <span class="text">Facebook</span>
                     </a>
@@ -1390,7 +873,7 @@
                 <div class="phone-button">
                     <a href="#" class="social-link" title="Phone-number">
                       <div class="icon">
-                        <img src="./assets/img/phone.png" class="corner-image">
+                        <img src="static/SanhCuoi/img/phone.png" class="corner-image">
                       </div>
                       <span class="text">0934123456</span>
                     </a>
@@ -1398,7 +881,7 @@
                 <div class="mail-button">
                     <a href="#" class="social-link" title="Email">
                     <div class="icon">
-                        <img src="./assets/img/mail.png" class="corner-image">
+                        <img src="static/SanhCuoi/img//mail.png" class="corner-image">
                     </div>
                       <span class="text">admin@gmail.com</span>
                     </a>
@@ -1408,5 +891,50 @@
         
     </div>
     
+    
 </body>
 </html>
+
+<script>
+    function submitBooking(MaThucDon, TenThucDon, DonGia, DuongDanAnh, Mon1, Mon2, Mon3, Mon4, Mon5, Mon6, Bia, NuocNgot) {
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/thucdon/order", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaThucDon: MaThucDon,
+            TenThucDon: TenThucDon,
+            DonGia: DonGia,
+            DuongDanAnh: DuongDanAnh,
+            Mon1: Mon1,
+            Mon2: Mon2,
+            Mon3: Mon3,
+            Mon4: Mon4,
+            Mon5: Mon5,
+            Mon6: Mon6,
+            Bia: Bia,
+            NuocNgot: NuocNgot
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy đối tượng div chứa thông báo
+        var successMessage = document.getElementById("successMessage");
+        
+        // Hiển thị thông báo "Đặt thành công"
+        successMessage.style.display = "block";
+
+        // Ẩn thông báo sau 5 giây
+        setTimeout(function () {
+            successMessage.style.display = "none";
+        }, 5000);
+    });
+</script>
+

@@ -195,11 +195,12 @@ VALUES
 
 
 --- TABLE THUCDON
-INSERT INTO THUCDON VALUES(1,N'Chả Giò Rế Hà Nội',N'Gà Ấp Chảo + Bánh Bao',N'Dê Hấp Lá Tía Tô',N'Tôm Sông Rang Muối',N'Lẩu Thái Hải Sản',N'Thanh Nhiệt Sâm Sâm',N'Heniken',N'Pepsi',N'2000000')
-INSERT INTO THUCDON VALUES(2,N'Suop Cua Gà Xé',N'Gà Bó Xôi',N'Bò Nấu Đậu + Bánh Mì',N'Vịt Quay Bắc Kinh',N'Lẩu Nắm Hải Sản',N'Chè Hạt Sen',N'Tiger Bạc',N'Trà Xanh',N'1800000')
-INSERT INTO THUCDON VALUES(3,N'Gỏi Gó Sen Tôm Thit',N'Gà Hấp Hành + Xôi',N'Cá Điêu Hồng Chưng Tương',N'Chim Cút Roti + Bánh Mì',N'Lẩu Thái Hải Sản',N'Chè Hạt Sen',N'Heniken',N'Cocacola',N'2000000')
-INSERT INTO THUCDON VALUES(4,N'Suop Hải Sản Nấm Tuyết',N'Gà Nấu Lagu + Bánh Mì',N'Cá Điêu Hồng Hấp HongKong',N'Gà Bó Xôi',N'Lẩu Cua Đồng',N'Rau Câu Ngũ Sắc',N'Tiger',N'Pepsi',N'1800000')
-INSERT INTO THUCDON VALUES(5,N'Chả Giò Venus',N'Chim Cút Roti + Bánh Mì',N'Tôm Sông Rang Muối',N'Cá Điêu Hồng Chưng Tương',N'Lẩu Cá Bớp',N'Chè Khúc Bạch',N'Heniken',N'Pepsi',N'2000000')
+INSERT INTO THUCDON VALUES
+(1, N'Chả Giò Rế Hà Nội', N'Gà Ấp Chảo + Bánh Bao', N'Dê Hấp Lá Tía Tô', N'Tôm Sông Rang Muối', N'Lẩu Thái Hải Sản', N'Thanh Nhiệt Sâm Sâm', N'Heniken', N'Pepsi', N'2000000', N'Thực Đơn Phong Vị Hà Nội'),
+(2, N'Suop Cua Gà Xé', N'Gà Bó Xôi', N'Bò Nấu Đậu + Bánh Mì', N'Vịt Quay Bắc Kinh', N'Lẩu Nấm Hải Sản', N'Chè Hạt Sen', N'Tiger Bạc', N'Trà Xanh', N'1800000', N'Thực Đơn Ngọc Sắc Bắc'),
+(3, N'Gỏi Gỏi Sen Tôm Thịt', N'Gà Hấp Hành + Xôi', N'Cá Điêu Hồng Chưng Tương', N'Chim Cút Roti + Bánh Mì', N'Lẩu Thái Hải Sản', N'Chè Hạt Sen', N'Heniken', N'Cocacola', N'2000000', N'Thực Đơn Sen Vàng Mỹ Vị'),
+(4, N'Suop Hải Sản Nấm Tuyết', N'Gà Nấu Lagu + Bánh Mì', N'Cá Điêu Hồng Hấp HongKong', N'Gà Bó Xôi', N'Lẩu Cua Đồng', N'Rau Câu Ngũ Sắc', N'Tiger', N'Pepsi', N'1800000', N'Thực Đơn Hải Vị Ngọc Tuyết'),
+(5, N'Chả Giò Venus', N'Chim Cút Roti + Bánh Mì', N'Tôm Sông Rang Muối', N'Cá Điêu Hồng Chưng Tương', N'Lẩu Cá Bớp', N'Chè Khúc Bạch', N'Heniken', N'Pepsi', N'2000000', N'Thực Đơn Điêu Hồng Tinh Hoa');
 
 
 --- TABLE NGUOIDUNG

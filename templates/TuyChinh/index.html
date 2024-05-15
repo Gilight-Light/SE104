@@ -11,14 +11,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/grid.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/all.min.css') }}">
 
+
 </head>
 
 <body>
     <div class="main">
-        <div class="side-bar">
+        <div class="user">
+            <div class="user-info">
+                <p class="user-name">Van A</p>
+                <p class="user-email">useradmin@gmail.com</p>
+            </div>
+            <img  src="static/TuyChinh/img/info.png" alt="" class="user-img" href ="/taikhoan">
+        </div>
+
+        <aside class="side-bar">
             <div class="navbar-user">
-                <img src="static/TuyChinh/img/info.png"
-                    alt="" class="navbar-user-img">
+                <img src="static/TuyChinh/img/info.png" alt="" class="navbar-user-img">
                 <span class="navbar-user-name">useradmin@gmail.com</span>
             </div>
 
@@ -27,26 +35,20 @@
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-circle-info"></i>Thông tin cá nhân</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-user"></i></i>Khách hàng</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Thống kê</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Thêm</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Xóa</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Sửa</li>
                     <li class="navbar-item"><a href="/home"><i
                                 class="navbar-icon fa-solid fa-house"></i></i>Về trang chủ</a></li>
                 </ul>
             </div>
-        </div>
+        </aside>
 
         <div class="container">
-            <div class="user">
-                <div class="user-info">
-                    <p class="user-name">Van A</p>
-                    <p class="user-email">useradmin@gmail.com</p>
-                </div>
-                <img src="static/TuyChinh/img/info.png"
-                    alt="" class="user-img">
-            </div>
-
             <div class="content">
                 <h2 class="heading"></h2>
 
-                <div class="content-wrap">
+                <div class="content-wrap scroll">
                     <div class="self-info hidden">
                         <div class="list-info">
                             <div class="info-wrap">
@@ -73,23 +75,218 @@
 
 
                         <div class="self-info-img">
-                            <img src="static/TuyChinh/img/info.png"
-                                alt="" class="self-img">
+                            <img src="static/TuyChinh/img/info.png" alt="" class="self-img">
                         </div>
                     </div>
-                    <div class="guest"></div>
+
+                    <div class="guest hidden">
+                        <div class="guest-data">
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Danh sách khách hàng
+                                </div>
+                                <div class="card-body">
+                                    <div
+                                        class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="datatable-top">
+                                            <div class="datatable-search">
+                                                <input class="datatable-input" placeholder="Search..." type="search"
+                                                    title="Search within table" aria-controls="datatablesSimple">
+                                            </div>
+                                        </div>
+                                        <div class="datatable-container">
+                                            <table id="datatablesSimple" class="datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" style="width: 17.850637522768668%;"><a
+                                                                href="#" class="datatable-sorter">Họ Tên</a></th>
+                                                        <th data-sortable="true" style="width: 23.043715846994534%;"><a
+                                                                href="#" class="datatable-sorter">Tên đăng nhập</a></th>
+                                                        <th data-sortable="true" style="width: 15.664845173041893%;"><a
+                                                                href="#" class="datatable-sorter">Số điện thoại</a></th>
+                                                        <th data-sortable="true" style="width: 11.746812386156648%;"><a
+                                                                href="#" class="datatable-sorter">Số hóa đơn</a></th>
+                                                        <th data-sortable="true" style="width: 16.57559198542805%;"><a
+                                                                href="#" class="datatable-sorter">Số tiền thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 15.1183970856102%;"><a
+                                                                href="#" class="datatable-sorter">Ngày thanh toán</a></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-index="0">
+                                                        <td>ADC</td>
+                                                        <td>System Architect</td>
+                                                        <td>Edinburgh</td>
+                                                        <td>61</td>
+                                                        <td>2011/04/25</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="statistical hidden">
-                        <div class="statistical-selection">
-                            <label for="time-start">Thời gian bắt đầu: </label>
-                            <input type="month" name="time-start" id="time-start">
+                        <div class="statistical-wrap">
+                            <div class="statistical-selection">
+                                <label for="time-start">Thời gian bắt đầu: </label>
+                                <input type="month" name="time-start" id="time-start">
+                            </div>
+                            <div class="statistical-selection">
+                                <label for="time-end">Thời gian kết thúc: </label>
+                                <input type="month" name="time-end" id="time-end">
+                            </div>
+                            <div class="button-list">
+                                <button class="find-btn btn">Tìm kiếm</button>
+                                <button class="print-btn btn">In báo cáo</button>
+                            </div>
+
                         </div>
-                        <div class="statistical-selection">
-                            <label for="time-end">Thời gian kết thúc: </label>
-                            <input type="month" name="time-end" id="time-end">
-                        </div>
-                        <div class="button-list">
-                            <button class="find-btn btn">Tìm kiếm</button>
-                            <button class="print-btn btn">In báo cáo</button>
+
+                        <div class="statistical-data">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Báo cáo thống kê doanh thu
+                                </div>
+                                <div class="card-body">
+                                    <div
+                                        class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="datatable-top">
+                                            <div class="datatable-search">
+                                                <input class="datatable-input" placeholder="Search..." type="search"
+                                                    title="Search within table" aria-controls="datatablesSimple">
+                                            </div>
+                                        </div>
+                                        <div class="datatable-container">
+                                            <table id="datatablesStatistical" class="datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" style="width: 14%;"><a
+                                                                href="#" class="datatable-sorter">Mã hóa đơn</a></th>
+                                                        <th data-sortable="true" style="width: 14%;"><a
+                                                                href="#" class="datatable-sorter">Mã tiệc cưới</a></th>
+                                             
+                                                        <th data-sortable="true" style="width: 21%;"><a
+                                                                href="#" class="datatable-sorter">Tổng tiền bàn</a></th>
+                                                        <th data-sortable="true" style="width: 21%;"><a
+                                                                href="#" class="datatable-sorter">Tổng tiền thực đơn</a></th>
+                                                        <th data-sortable="true" style="width: 21%;"><a
+                                                                href="#" class="datatable-sorter">Tổng tiền hóa đơn</a></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-index="0">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="1">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="2">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="3">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="4">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="5">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="6">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="7">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="8">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="9">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="10">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                    <tr data-index="11">
+                                                        <td>HD09</td>
+                                                        <td>TC09</td>
+                                                        
+                                                        <td>$231,200</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -97,7 +294,10 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="static/TuyChinh/js/script.js"></script>
+    <script src="static/TuyChinh/js/pagination.js"></script>
+    
 </body>
 
 </html>

@@ -21,7 +21,7 @@
                         <a href="/sanhcuoi" tittle="Sảnh Cưới" class="header-nav_link button btn--border"><b>Sảnh Cưới</b></a>
                     </li>
                     <li class="header-nav_item">
-                        <a href="/menu" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
+                        <a href="/thucdon" tittle="Thực đơn" class="header-nav_link button btn--border"><b>Thực đơn</b></a>
                     </li>
                     <li class="header-nav_item">
                         <a href="/offering" tittle="Dịch Vụ" class="header-nav_link button btn--border"><b>Dịch Vụ</b></a>
@@ -83,7 +83,7 @@
                                 <p class="card-desc">
                                     {{ post['DiaChi'] }} <!-- Hiển thị địa chỉ -->
                                 </p>
-                                <a href="#" class="card-btn">Đặt bàn</a>
+                                <a href="/sanhcuoi" class="card-btn" onclick="submitBooking('{{ post.MaSanh }}','{{ post.TenSanh }}', '{{ post.DonGia }}', '{{ post.DiaChi }}', '{{ post.DuongDanAnh }}')">Đặt bàn</a>
                             </div>
                         </div>
                     </div>
@@ -93,6 +93,7 @@
         </ul>
     </div>
     
+    
 
 
     <div class="wrapper distant"></div>
@@ -100,7 +101,14 @@
     
     <div class="wrapper">
         <div class="wrapper-image">
-            <div class="image-wrap1">
+           
+            
+            {% if orders is not none %}
+                <div class="success-message" id="successMessage">Đã Thêm Vào Đám Cưới Của Tôi</div>
+            {% else %}
+                <div class="success-message" id="successMessage">Chưa Đặt Sảnh</div>
+            {% endif %}
+                <div class="image-wrap1">
                 <div class="ig-button">
                     <a href="#" class="social-link" title="Instagram">
                       <div class="icon">
@@ -142,3 +150,48 @@
     
 </body>
 </html>
+
+<script>
+    function submitBooking(maSanh, tenSanh, donGia, diaChi, duongDanAnh) {
+        var url = "/sanhcuoi/order?maSanh=" + encodeURIComponent(maSanh) + "&tenSanh=" + encodeURIComponent(tenSanh) + "&donGia=" + encodeURIComponent(donGia) + "&diaChi=" + encodeURIComponent(diaChi) + "&duongDanAnh=" + encodeURIComponent(duongDanAnh);
+        window.location.href = url;
+    }
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy đối tượng div chứa thông báo
+        var successMessage = document.getElementById("successMessage");
+        
+        // Hiển thị thông báo "Đặt thành công"
+        successMessage.style.display = "block";
+
+        // Ẩn thông báo sau 5 giây
+        setTimeout(function () {
+            successMessage.style.display = "none";
+        }, 5000);
+    });
+</script>
+
+<script>
+    function submitBooking(MaSanh, TenSanh, DonGia, DiaChi, DuongDanAnh) {
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/sanhcuoi/order", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaSanh: MaSanh,
+            TenSanh: TenSanh,
+            DonGia: DonGia,
+            DiaChi: DiaChi,
+            DuongDanAnh: DuongDanAnh
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
