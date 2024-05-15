@@ -375,6 +375,80 @@ GO
 EXEC QuanLyLoaiSanh'S06', 'Loai F', 'Bạch Kim 2', 350, 25000000, 'Ghi chú', 'INSERT';
 EXEC QuanLyThucDon'TD006', 'Gỏi Cuốn', 'Bò Tái Chanh', 'Cá Hồi', 'Cánh Gà Chiên Nước Mắm', 'Lẩu Hải Sản', 'Kem Flan', 'Sapporo', 'Cocacola', 2200000, 'INSERT';
 EXEC QuanLyCa'Ca006', '2024-05-04 18:00:00', '2024-05-04 22:00:00', 'INSERT';
+--Procdure : Nếu NgayThanhToan (HoaDon) > NgayThanhToan (ThanhToan) => TienPhat (ThanhToan) = 10% TongTien(HoaDon)
+CREATE PROCEDURE PhatThanhToan
+    @MaHoaDon INT,
+    @NgayThanhToan DATE,
+    @SoTienPhat INT OUTPUT
+AS
+BEGIN
+    -- Khởi tạo số tiền phạt
+    SET @SoTienPhat = 0;
+
+    -- Thêm hồ sơ thanh toán
+    INSERT INTO THANHTOAN (MaHoaDon, NgayThanhToan)
+    VALUES (@MaHoaDon, @NgayThanhToan);
+
+    -- Kiểm tra xem ngày thanh toán có muộn hơn ngày lập hoá đơn không
+    IF EXISTS (
+        SELECT 1
+        FROM HOADON
+        WHERE MaHoaDon = @MaHoaDon
+        AND NgayThanhToan < @NgayThanhToan
+    )
+    BEGIN
+    --Tính tiền phạt là 10% tổng hóa đơn 
+        SELECT @SoTienPhat = 0.1 * TongTienHoaDon
+        FROM HOADON
+        WHERE MaHoaDon = @MaHoaDon;
+    END
+END
+--Tạo Procdure : Truyền : UserID => Trả về : Tên Người Dùng(NGUOIDUNG) ,Tên Sảnh(SANH), Thời Gian (Ca), Tên Thực Đơn(THUCDON), Tên Dịch Vụ(DICHVU)
+
+CREATE PROCEDURE NhanVeThongTinNguoiDung
+    @UserID CHAR(10)
+AS
+BEGIN
+    SELECT 
+        NGUOIDUNG.FullName AS UserName,
+        SANH.TenSanh AS VenueName,
+        CA.ThoiGianBatDau AS StartTime,
+        CA.ThoiGianKetThuc AS EndTime,
+        THUCDON.MonKhaiVi,
+        THUCDON.MonChinh1,
+        THUCDON.MonChinh2,
+        THUCDON.MonChinh3,
+        THUCDON.Lau,
+        THUCDON.TrangMieng,
+        THUCDON.Bia,
+        THUCDON.NuocNgot,
+        THUCDON.GiaThucDon,
+        DICHVU.TenDichVu,
+        DICHVU.DonGia
+    FROM TIECCUOI
+    JOIN NGUOIDUNG ON TIECCUOI.UserID = NGUOIDUNG.UserID
+    JOIN SANH ON TIECCUOI.MaSanh = SANH.MaSanh
+    JOIN CA ON TIECCUOI.MaCa = CA.MaCa
+    JOIN THUCDON ON TIECCUOI.MaThucDon = THUCDON.MaThucDon
+    JOIN DICHVU ON TIECCUOI.MaDichVu = DICHVU.MaDichVu
+    WHERE TIECCUOI.UserID = @UserID;
+END
+-- Tạo Procedure Xóa dịch vụ
+CREATE PROCEDURE XoaDichVu
+    @MaDichVu INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Xóa các liên kết từ bảng TIECCUOI
+    DELETE FROM TIECCUOI WHERE MaDichVu = @MaDichVu;
+
+    -- Xóa dịch vụ từ bảng DICHVU
+    DELETE FROM DICHVU WHERE MaDichVu = @MaDichVu;
+    
+    PRINT 'Đã xóa dịch vụ thành công.';
+END
+
 
 --- Tao Procedure them, xoa sua Tiec Cuoi => thay doi them, xoa sua HoaDon
 -- Insert TiecCuoi
@@ -433,7 +507,112 @@ BEGIN
         MaTiecCuoi = @MaTiecCuoi;
 END;
 GO
+---Procdure Them TIECCUOI
+--IF trung SANH & CA -> "Sảnh và thời gian đã có người đặt"
+--ELSE -> "Đặt thành công"
+CREATE PROCEDURE ThemTiecCuoi
+    @MaTiecCuoi CHAR(10),
+    @MaSanh INT,
+    @MaCa CHAR(10),
+    @MaThucDon INT,
+    @NgayToChuc DATE,
+    @TienDatCoc INT,
+    @MaDichVu INT,
+    @SoLuongBan INT,
+    @SoLuongBanDuTru INT,
+    @UserID CHAR(10)
+AS
+BEGIN
+    -- Kiểm tra trùng lặp MaSanh và MaCa
+    IF EXISTS (SELECT 1
+               FROM TIECCUOI
+               WHERE MaSanh = @MaSanh AND MaCa = @MaCa AND NgayToChuc = @NgayToChuc)
+    BEGIN
+        -- Nếu trùng lặp, trả về thông báo lỗi
+        SELECT 'Sảnh và thời gian đã có người đặt' AS KetQua;
+    END
+    ELSE
+    BEGIN
+        -- Nếu không trùng lặp, tiến hành thêm tiệc cưới mới
+        INSERT INTO TIECCUOI (
+            MaTiecCuoi, 
+            MaSanh, 
+            MaCa, 
+            MaThucDon, 
+            NgayToChuc, 
+            TienDatCoc, 
+            MaDichVu, 
+            SoLuongBan, 
+            SoLuongBanDuTru, 
+            UserID
+        )
+        VALUES (
+            @MaTiecCuoi, 
+            @MaSanh, 
+            @MaCa, 
+            @MaThucDon, 
+            @NgayToChuc, 
+            @TienDatCoc, 
+            @MaDichVu, 
+            @SoLuongBan, 
+            @SoLuongBanDuTru, 
+            @UserID
+        );
 
+        -- Trả về thông báo thành công
+        SELECT 'Đặt Thành Công' AS KetQua;
+    END
+END;
+---Procdure Xóa SANH =>  Xóa các bảng ràng buộc liên quan luôn ( TIECCUOI )
+CREATE PROCEDURE XoaSanh
+    @MaSanh INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Xóa các bản ghi liên quan trong bảng TIECCUOI
+        DELETE FROM TIECCUOI
+        WHERE MaSanh = @MaSanh;
+
+        -- Xóa bản ghi trong bảng SANH
+        DELETE FROM SANH
+        WHERE MaSanh = @MaSanh;
+
+        COMMIT TRANSACTION;
+        SELECT 'Xóa thành công' AS KetQua;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        SELECT @ErrorMessage AS KetQua;
+    END CATCH
+END;
+---Procdure Xóa THUCDON => Xóa các bảng ràng buộc liên quan ( TIECCUOI)
+CREATE PROCEDURE XoaThucDon
+    @MaThucDon INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Xóa các bản ghi liên quan trong bảng TIECCUOI
+        DELETE FROM TIECCUOI
+        WHERE MaThucDon = @MaThucDon;
+
+        -- Xóa bản ghi trong bảng THUCDON
+        DELETE FROM THUCDON
+        WHERE MaThucDon = @MaThucDon;
+
+        COMMIT TRANSACTION;
+        SELECT 'Xóa thành công' AS KetQua;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        SELECT @ErrorMessage AS KetQua;
+    END CATCH
+END;
 
 ---- TRIGER 
 -- Xoa bo trung lap MaTiecCuoi trong bang HOADON
