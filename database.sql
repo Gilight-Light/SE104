@@ -375,7 +375,7 @@ GO
 EXEC QuanLyLoaiSanh'S06', 'Loai F', 'Bạch Kim 2', 350, 25000000, 'Ghi chú', 'INSERT';
 EXEC QuanLyThucDon'TD006', 'Gỏi Cuốn', 'Bò Tái Chanh', 'Cá Hồi', 'Cánh Gà Chiên Nước Mắm', 'Lẩu Hải Sản', 'Kem Flan', 'Sapporo', 'Cocacola', 2200000, 'INSERT';
 EXEC QuanLyCa'Ca006', '2024-05-04 18:00:00', '2024-05-04 22:00:00', 'INSERT';
---Procdure : Nếu NgayThanhToan (HoaDon) > NgayThanhToan (ThanhToan) => TienPhat (ThanhToan) = 10% TongTien(HoaDon)
+--Procdure : Nếu NgayThanhToan (HoaDon) > NgayThanhToan (ThanhToan) thì TienPhat (ThanhToan) = 10% TongTien(HoaDon)
 CREATE PROCEDURE PhatThanhToan
     @MaHoaDon INT,
     @NgayThanhToan DATE,
@@ -403,7 +403,7 @@ BEGIN
         WHERE MaHoaDon = @MaHoaDon;
     END
 END
---Tạo Procdure : Truyền : UserID => Trả về : Tên Người Dùng(NGUOIDUNG) ,Tên Sảnh(SANH), Thời Gian (Ca), Tên Thực Đơn(THUCDON), Tên Dịch Vụ(DICHVU)
+--Tạo Procdure : Nhập UserID sẽ trả về : Tên Người Dùng(NGUOIDUNG) ,Tên Sảnh(SANH), Thời Gian (Ca), Tên Thực Đơn(THUCDON), Tên Dịch Vụ(DICHVU)
 
 CREATE PROCEDURE NhanVeThongTinNguoiDung
     @UserID CHAR(10)
@@ -434,20 +434,47 @@ BEGIN
     WHERE TIECCUOI.UserID = @UserID;
 END
 -- Tạo Procedure Xóa dịch vụ
-CREATE PROCEDURE XoaDichVu
-    @MaDichVu INT
+CREATE PROCEDURE DeleteDichVuWithDependencies @MaDichVu INT
 AS
 BEGIN
-    SET NOCOUNT ON;
+    -- Kiểm tra có hóa đơn nào liên quan đến tiệc cưới không
+    IF EXISTS (
+        SELECT 1
+        FROM TIECCUOI tc
+        INNER JOIN HOADON hd ON tc.MaTiecCuoi = hd.MaTiecCuoi
+        WHERE tc.MaDichVu = @MaDichVu
+    )
+    BEGIN
+        -- Xóa các hóa đơn liên quan
+        DELETE FROM HOADON
+        WHERE MaTiecCuoi IN (
+            SELECT MaTiecCuoi
+            FROM TIECCUOI
+            WHERE MaDichVu = @MaDichVu
+        );
+        
+        -- Xóa tiệc cưới
+        DELETE FROM TIECCUOI
+        WHERE MaDichVu = @MaDichVu;
+        
+        -- Xóa dịch vụ
+        DELETE FROM DICHVU
+        WHERE MaDichVu = @MaDichVu;
+        
+        PRINT 'Đã xóa dịch vụ và dữ liệu liên quan thành công.';
+    END
+    ELSE
+    BEGIN
+        -- Nếu không có hóa đơn liên quan, xóa trực tiếp dịch vụ
+        DELETE FROM DICHVU
+        WHERE MaDichVu = @MaDichVu;
+        
+        PRINT 'Xóa dịch vụ thành công.';
+    END
+END;
+-- Thực thi
+EXEC DeleteDichVuWithDependencies @MaDichVu = 1;
 
-    -- Xóa các liên kết từ bảng TIECCUOI
-    DELETE FROM TIECCUOI WHERE MaDichVu = @MaDichVu;
-
-    -- Xóa dịch vụ từ bảng DICHVU
-    DELETE FROM DICHVU WHERE MaDichVu = @MaDichVu;
-    
-    PRINT 'Đã xóa dịch vụ thành công.';
-END
 
 
 --- Tao Procedure them, xoa sua Tiec Cuoi => thay doi them, xoa sua HoaDon
