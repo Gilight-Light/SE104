@@ -590,8 +590,9 @@ BEGIN
         SELECT 'Đặt Thành Công' AS KetQua;
     END
 END;
----Procdure Xóa SANH =>  Xóa các bảng ràng buộc liên quan luôn ( TIECCUOI )
-CREATE PROCEDURE XoaSanh
+
+---Procdure Xóa SANH =>  Xóa các bảng ràng buộc liên quan luôn (TIECCUOI), nếu tồn tại HOADON thì xóa HOADON->TIECCUOI->SANH
+CREATE PROCEDURE sp_XoaSanh
     @MaSanh INT
 AS
 BEGIN
@@ -611,12 +612,39 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
-        SELECT @ErrorMessage AS KetQua;
+        
+        BEGIN TRY
+            BEGIN TRANSACTION;
+
+            -- Xóa các hóa đơn liên quan trong bảng HOADON
+            DELETE FROM HOADON
+            WHERE MaTiecCuoi IN (
+                SELECT MaTiecCuoi
+                FROM TIECCUOI
+                WHERE MaSanh = @MaSanh
+            );
+
+            -- Xóa các bản ghi liên quan trong bảng TIECCUOI
+            DELETE FROM TIECCUOI
+            WHERE MaSanh = @MaSanh;
+
+            -- Xóa bản ghi trong bảng SANH
+            DELETE FROM SANH
+            WHERE MaSanh = @MaSanh;
+
+            COMMIT TRANSACTION;
+            SELECT 'Xóa thành công' AS KetQua;
+        END TRY
+        BEGIN CATCH
+            ROLLBACK TRANSACTION;
+            DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+            SELECT @ErrorMessage AS KetQua;
+        END CATCH
     END CATCH
 END;
----Procdure Xóa THUCDON => Xóa các bảng ràng buộc liên quan ( TIECCUOI)
-CREATE PROCEDURE XoaThucDon
+
+---Procdure Xóa THUCDON => Xóa các bảng ràng buộc liên quan (TIECCUOI), nếu tồn tại HOADON thì xóa HOADON->TIECCUOI->THUCDON
+CREATE PROCEDURE sp_XoaThucDon
     @MaThucDon INT
 AS
 BEGIN
@@ -636,10 +664,37 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
-        SELECT @ErrorMessage AS KetQua;
+        
+        BEGIN TRY
+            BEGIN TRANSACTION;
+
+            -- Xóa các hóa đơn liên quan trong bảng HOADON
+            DELETE FROM HOADON
+            WHERE MaTiecCuoi IN (
+                SELECT MaTiecCuoi
+                FROM TIECCUOI
+                WHERE MaThucDon = @MaThucDon
+            );
+
+            -- Xóa các bản ghi liên quan trong bảng TIECCUOI
+            DELETE FROM TIECCUOI
+            WHERE MaThucDon = @MaThucDon;
+
+            -- Xóa bản ghi trong bảng THUCDON
+            DELETE FROM THUCDON
+            WHERE MaThucDon = @MaThucDon;
+
+            COMMIT TRANSACTION;
+            SELECT 'Xóa thành công sau khi thử lại' AS KetQua;
+        END TRY
+        BEGIN CATCH
+            ROLLBACK TRANSACTION;
+            DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+            SELECT @ErrorMessage AS KetQua;
+        END CATCH
     END CATCH
 END;
+
 
 ---- TRIGER 
 -- Xoa bo trung lap MaTiecCuoi trong bang HOADON
