@@ -35,9 +35,9 @@
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-circle-info"></i>Thông tin cá nhân</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-user"></i></i>Khách hàng</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Thống kê</li>
-                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Thêm</li>
-                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Xóa</li>
-                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Sửa</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Quản Lý Sảnh</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Quản Lý Dịch Vụ</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Quản Lý Món Ăn</li>
                     <li class="navbar-item"><a href="/home"><i
                                 class="navbar-icon fa-solid fa-house"></i></i>Về trang chủ</a></li>
                 </ul>
@@ -100,29 +100,51 @@
                                             <table id="datatablesSimple" class="datatable-table">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortable="true" style="width: 17.850637522768668%;"><a
-                                                                href="#" class="datatable-sorter">Họ Tên</a></th>
-                                                        <th data-sortable="true" style="width: 23.043715846994534%;"><a
-                                                                href="#" class="datatable-sorter">Tên đăng nhập</a></th>
-                                                        <th data-sortable="true" style="width: 15.664845173041893%;"><a
-                                                                href="#" class="datatable-sorter">Số điện thoại</a></th>
-                                                        <th data-sortable="true" style="width: 11.746812386156648%;"><a
-                                                                href="#" class="datatable-sorter">Số hóa đơn</a></th>
-                                                        <th data-sortable="true" style="width: 16.57559198542805%;"><a
-                                                                href="#" class="datatable-sorter">Số tiền thanh toán</a></th>
-                                                        <th data-sortable="true" style="width: 15.1183970856102%;"><a
-                                                                href="#" class="datatable-sorter">Ngày thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Họ Tên</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tên đăng nhập</a></th>
+                                                        <th data-sortable="true" style="width: 12%;"><a href="#" class="datatable-sorter">Số điện thoại</a></th>
+                                                        <th data-sortable="true" style="width: 6%;"><a href="#" class="datatable-sorter">Số hóa đơn</a></th>
+                                                        <th data-sortable="true" style="width: 14%;"><a href="#" class="datatable-sorter">Số tiền thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 9%;"><a href="#" class="datatable-sorter">Ngày thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 11%;"><a href="#" class="datatable-sorter">Tình trạng thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tiền Phạt</a></th>
+                                                        <th style="width: 9%;"></th> <!-- Thêm cột để chứa nút áp dụng phạt -->
+                                                        <th style="width: 9%;"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr data-index="0">
                                                         <td>ADC</td>
                                                         <td>System Architect</td>
-                                                        <td>Edinburgh</td>
+                                                        <td>03456451324</td>
                                                         <td>61</td>
-                                                        <td>2011/04/25</td>
                                                         <td>$320,800</td>
-                                                    </tr>
+                                                        <td>2011/04/25</td>
+                                                        <td>Quá Hạn</td>
+                                                        <td>3000</td>
+                                                        <td>
+                                                          <button id="applyPenaltyButton" class="apply-penalty-button" disabled>Áp dụng phạt</button>
+                                                        </td>
+                                                        <td>
+                                                          <button id="paymentButton" class="payment-button" disabled">Thanh Toán</button>
+                                                        </td>
+                                                      </tr>
+                                                      <tr data-index="0">
+                                                        <td>ADC</td>
+                                                        <td>System Architect</td>
+                                                        <td>03456451324</td>
+                                                        <td>61</td>
+                                                        <td>$320,800</td>
+                                                        <td>2011/04/25</td>
+                                                        <td>Đã Thanh Toán</td>
+                                                        <td>3000</td>
+                                                        <td>
+                                                          <button id="applyPenaltyButton" class="apply-penalty-button" disabled>Áp dụng phạt</button>
+                                                        </td>
+                                                        <td>
+                                                          <button id="paymentButton" class="payment-button" disabled>Thanh Toán</button>
+                                                        </td>
+                                                      </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -190,95 +212,7 @@
                                                         <td>$231,200</td>
                                                         <td>$532.900</td>
                                                         <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="1">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="2">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="3">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="4">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="5">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="6">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="7">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="8">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="9">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="10">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
-                                                    <tr data-index="11">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-                                                        
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>
+                                                    </tr>                                       
 
                                                 </tbody>
                                             </table>
@@ -297,6 +231,30 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="static/TuyChinh/js/script.js"></script>
     <script src="static/TuyChinh/js/pagination.js"></script>
+    <script>
+        var paymentStatus = document.querySelector("td:nth-child(7)").innerText.trim();
+
+        // Lấy nút áp dụng phạt
+        var applyPenaltyButton = document.getElementById("applyPenaltyButton");
+
+        // Lấy nút thanh toán
+        var paymentButton = document.getElementById("paymentButton");
+
+        // Kiểm tra nếu "Tình trạng thanh toán" là "Quá Hạn" thì kích hoạt nút áp dụng phạt
+        if (paymentStatus === "Quá Hạn") {
+        applyPenaltyButton.disabled = false;
+        paymentButton.disabled = false;
+        }else if (paymentStatus === "Đã Thanh Toán") {
+            applyPenaltyButton.disabled = true;
+            paymentButton.disabled = true;
+        }else if (paymentStatus === "Chưa Thanh Toán") {
+        applyPenaltyButton.disabled = true;
+        paymentButton.disabled = false;
+        } else {
+        applyPenaltyButton.disabled = true;
+        paymentButton.disabled = true;
+        }
+    </script>
     
 </body>
 

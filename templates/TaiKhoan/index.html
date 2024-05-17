@@ -40,12 +40,14 @@
                     <strong>Dịch vụ</strong>
                 </a>
             </li>
-            <li>
-                <a href="/tuychinh">
-                    <ion-icon name="build-outline"></ion-icon>
-                    <strong>Tùy chỉnh</strong>
-                </a>
-            </li>
+            {% if authe is not none %}
+                <li>
+                    <a href="/tuychinh">
+                        <ion-icon name="build-outline"></ion-icon>
+                        <strong>Tùy chỉnh</strong>
+                    </a>
+                </li>
+            {% endif %}
             <li class="change-password">
                 <a href="#">
                     <ion-icon name="key-outline"></ion-icon>
@@ -80,7 +82,7 @@
                                         type="text"
                                         name="email"
                                         id="email"
-                                        placeholder="email"
+                                        placeholder="{{info['email']}}"
                                         class="form-input"
                                     />
                                 </div>
@@ -90,7 +92,7 @@
                                         type="text"
                                         name="Họ tên"
                                         id="name"
-                                        placeholder="Họ tên"
+                                        placeholder="{{info['fullname']}}"
                                         class="form-input"
                                     />
                                 </div>
@@ -100,20 +102,33 @@
                                         type="text"
                                         name="Số điện thoại"
                                         id="phone-number"
-                                        placeholder="Số điện thoại"
+                                        placeholder="{{info['phonenumber']}}"
                                         class="form-input"
                                     />
                                 </div>
-                                <div class="form-group">
-                                    <label for="Role"><strong>Role</strong></label>
-                                    <input
-                                        type="text"
-                                        name="Role"
-                                        id="Role"
-                                        placeholder="Role"
-                                        class="form-input"
-                                    />
-                                </div>
+                                {% if authe is not none %}
+                                    <div class="form-group">
+                                        <label for="Role"><strong>Role</strong></label>
+                                        <input
+                                            type="text"
+                                            name="Role"
+                                            id="Role"
+                                            placeholder="AdminSystem"
+                                            class="form-input"
+                                        />
+                                    </div>
+                                {% else %}
+                                    <div class="form-group">
+                                        <label for="Role"><strong>Role</strong></label>
+                                        <input
+                                            type="text"
+                                            name="Role"
+                                            id="Role"
+                                            placeholder="User"
+                                            class="form-input"
+                                        />
+                                    </div>
+                                {% endif %}
                                 <button type="submit" class="form-btn">
                                     Save
                                 </button>
@@ -125,8 +140,8 @@
         <div class="wrapper-img">
             <div class="info-img">
                 <div class="info-mail">
-                    <h3><b>Văn A</b></h3>
-                    <p class="desc">user001@gmail.com</p>
+                    <h3><b>{{info['fullname']}}</b></h3>
+                    <p class="desc">{{info['email']}}</p>
                 </div>
                 <img src="static/TaiKhoan/img/info.png" alt="" class="img">
             </div>

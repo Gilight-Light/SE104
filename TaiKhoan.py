@@ -5,4 +5,18 @@ taikhoan_bp = Blueprint('taikhoan_bp', __name__,
                      static_folder = 'static')
 @taikhoan_bp.route('/')
 def taikhoan():
-    return render_template('TaiKhoan/index.html', user = session['userid'])
+    user = session['userid']
+    if session['userauth']  == 'admin':
+        authe = session['userauth']
+    else: 
+        authe = None
+    info = {
+    'email' : session['email'],
+    'fullname' : session['fullname'],
+    'phonenumber' : session['phonenumber']
+    }
+    return render_template('TaiKhoan/index.html', user = user, authe = authe, info = info)
+
+@taikhoan_bp.route('/update')
+def update():
+    return redirect('taikhoan_bp.taikhoan')

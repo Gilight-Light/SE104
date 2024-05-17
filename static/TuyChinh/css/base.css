@@ -10,9 +10,45 @@ html, body{
     font-family: "Inter", sans-serif;
     font-size: 16px;
     height: 100%;
-    box-sizing: border-box;
+    box-sizing: border-box; 
+}
+.apply-penalty-button {
+  background-color: red; /* Màu nền đỏ */
+  color: white; /* Màu chữ trắng */
+  border: none; /* Loại bỏ viền */
+  padding: 8px 16px; /* Khoảng cách padding */
+  cursor: pointer; /* Con trỏ khi di chuột qua */
+  border-radius: 4px; /* Bo tròn góc */
+  font-size: 14px; /* Cỡ chữ */
 }
 
+.apply-penalty-button:hover {
+  background-color: darkred; /* Màu nền đỏ đậm khi di chuột qua */
+}
+
+.apply-penalty-button:disabled {
+  background-color: lightgrey; /* Màu nền xám nhạt khi nút bị tắt */
+  cursor: not-allowed; /* Không cho click khi nút bị tắt */
+}
+
+.payment-button {
+  background-color: blue; /* Màu nền đỏ */
+  color: white; /* Màu chữ trắng */
+  border: none; /* Loại bỏ viền */
+  padding: 8px 16px; /* Khoảng cách padding */
+  cursor: pointer; /* Con trỏ khi di chuột qua */
+  border-radius: 4px; /* Bo tròn góc */
+  font-size: 14px; /* Cỡ chữ */
+}
+
+.payment-button:hover {
+  background-color: darkblue; /* Màu nền đỏ đậm khi di chuột qua */
+}
+
+.payment-button:disabled {
+  background-color: lightgrey; /* Màu nền xám nhạt khi nút bị tắt */
+  cursor: not-allowed; /* Không cho click khi nút bị tắt */
+}
 .wrapper{
     max-width: 1440px;
     width: 100%;

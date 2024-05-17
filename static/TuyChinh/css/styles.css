@@ -1,0 +1,78 @@
+/* Styles for submit-content */
+.submit-content .selector-submit {
+    margin: 20px 0;
+}
+
+.submit-content .container-submit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit-content .form-row-submit {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.submit-content .form-row-submit h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.submit-content .form-container-submit {
+    width: 100%;
+}
+
+.submit-content .form-group-submit {
+    margin-bottom: 15px;
+}
+
+.submit-content .form-group-submit label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.submit-content .form-group-submit input,
+.submit-content .form-group-submit textarea,
+.submit-content .form-group-submit select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submit-content .form-group-submit textarea {
+    resize: vertical;
+}
+
+.submit-content .form-actions-submit {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.submit-content .btn-submit-submit,
+.submit-content .btn-cancel-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-content .btn-submit-submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.submit-content .btn-cancel-submit {
+    background-color: #f44336;
+    color: white;
+}

@@ -39,7 +39,8 @@ Create table THUCDON
 	TrangMieng nvarchar(100) not null,
 	Bia nvarchar(100) not null,
 	NuocNgot nvarchar(100)not null,
-	GiaThucDon money not null
+	GiaThucDon money not null,
+    TenThucDon nvarchar(100)
 );
 
 CREATE TABLE NGUOIDUNG (
@@ -652,3 +653,21 @@ BEGIN
     )
     WHERE Thang = @Thang 
 END;
+
+CREATE OR ALTER TRIGGER trg_UpdateTinhTrangThanhToan
+ON HOADON
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE hd
+    SET hd.TinhTrangThanhToan = CASE
+                                    WHEN i.TinhTrangThanhToan = N'Đã Thanh Toán' THEN i.TinhTrangThanhToan
+                                    WHEN i.NgayThanhToan > GETDATE() THEN N'Chưa Thanh Toán'
+                                    ELSE N'Quá Hạn'
+                                END
+    FROM HOADON AS hd
+    JOIN inserted AS i ON hd.MaHoaDon = i.MaHoaDon;
+END
+
