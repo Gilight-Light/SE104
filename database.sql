@@ -103,12 +103,16 @@ CREATE TABLE ChiTietBaoCao
 	NGAY DATE NOT NULL,
 	SoLuong INT NOT NULL,
 	DoanhThu INT NOT NULL,
+	TienThu INT NOT NULL,
+	TienNo INT NOT NULL
 )
 CREATE TABLE BaoCaoDoanhThu 
 (
 	MaBaoCao INT PRIMARY KEY,
 	Thang char(20) NOT NULL,
-	TongDoanhThu INT NOT NULL
+	TongDoanhThu INT NOT NULL,
+	TienThu INT NOT NULL,
+	TienNo INT NOT NULL
 )
 
 GO
@@ -255,13 +259,20 @@ VALUES
     ('CTBC005', '2024-01-05', 50, 5000000);
 
 -- TABLE BaoCaoDoanhThu
-INSERT INTO BaoCaoDoanhThu (MaBaoCao, Thang, TongDoanhThu)
+INSERT INTO BaoCaoDoanhThu (MaBaoCao, Thang, TongDoanhThu, TienThu, TienNo)
 VALUES 
-    ('BC001', 'Tháng 1', 15000000),
-    ('BC002', 'Tháng 2', 25000000),
-    ('BC003', 'Tháng 3', 35000000),
-    ('BC004', 'Tháng 4', 45000000),
-    ('BC005', 'Tháng 5', 55000000);
+('BC01', 'Tháng 1', 100000, 70000, 30000),
+('BC02', 'Tháng 2', 120000, 80000, 40000),
+('BC03', 'Tháng 3', 150000, 100000, 50000),
+('BC04', 'Tháng 4', 130000, 90000, 40000),
+('BC05', 'Tháng 5', 140000, 95000, 45000),
+('BC06', 'Tháng 6', 160000, 110000, 50000),
+('BC07', 'Tháng 7', 170000, 115000, 55000),
+('BC08', 'Tháng 8', 180000, 120000, 60000),
+('BC09', 'Tháng 9', 190000, 130000, 60000),
+('BC10', 'Tháng 10', 200000, 140000, 60000),
+('BC11', 'Tháng 11', 210000, 145000, 65000),
+('BC12', 'Tháng 12', 220000, 150000, 70000);
 
 
 
@@ -593,7 +604,7 @@ BEGIN
 END;
 
 ---Procdure Xóa SANH =>  Xóa các bảng ràng buộc liên quan luôn (TIECCUOI), nếu tồn tại HOADON thì xóa HOADON->TIECCUOI->SANH
-CREATE PROCEDURE sp_XoaSanh
+CREATE PROCEDURE XoaSanh
     @MaSanh INT
 AS
 BEGIN
@@ -645,7 +656,7 @@ BEGIN
 END;
 
 ---Procdure Xóa THUCDON => Xóa các bảng ràng buộc liên quan (TIECCUOI), nếu tồn tại HOADON thì xóa HOADON->TIECCUOI->THUCDON
-CREATE PROCEDURE sp_XoaThucDon
+CREATE PROCEDURE XoaThucDon
     @MaThucDon INT
 AS
 BEGIN
@@ -752,4 +763,34 @@ BEGIN
     FROM HOADON AS hd
     JOIN inserted AS i ON hd.MaHoaDon = i.MaHoaDon;
 END
+--- Trigger => yêu cầu :  Mỗi khi update ChiTietBaoCao => DoanhThu & TienNo & TienThu của BaoCaoDoanhThu sẽ bằng DoanhThu & TienThu &  TienNo các ngày cùng tháng cộng lại
+CREATE TRIGGER UpdateBaoCaoDoanhThu
+AFTER UPDATE ON ChiTietBaoCao
+FOR EACH ROW
+BEGIN
+    -- Khai báo các biến để lưu trữ kết quả trung gian
+    DECLARE v_Thang CHAR(20);
+    DECLARE v_TongDoanhThu INT;
+    DECLARE v_TienThu INT;
+    DECLARE v_TienNo INT;
+
+    -- Trích xuất tháng từ ngày vừa cập nhật ở ChiTietBaoCao
+    SET v_Thang = DATE_FORMAT(NEW.NGAY, '%Y-%m');
+
+    -- Tính toán
+    SELECT 
+        SUM(DoanhThu) INTO v_TongDoanhThu,
+        SUM(TienThu) INTO v_TienThu,
+        SUM(TienNo) INTO v_TienNo
+    FROM ChiTietBaoCao
+    WHERE DATE_FORMAT(NGAY, '%Y-%m') = v_Thang;
+
+    -- Cập nhập lại giá trị ở bảng BaoCaoDoanhThu
+    UPDATE BaoCaoDoanhThu
+    SET 
+        TongDoanhThu = v_TongDoanhThu,
+        TienThu = v_TienThu,
+        TienNo = v_TienNo
+    WHERE Thang = v_Thang;
+END;
 
