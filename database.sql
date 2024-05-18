@@ -56,12 +56,13 @@ CREATE TABLE NGUOIDUNG (
 
 create table HOADON 
 (
- MaHoaDon Int Primary key,
+ MaHoaDon varchar(10) Primary key,
  MaTiecCuoi char(10) not null,
  NgayThanhToan date not null,
  TongTienBan int not null,
  TongTienThucDon int not null,
  TongTienHoaDon int not null,
+ TinhTrangThanhToan NVARCHAR(20) NOT NULL,
 
 )
 
@@ -95,11 +96,11 @@ CREATE TABLE DICHVU (
 --    WHERE TIECCUOI.MaSanh = MaSanh
 --    AND TIECCUOI.NgayToChuc = 'Ngày muốn đặt'
 --    AND TIECCUOI.MaCa = 'Ca muốn đặt'
---);
+--); 
 
 CREATE TABLE ChiTietBaoCao 
 (
-	MaCTBaoCao INT PRIMARY KEY,
+	MaBaoCao varchar(10) PRIMARY KEY,
 	NGAY DATE NOT NULL,
 	SoLuong INT NOT NULL,
 	DoanhThu INT NOT NULL,
@@ -108,7 +109,7 @@ CREATE TABLE ChiTietBaoCao
 )
 CREATE TABLE BaoCaoDoanhThu 
 (
-	MaBaoCao INT PRIMARY KEY,
+	MaBaoCao varchar(10) PRIMARY KEY,
 	Thang char(20) NOT NULL,
 	TongDoanhThu INT NOT NULL,
 	TienThu INT NOT NULL,
@@ -250,30 +251,55 @@ VALUES
 
 
 -- TABLE ChiTietBaoCao
-INSERT INTO ChiTietBaoCao (MaCTBaoCao, NGAY, SoLuong, DoanhThu)
+INSERT INTO ChiTietBaoCao (MaBaoCao, NGAY, SoLuong, DoanhThu, TienThu, TienNo)
 VALUES 
-    ('CTBC001', '2024-01-01', 10, 1000000),
-    ('CTBC002', '2024-01-02', 20, 2000000),
-    ('CTBC003', '2024-01-03', 30, 3000000),
-    ('CTBC004', '2024-01-04', 40, 4000000),
-    ('CTBC005', '2024-01-05', 50, 5000000);
+    ('CTBC001', '2024-01-01', 10, 100000, 70000, 30000),
+    ('CTBC002', '2024-01-02', 20, 120000, 80000, 40000),
+    ('CTBC003', '2024-01-03', 30, 150000, 100000, 50000),
+    ('CTBC004', '2024-01-04', 40, 130000, 90000, 40000),
+    ('CTBC005', '2024-01-05', 50, 140000, 95000, 45000),
+    ('CTBC006', '2024-01-06', 60, 160000, 110000, 50000),
+    ('CTBC007', '2024-01-07', 70, 170000, 115000, 55000),
+    ('CTBC008', '2024-01-08', 80, 190000, 130000, 60000),
+    ('CTBC009', '2024-01-09', 90, 200000, 140000, 60000),
+    ('CTBC010', '2024-01-10', 100, 210000, 145000, 65000),
+    ('CTBC011', '2024-01-11', 110, 220000, 150000, 70000),
+    ('CTBC012', '2024-01-12', 120, 12000000, 11500000, 1100000),
+    ('CTBC013', '2024-01-13', 130, 13000000, 12500000, 1200000),
+    ('CTBC014', '2024-01-14', 140, 14000000, 13500000, 1300000),
+    ('CTBC015', '2024-01-15', 150, 15000000, 14500000, 1400000),
+    ('CTBC016', '2024-01-16', 160, 16000000, 15500000, 1500000),
+    ('CTBC017', '2024-01-17', 170, 17000000, 16500000, 1600000),
+    ('CTBC018', '2024-01-18', 180, 18000000, 17500000, 1700000),
+    ('CTBC019', '2024-01-19', 190, 19000000, 18500000, 1800000),
+    ('CTBC020', '2024-01-20', 200, 20000000, 19500000, 1900000),
+    ('CTBC021', '2024-01-21', 210, 21000000, 20500000, 2000000),
+    ('CTBC022', '2024-01-22', 220, 22000000, 21500000, 2100000),
+    ('CTBC023', '2024-01-23', 230, 23000000, 22500000, 2200000),
+    ('CTBC024', '2024-01-24', 240, 24000000, 23500000, 2300000),
+    ('CTBC025', '2024-01-25', 250, 25000000, 24500000, 2400000),
+    ('CTBC026', '2024-01-26', 260, 26000000, 25500000, 2500000),
+    ('CTBC027', '2024-01-27', 270, 27000000, 26500000, 2600000),
+    ('CTBC028', '2024-01-28', 280, 28000000, 27500000, 2700000),
+    ('CTBC029', '2024-01-29', 290, 29000000, 28500000, 2800000),
+    ('CTBC030', '2024-01-30', 300, 30000000, 29500000, 2900000);
+
 
 -- TABLE BaoCaoDoanhThu
 INSERT INTO BaoCaoDoanhThu (MaBaoCao, Thang, TongDoanhThu, TienThu, TienNo)
 VALUES 
-('BC01', 'Tháng 1', 100000, 70000, 30000),
-('BC02', 'Tháng 2', 120000, 80000, 40000),
-('BC03', 'Tháng 3', 150000, 100000, 50000),
-('BC04', 'Tháng 4', 130000, 90000, 40000),
-('BC05', 'Tháng 5', 140000, 95000, 45000),
-('BC06', 'Tháng 6', 160000, 110000, 50000),
-('BC07', 'Tháng 7', 170000, 115000, 55000),
-('BC08', 'Tháng 8', 180000, 120000, 60000),
-('BC09', 'Tháng 9', 190000, 130000, 60000),
-('BC10', 'Tháng 10', 200000, 140000, 60000),
-('BC11', 'Tháng 11', 210000, 145000, 65000),
-('BC12', 'Tháng 12', 220000, 150000, 70000);
-
+('CTBC001', 'Tháng 1', 100000, 70000, 30000),
+('CTBC002', 'Tháng 2', 120000, 80000, 40000),
+('CTBC003', 'Tháng 3', 150000, 100000, 50000),
+('CTBC004', 'Tháng 4', 130000, 90000, 40000),
+('CTBC005', 'Tháng 5', 140000, 95000, 45000),
+('CTBC006', 'Tháng 6', 160000, 110000, 50000),
+('CTBC007', 'Tháng 7', 170000, 115000, 55000),
+('CTBC008', 'Tháng 8', 180000, 120000, 60000),
+('CTBC009', 'Tháng 9', 190000, 130000, 60000),
+('CTBC010', 'Tháng 10', 200000, 140000, 60000),
+('CTBC011', 'Tháng 11', 210000, 145000, 65000),
+('CTBC012', 'Tháng 12', 220000, 150000, 70000);
 
 
 INSERT INTO DICHVU(MaDichVu, TenDichVu, DonGia)  VALUES
@@ -793,4 +819,106 @@ BEGIN
         TienNo = v_TienNo
     WHERE Thang = v_Thang;
 END;
+---tạo trigger update ChiTietHoaDon
+CREATE TRIGGER Update_ChiTietBaoCao
+ON HOADON
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
 
+    -- Xử lý các phần insert và update
+    IF EXISTS (SELECT * FROM inserted)
+    BEGIN
+        MERGE ChiTietBaoCao AS target
+        USING (
+            SELECT 
+                MaHoaDon, 
+                NgayThanhToan, 
+                TongTienHoaDon,
+                TinhTrangThanhToan
+            FROM inserted
+        ) AS source (MaHoaDon, NgayThanhToan, TongTienHoaDon, TinhTrangThanhToan)
+        ON target.MaBaoCao = source.MaHoaDon
+        WHEN MATCHED THEN
+            UPDATE SET 
+                NGAY = source.NgayThanhToan,
+                TienThu = CASE 
+                            WHEN source.TinhTrangThanhToan = N'Đã thanh toán' 
+                            THEN source.TongTienHoaDon 
+                            ELSE 0 
+                          END,
+                TienNo = CASE 
+                            WHEN source.TinhTrangThanhToan <> N'Đã thanh toán' 
+                            THEN source.TongTienHoaDon 
+                            ELSE 0 
+                         END
+        WHEN NOT MATCHED THEN
+            INSERT (MaBaoCao, NGAY, SoLuong, DoanhThu, TienThu, TienNo)
+            VALUES (
+                source.MaHoaDon, 
+                source.NgayThanhToan, 
+                0,  -- SoLuong
+                0,  -- DoanhThu
+                CASE 
+                    WHEN source.TinhTrangThanhToan = N'Đã thanh toán' 
+                    THEN source.TongTienHoaDon 
+                    ELSE 0 
+                END,  -- TienThu
+                CASE 
+                    WHEN source.TinhTrangThanhToan <> N'Đã thanh toán' 
+                    THEN source.TongTienHoaDon 
+                    ELSE 0 
+                END  -- TienNo
+            );
+    END
+
+    -- Xử lý deletes
+    IF EXISTS (SELECT * FROM deleted)
+    BEGIN
+        UPDATE ChiTietBaoCao
+        SET 
+            TienThu = CASE 
+                        WHEN d.TinhTrangThanhToan = N'Đã thanh toán' 
+                        THEN ChiTietBaoCao.TienThu - d.TongTienHoaDon 
+                        ELSE ChiTietBaoCao.TienThu 
+                      END,
+            TienNo = CASE 
+                        WHEN d.TinhTrangThanhToan <> N'Đã thanh toán' 
+                        THEN ChiTietBaoCao.TienNo - d.TongTienHoaDon 
+                        ELSE ChiTietBaoCao.TienNo 
+                     END
+        FROM deleted d
+        WHERE ChiTietBaoCao.MaBaoCao = d.MaHoaDon;
+    END
+END;
+
+
+drop table ChiTietBaoCao;
+DROP TABLE HOADON;
+
+-- Insert data vào ChiTietBaoCao
+INSERT INTO ChiTietBaoCao (MaBaoCao, NGAY, SoLuong, DoanhThu, TienThu, TienNo)
+VALUES 
+    ('BC001', '2024-05-15', 0, 0, 0, 0),
+    ('BC002', '2024-05-16', 0, 0, 0, 0),
+    ('BC003', '2024-05-17', 0, 0, 0, 0);
+
+-- Insert data vào HOADON
+INSERT INTO HOADON (MaHoaDon, MaTiecCuoi, NgayThanhToan, TongTienBan, TongTienThucDon, TongTienHoaDon, TinhTrangThanhToan)
+VALUES 
+    ('HD001', 'TC001', '2024-05-15', 500000, 200000, 700000, N'Đã thanh toán'),
+    ('HD002', 'TC002', '2024-05-16', 600000, 250000, 850000, N'Chưa thanh toán'),
+    ('HD003', 'TC003', '2024-05-17', 700000, 300000, 1000000, N'Đã thanh toán');
+
+
+
+UPDATE HOADON
+SET NgayThanhToan = '2024-05-18', TinhTrangThanhToan = N'Đã thanh toán'
+WHERE MaHoaDon = 'HD002';
+
+DELETE FROM HOADON WHERE MaHoaDon = 'HD003';
+
+
+SELECT * FROM ChiTietBaoCao;
+SELECT * FROM HOADON;
