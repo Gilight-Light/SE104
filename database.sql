@@ -816,35 +816,36 @@ END;
 EXEC GetAllInvoiceDetails;
 --- Trigger => yêu cầu :  Mỗi khi update ChiTietBaoCao => DoanhThu & TienNo & TienThu của BaoCaoDoanhThu sẽ bằng DoanhThu & TienThu &  TienNo các ngày cùng tháng cộng lại
 CREATE TRIGGER UpdateBaoCaoDoanhThu
-AFTER UPDATE ON ChiTietBaoCao
-FOR EACH ROW
+ON ChiTietBaoCao
+AFTER UPDATE
+AS
 BEGIN
-    -- Khai báo các biến để lưu trữ kết quả trung gian
-    DECLARE v_Thang CHAR(20);
-    DECLARE v_TongDoanhThu INT;
-    DECLARE v_TienThu INT;
-    DECLARE v_TienNo INT;
+    DECLARE @Thang CHAR(20);
+    DECLARE @TongDoanhThu INT;
+    DECLARE @TienThu INT;
+    DECLARE @TienNo INT;
+    
+    -- Lấy tháng từ ngày của ChiTietBaoCao
+    SELECT @Thang = FORMAT(INSERTED.NGAY, 'yyyy-MM')
+    FROM INSERTED;
 
-
-    -- Trích xuất tháng từ ngày vừa cập nhật ở ChiTietBaoCao
-    SET v_Thang = DATE_FORMAT(NEW.NGAY, '%Y-%m');
-
-    -- Tính toán
+    -- Tính tổng DoanhThu, TienThu, TienNo của các ngày cùng tháng
     SELECT 
-        SUM(DoanhThu) INTO v_TongDoanhThu,
-        SUM(TienThu) INTO v_TienThu,
-        SUM(TienNo) INTO v_TienNo
+        @TongDoanhThu = ISNULL(SUM(DoanhThu), 0), 
+        @TienThu = ISNULL(SUM(TienThu), 0), 
+        @TienNo = ISNULL(SUM(TienNo), 0)
     FROM ChiTietBaoCao
-    WHERE DATE_FORMAT(NGAY, '%Y-%m') = v_Thang;
+    WHERE FORMAT(NGAY, 'yyyy-MM') = @Thang;
 
-    -- Cập nhập lại giá trị ở bảng BaoCaoDoanhThu
+    -- Cập nhật BaoCaoDoanhThu với các giá trị đã tính toán
     UPDATE BaoCaoDoanhThu
     SET 
-        TongDoanhThu = v_TongDoanhThu,
-        TienThu = v_TienThu,
-        TienNo = v_TienNo
-    WHERE Thang = v_Thang;
+        TongDoanhThu = @TongDoanhThu, 
+        TienThu = @TienThu, 
+        TienNo = @TienNo
+    WHERE Thang = @Thang;
 END;
+GO
 ---tạo trigger update ChiTietHoaDon
 CREATE TRIGGER Update_ChiTietBaoCao
 ON HOADON
