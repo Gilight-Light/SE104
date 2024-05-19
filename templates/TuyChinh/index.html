@@ -108,7 +108,7 @@
                                                         <th data-sortable="true" style="width: 9%;"><a href="#" class="datatable-sorter">Ngày thanh toán</a></th>
                                                         <th data-sortable="true" style="width: 11%;"><a href="#" class="datatable-sorter">Tình trạng thanh toán</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tiền Phạt</a></th>
-                                                        <th style="width: 9%;"></th> <!-- Thêm cột để chứa nút áp dụng phạt -->
+                                                        <th style="width: 9%;"></th>
                                                         <th style="width: 9%;"></th>
                                                     </tr>
                                                 </thead>
@@ -125,26 +125,21 @@
                                                         <td>{{post['TinhTrangThanhToan']}}</td>
                                                         <td>3000</td>
                                                         <td>
-                                                          <button id="applyPenaltyButton_{{ loop.index }}" class="apply-penalty-button" disabled>Áp dụng phạt</button>
+                                                            {% if post['TinhTrangThanhToan'] == "Quá Hạn" %}
+                                                            <button class="apply-penalty-button">Áp Dụng Phạt</button>
+                                                            {% else %}
+                                                            <button class="apply-penalty-button" disabled>Áp Dụng Phạt</button>
+                                                            {% endif %}                                           
                                                         </td>
                                                         <td>
-                                                          <button id="paymentButton_{{ loop.index }}" class="payment-button" disabled">Thanh Toán</button>
+                                                            {% if post['TinhTrangThanhToan'] != "Đã Thanh Toán" %}
+                                                            <button class="payment-button">Thanh Toán</button>
+                                                            {% else %}
+                                                            <button class="payment-button" disabled>Thanh Toán</button>
+                                                            {% endif %}
                                                         </td>
                                                       </tr>
                                                     {% endfor %}
-                                                    <tr data-index="0">
-                                                        <td>ADC</td>
-                                                        <td>System Architect</td>
-                                                        <td>03456451324</td>
-                                                        <td>61</td>
-                                                        <td>$320,800</td>
-                                                        <td>2011/04/25</td>
-                                                        <td>Quá ádasd Hạn</td>
-                                                        <td>3000</td>
-                                                        <td>
-                                                            <button id="applyPenaltyButton" class="apply-penalty-button" disabled>Áp dụng phạt</button>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -264,13 +259,15 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for post in sanh %}
                                                     <tr data-index="0">
-                                                        <td>1</td>
-                                                        <td>System Architect</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>61</td>
-                                                        <td>2011/04/25</td>
+                                                        <td>{{post['MaSanh']}}</td>
+                                                        <td>{{post['TenSanh']}}</td>
+                                                        <td>{{post['DonGia']}}</td>
+                                                        <td>{{post['SoBan']}}</td>
+                                                        <td>{{post['DiaChi']}}</td>
                                                     </tr>
+                                                    {% endfor %}
 
                                                 </tbody>
                                             </table>
@@ -295,18 +292,18 @@
                             <div class="form-row" id="add-hall">
                                 <div class="form-container">
                                     <h2>Thêm Sảnh Mới</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.Themsanh') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="lobby-name1">Tên sảnh</label>
-                                            <input type="text" id="lobby-name1" name="lobby-name1" required>
+                                            <input type="text" id="lobby-name1" name="TenSanh" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-price1">Đơn giá</label>
-                                            <input type="number" id="lobby-price1" name="lobby-price1" required>
+                                            <input type="number" id="lobby-price1" name="DonGia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="address1">Địa chỉ</label>
-                                            <textarea id="address1" name="address1" required></textarea>
+                                            <input type="text" id="lobby-name1" name="DiaChi" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="max-tables1">Số bàn tối đa</label>
@@ -314,7 +311,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-image1">Upload hình ảnh</label>
-                                            <input type="file" id="lobby-image1" name="lobby-image1" accept="image/*" required>
+                                            <input type="file" id="lobby-image1" name="image" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -326,14 +323,10 @@
                             <div class="form-row" id="delete-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Xóa Sảnh</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.Themsanh') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="code1">Mã sảnh</label>
                                             <input type="text" id="code1" name="name2" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lobby-name2">Tên sảnh</label>
-                                            <input type="text" id="lobby-name2" name="lobby-name2" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -345,26 +338,26 @@
                             <div class="form-row" id="edit-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Sửa Sảnh</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.Themsanh') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="lobby-name3">Tên sảnh</label>
-                                            <input type="text" id="lobby-name3" name="lobby-name3" required>
+                                            <input type="text" id="lobby-name3" name="TenSanh" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-price3">Đơn giá</label>
-                                            <input type="number" id="lobby-price3" name="lobby-price3" required>
+                                            <input type="number" id="lobby-price3" name="DonGia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="address3">Địa chỉ</label>
-                                            <textarea id="address3" name="address3" required></textarea>
+                                            <textarea id="address3" name="DiaChi" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="max-tables3">Số bàn tối đa</label>
-                                            <input type="number" id="max-tables3" name="max_tables3" required>
+                                            <input type="number" id="max-tables3" name="SoBan" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-image3">Upload hình ảnh</label>
-                                            <input type="file" id="lobby-image3" name="lobby-image3" accept="image/*" required>
+                                            <input type="file" id="lobby-image3" name="image" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>

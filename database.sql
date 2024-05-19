@@ -949,3 +949,25 @@ DELETE FROM HOADON WHERE MaHoaDon = 'HD003';
 SELECT * FROM ChiTietBaoCao;
 SELECT * FROM HOADON;
 
+
+CREATE PROCEDURE InsertSanh
+    @TenSanh NVARCHAR(255),
+    @DonGia DECIMAL(18, 2),
+    @DiaChi NVARCHAR(255)
+AS
+BEGIN
+    -- Declare a variable to store the new MaSanh
+    DECLARE @NewMaSanh INT;
+    
+    -- Get the maximum MaSanh from the table and add 1 to it
+    SELECT @NewMaSanh = ISNULL(MAX(MaSanh), 0) + 1
+    FROM [SE104].[dbo].[SANH];
+    
+    -- Insert the new record into the SANH table
+    INSERT INTO [SE104].[dbo].[SANH] (MaSanh, TenSanh, DonGia, DiaChi)
+    VALUES (@NewMaSanh, @TenSanh, @DonGia, @DiaChi);
+    
+    -- Optionally, return the new MaSanh
+    SELECT @NewMaSanh AS NewMaSanh;
+END;
+
