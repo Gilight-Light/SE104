@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tùy Chỉnh - Admin</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/grid.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/all.min.css') }}">
-
 
 </head>
 
@@ -21,7 +20,7 @@
                 <p class="user-name">Van A</p>
                 <p class="user-email">useradmin@gmail.com</p>
             </div>
-            <img  src="static/TuyChinh/img/info.png" alt="" class="user-img" href ="/taikhoan">
+            <img src="static/TuyChinh/img/info.png" alt="" class="user-img">
         </div>
 
         <aside class="side-bar">
@@ -35,9 +34,9 @@
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-circle-info"></i>Thông tin cá nhân</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-user"></i></i>Khách hàng</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Thống kê</li>
-                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Quản Lý Sảnh</li>
-                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Quản Lý Dịch Vụ</li>
-                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-chart-column"></i>Quản Lý Món Ăn</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-hotel"></i></i>Quản lý sảnh</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-wrench"></i></i>Quản lý dịch vụ</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-utensils"></i></i>Quản lý món ăn</li>
                     <li class="navbar-item"><a href="/home"><i
                                 class="navbar-icon fa-solid fa-house"></i></i>Về trang chủ</a></li>
                 </ul>
@@ -53,19 +52,19 @@
                         <div class="list-info">
                             <div class="info-wrap">
                                 <p class="title-info">Username</p>
-                                <p class="text-info">useradmin@gmail.com</p>
+                                <p class="text-info">{{user}}</p>
                             </div>
                             <div class="info-wrap">
                                 <p class="title-info">First Name</p>
-                                <p class="text-info">Van</p>
+                                <p class="text-info">{{info['fullname']}}</p>
                             </div>
                             <div class="info-wrap">
                                 <p class="title-info">Last Name</p>
-                                <p class="text-info">A</p>
+                                <p class="text-info">{{info['fullname']}}</p>
                             </div>
                             <div class="info-wrap">
                                 <p class="title-info">Phone number</p>
-                                <p class="text-info">0834008842</p>
+                                <p class="text-info">{{info['phonenumber']}}</p>
                             </div>
                             <div class="info-wrap">
                                 <p class="title-info">Role</p>
@@ -102,9 +101,10 @@
                                                     <tr>
                                                         <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Họ Tên</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tên đăng nhập</a></th>
-                                                        <th data-sortable="true" style="width: 12%;"><a href="#" class="datatable-sorter">Số điện thoại</a></th>
-                                                        <th data-sortable="true" style="width: 6%;"><a href="#" class="datatable-sorter">Số hóa đơn</a></th>
-                                                        <th data-sortable="true" style="width: 14%;"><a href="#" class="datatable-sorter">Số tiền thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 8%;"><a href="#" class="datatable-sorter">Số điện thoại</a></th>
+                                                        <th data-sortable="true" style="width: 6%;"><a href="#" class="datatable-sorter">Mã hóa đơn</a></th>
+                                                        <th data-sortable="true" style="width: 8%;"><a href="#" class="datatable-sorter">Mã Tiệc Cưới</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Số tiền thanh toán</a></th>
                                                         <th data-sortable="true" style="width: 9%;"><a href="#" class="datatable-sorter">Ngày thanh toán</a></th>
                                                         <th data-sortable="true" style="width: 11%;"><a href="#" class="datatable-sorter">Tình trạng thanh toán</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tiền Phạt</a></th>
@@ -113,6 +113,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for post in khachhang %}
+                                                    <tr data-index="{{ loop.index }}">
+                                                        <td>{{post['HoTen']}}</td>
+                                                        <td>{{post['TenDangNhap']}}</td>
+                                                        <td>{{post['SoDienThoai']}}</td>
+                                                        <td>{{post['MaHoaDon']}}</td>
+                                                        <td>{{post['MaTiecCuoi']}}</td>
+                                                        <td>${{post['TongTienThanhToan']}}</td>
+                                                        <td>{{post['NgayThanhToan']}}</td>
+                                                        <td>{{post['TinhTrangThanhToan']}}</td>
+                                                        <td>3000</td>
+                                                        <td>
+                                                          <button id="applyPenaltyButton_{{ loop.index }}" class="apply-penalty-button" disabled>Áp dụng phạt</button>
+                                                        </td>
+                                                        <td>
+                                                          <button id="paymentButton_{{ loop.index }}" class="payment-button" disabled">Thanh Toán</button>
+                                                        </td>
+                                                      </tr>
+                                                    {% endfor %}
                                                     <tr data-index="0">
                                                         <td>ADC</td>
                                                         <td>System Architect</td>
@@ -120,31 +139,12 @@
                                                         <td>61</td>
                                                         <td>$320,800</td>
                                                         <td>2011/04/25</td>
-                                                        <td>Quá Hạn</td>
+                                                        <td>Quá ádasd Hạn</td>
                                                         <td>3000</td>
                                                         <td>
-                                                          <button id="applyPenaltyButton" class="apply-penalty-button" disabled>Áp dụng phạt</button>
+                                                            <button id="applyPenaltyButton" class="apply-penalty-button" disabled>Áp dụng phạt</button>
                                                         </td>
-                                                        <td>
-                                                          <button id="paymentButton" class="payment-button" disabled">Thanh Toán</button>
-                                                        </td>
-                                                      </tr>
-                                                      <tr data-index="0">
-                                                        <td>ADC</td>
-                                                        <td>System Architect</td>
-                                                        <td>03456451324</td>
-                                                        <td>61</td>
-                                                        <td>$320,800</td>
-                                                        <td>2011/04/25</td>
-                                                        <td>Đã Thanh Toán</td>
-                                                        <td>3000</td>
-                                                        <td>
-                                                          <button id="applyPenaltyButton" class="apply-penalty-button" disabled>Áp dụng phạt</button>
-                                                        </td>
-                                                        <td>
-                                                          <button id="paymentButton" class="payment-button" disabled>Thanh Toán</button>
-                                                        </td>
-                                                      </tr>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -191,17 +191,21 @@
                                             <table id="datatablesStatistical" class="datatable-table">
                                                 <thead>
                                                     <tr>
-                                                        <th data-sortable="true" style="width: 14%;"><a
-                                                                href="#" class="datatable-sorter">Mã hóa đơn</a></th>
-                                                        <th data-sortable="true" style="width: 14%;"><a
-                                                                href="#" class="datatable-sorter">Mã tiệc cưới</a></th>
-                                             
-                                                        <th data-sortable="true" style="width: 21%;"><a
-                                                                href="#" class="datatable-sorter">Tổng tiền bàn</a></th>
-                                                        <th data-sortable="true" style="width: 21%;"><a
-                                                                href="#" class="datatable-sorter">Tổng tiền thực đơn</a></th>
-                                                        <th data-sortable="true" style="width: 21%;"><a
-                                                                href="#" class="datatable-sorter">Tổng tiền hóa đơn</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                            href="#" class="datatable-sorter">Mã hóa đơn</a></th>
+                                                    <th data-sortable="true" style="width: 10%;"><a
+                                                            href="#" class="datatable-sorter">Mã tiệc cưới</a></th>
+                                         
+                                                    <th data-sortable="true" style="width: 14%;"><a
+                                                            href="#" class="datatable-sorter">Tổng tiền bàn</a></th>
+                                                    <th data-sortable="true" style="width: 14%;"><a
+                                                            href="#" class="datatable-sorter">Tổng tiền thực đơn</a></th>
+                                                    <th data-sortable="true" style="width: 14%;"><a
+                                                            href="#" class="datatable-sorter">Tổng tiền hóa đơn</a></th>
+                                                    <th data-sortable="true" style="width: 16%;"><a
+                                                            href="#" class="datatable-sorter">Tổng tiền hóa đơn</a></th>
+                                                    <th data-sortable="true" style="width: 16%;"><a
+                                                            href="#" class="datatable-sorter">Ngày Thanh Toán</a></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -212,15 +216,427 @@
                                                         <td>$231,200</td>
                                                         <td>$532.900</td>
                                                         <td>$320,800</td>
+                                                        <td>$532.900</td>
+                                                        <td>$320,800</td>
                                                     </tr>                                       
 
                                                 </tbody>
                                             </table>
+                                            
                                         </div>     
                                     </div>
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="lobby-management hidden">
+                        <div class="lobby-data">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Danh sách sảnh
+                                </div>
+                                <div class="card-body">
+                                    <div
+                                        class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="datatable-top">
+                                            <div class="datatable-search">
+                                                <input class="datatable-input" placeholder="Search..." type="search"
+                                                    title="Search within table" aria-controls="datatablesSimple">
+                                            </div>
+                                        </div>
+                                        <div class="datatable-container">
+                                            <table id="datatablesLobby" class="datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" style="width: 15%;"><a
+                                                                href="#" class="datatable-sorter">Mã sảnh</a></th>
+                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                                href="#" class="datatable-sorter">Tên sảnh</a></th>
+                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                                href="#" class="datatable-sorter">Đơn giá</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                                href="#" class="datatable-sorter">Số bàn</a></th>
+                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                                href="#" class="datatable-sorter">Địa chỉ</a></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-index="0">
+                                                        <td>1</td>
+                                                        <td>System Architect</td>
+                                                        <td>Edinburgh</td>
+                                                        <td>61</td>
+                                                        <td>2011/04/25</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="selector">
+                            <label for="form-select">Chọn Phần:</label>
+                            <select id="form-select-lobby">
+                                <option value=""></option>
+                                <option value="add-hall">Thêm Sảnh</option>
+                                <option value="delete-hall">Xóa Sảnh</option>
+                                <option value="edit-hall">Sửa Sảnh</option>
+                            </select>
+                        </div>
+                        <div class="form-lobby hidden">
+                            <div class="form-row" id="add-hall">
+                                <div class="form-container">
+                                    <h2>Thêm Sảnh Mới</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="lobby-name1">Tên sảnh</label>
+                                            <input type="text" id="lobby-name1" name="lobby-name1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-price1">Đơn giá</label>
+                                            <input type="number" id="lobby-price1" name="lobby-price1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address1">Địa chỉ</label>
+                                            <textarea id="address1" name="address1" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="max-tables1">Số bàn tối đa</label>
+                                            <input type="number" id="max-tables1" name="max_tables1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-image1">Upload hình ảnh</label>
+                                            <input type="file" id="lobby-image1" name="lobby-image1" accept="image/*" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="delete-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Xóa Sảnh</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="code1">Mã sảnh</label>
+                                            <input type="text" id="code1" name="name2" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-name2">Tên sảnh</label>
+                                            <input type="text" id="lobby-name2" name="lobby-name2" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="edit-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Sửa Sảnh</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="lobby-name3">Tên sảnh</label>
+                                            <input type="text" id="lobby-name3" name="lobby-name3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-price3">Đơn giá</label>
+                                            <input type="number" id="lobby-price3" name="lobby-price3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address3">Địa chỉ</label>
+                                            <textarea id="address3" name="address3" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="max-tables3">Số bàn tối đa</label>
+                                            <input type="number" id="max-tables3" name="max_tables3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-image3">Upload hình ảnh</label>
+                                            <input type="file" id="lobby-image3" name="lobby-image3" accept="image/*" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-management hidden">
+                        <div class="service-data">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Danh sách dịch vụ
+                                </div>
+                                <div class="card-body">
+                                    <div
+                                        class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="datatable-top">
+                                            <div class="datatable-search">
+                                                <input class="datatable-input" placeholder="Search..." type="search"
+                                                    title="Search within table" aria-controls="datatablesSimple">
+                                            </div>
+                                        </div>
+                                        <div class="datatable-container">
+                                            <table id="datatablesService" class="datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                                href="#" class="datatable-sorter">Mã dịch vụ</a></th>
+                                                        <th data-sortable="true" style="width: 35%;"><a
+                                                                href="#" class="datatable-sorter">Tên dịch vụ</a></th>
+                                                        <th data-sortable="true" style="width: 40%;"><a
+                                                                href="#" class="datatable-sorter">Đơn giá</a></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-index="0">
+                                                        <td>1</td>
+                                                        <td>System Architect</td>
+                                                        <td>Edinburgh</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="selector">
+                            <label for="form-select">Chọn Phần:</label>
+                            <select id="form-select-service">
+                                <option value=""></option>
+                                <option value="add-hall">Thêm dịch vụ</option>
+                                <option value="delete-hall">Xóa dịch vụ</option>
+                                <option value="edit-hall">Sửa dịch vụ</option>
+                            </select>
+                        </div>
+                        <div class="form-service hidden">
+                            <div class="form-row" id="add-hall">
+                                <div class="form-container">
+                                    <h2>Thêm Dịch Vụ Mới</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="service-name1">Tên dịch vụ</label>
+                                            <input type="text" id="service-name1" name="service-name1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="service-price1">Đơn giá</label>
+                                            <input type="number" id="service-price1" name="service-price1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="service-image1">Upload hình ảnh</label>
+                                            <input type="file" id="service-image1" name="service-image1" accept="image/*" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="delete-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Xóa Dịch Vụ</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="code2">Mã dịch vụ</label>
+                                            <input type="text" id="code2" name="name2" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="service-name2">Tên dịch vụ</label>
+                                            <input type="text" id="service-name2" name="service-name2" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="edit-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Sửa Dịch Vụ</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="service-name3">Tên dịch vụ</label>
+                                            <input type="text" id="service-name3" name="service-name3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="service-price3">Đơn giá</label>
+                                            <input type="number" id="service-price3" name="service-price3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="service-image3">Upload hình ảnh</label>
+                                            <input type="file" id="service-image3" name="service-image3" accept="image/*" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-management hidden">
+                        <div class="menu-data">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Danh sách món ăn
+                                </div>
+                                <div class="card-body">
+                                    <div
+                                        class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="datatable-top">
+                                            <div class="datatable-search">
+                                                <input class="datatable-input" placeholder="Search..." type="search"
+                                                    title="Search within table" aria-controls="datatablesSimple">
+                                            </div>
+                                        </div>
+                                        <div class="datatable-container">
+                                            <table id="datatablesMenu" class="datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" style="width: 5%;"><a
+                                                                href="#" class="datatable-sorter">Mã TĐ</a></th>
+                                                        <th data-sortable="true" style="width: 12%;"><a
+                                                                href="#" class="datatable-sorter">Tên TĐ</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                                href="#" class="datatable-sorter">Món khai vị</a></th>
+                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                                href="#" class="datatable-sorter">Món chính</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                                href="#" class="datatable-sorter">Món tráng miệng</a></th>
+                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                                href="#" class="datatable-sorter">Thức uống</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                                href="#" class="datatable-sorter">Đơn giá</a></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-index="0">
+                                                        <td>TD01</td>
+                                                        <td>Set Hoàng Gia</td>
+                                                        <td>Rau rác</td>
+                                                        <td>tôm hấp, bò xào, cá ...</td>
+                                                        <td>chè khúc bạch</td>
+                                                        <td>tiger, nước suối, pepsi</td>
+                                                        <td>$320,800</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="selector">
+                            <label for="form-select">Chọn Phần:</label>
+                            <select id="form-select-menu">
+                                <option value=""></option>
+                                <option value="add-hall">Thêm thực đơn</option>
+                                <option value="delete-hall">Xóa thực đơn</option>
+                                <option value="edit-hall">Sửa thực đơn</option>
+                            </select>
+                        </div>
+                        <div class="form-menu hidden">
+                            <div class="form-row" id="add-hall">
+                                <div class="form-container">
+                                    <h2>Thêm Thực Đơn Mới</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="menu-name1">Tên thực đơn</label>
+                                            <input type="text" id="menu-name1" name="menu-name1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="listFood1">Danh sách các món</label>
+                                            <textarea id="listFood1" name="listFood1" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-price1">Đơn giá</label>
+                                            <input type="number" id="menu-price1" name="menu-price1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-image1">Upload hình ảnh</label>
+                                            <input type="file" id="menu-image1" name="menu-image1" accept="image/*" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="delete-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Xóa Thực Đơn</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="code2">Mã thực đơn</label>
+                                            <input type="text" id="code2" name="name2" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name2">Tên thực đơn</label>
+                                            <input type="text" id="menu-name2" name="menu-name2" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="edit-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Sửa Thực Đơn</h2>
+                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="menu-name3">Tên dịch vụ</label>
+                                            <input type="text" id="menu-name3" name="menu-name3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="listFood2">Danh sách các món</label>
+                                            <textarea id="listFood2" name="listFood2" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-price3">Đơn giá</label>
+                                            <input type="number" id="menu-price3" name="menu-price3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-image3">Upload hình ảnh</label>
+                                            <input type="file" id="menu-image3" name="menu-image3" accept="image/*" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -232,29 +648,26 @@
     <script src="static/TuyChinh/js/script.js"></script>
     <script src="static/TuyChinh/js/pagination.js"></script>
     <script>
-        var paymentStatus = document.querySelector("td:nth-child(7)").innerText.trim();
-
+        // Lấy giá trị của cột "Tình trạng thanh toán"
+        var paymentStatus = document.querySelector("td:nth-child(8)").innerText.trim();
+        console.log('Payment Status:', paymentStatus);
         // Lấy nút áp dụng phạt
         var applyPenaltyButton = document.getElementById("applyPenaltyButton");
-
-        // Lấy nút thanh toán
-        var paymentButton = document.getElementById("paymentButton");
-
+        
         // Kiểm tra nếu "Tình trạng thanh toán" là "Quá Hạn" thì kích hoạt nút áp dụng phạt
         if (paymentStatus === "Quá Hạn") {
-        applyPenaltyButton.disabled = false;
-        paymentButton.disabled = false;
-        }else if (paymentStatus === "Đã Thanh Toán") {
-            applyPenaltyButton.disabled = true;
-            paymentButton.disabled = true;
-        }else if (paymentStatus === "Chưa Thanh Toán") {
-        applyPenaltyButton.disabled = true;
-        paymentButton.disabled = false;
+            applyPenaltyButton.disabled = false;
         } else {
-        applyPenaltyButton.disabled = true;
-        paymentButton.disabled = true;
+            applyPenaltyButton.disabled = true;
         }
     </script>
+
+    
+    
+    
+    
+    
+    
     
 </body>
 

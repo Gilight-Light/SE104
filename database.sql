@@ -62,7 +62,7 @@ create table HOADON
  TongTienBan int not null,
  TongTienThucDon int not null,
  TongTienHoaDon int not null,
-
+ TinhTrangThanhToan NVARCHAR(100)
 )
 
 CREATE TABLE THANHTOAN
@@ -753,3 +753,23 @@ BEGIN
     JOIN inserted AS i ON hd.MaHoaDon = i.MaHoaDon;
 END
 
+CREATE OR ALTER PROCEDURE GetAllInvoiceDetails
+AS
+BEGIN
+    SELECT
+        ND.FullName AS 'Họ Tên',
+        ND.Email AS 'Tên đăng nhập',
+        ND.PhoneNumber AS 'Số điện thoại',
+        HD.MaHoaDon AS 'Mã hóa đơn',
+        HD.TongTienHoaDon AS 'Tổng tiền thanh toán',
+        HD.NgayThanhToan AS 'Ngày thanh toán',
+        HD.TinhTrangThanhToan AS 'Tình trạng thanh toán'
+    FROM
+        HOADON HD
+    JOIN
+        TIECCUOI TC ON HD.MaTiecCuoi = TC.MaTiecCuoi
+    JOIN
+        NGUOIDUNG ND ON TC.UserID = ND.UserID;
+END;
+
+EXEC GetAllInvoiceDetails;

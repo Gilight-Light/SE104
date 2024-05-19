@@ -34,15 +34,13 @@
     margin-left: 18px;
     list-style: none;
     color: #fff;
+    display: flex;
+    flex-flow: column;
 }
 
 .navbar-item {
     padding: 8px 0;
     cursor: pointer;
-}
-
-.navbar-item:last-child {
-    margin-top: 170px;
 }
 
 .navbar-item:last-child a {
@@ -175,7 +173,10 @@
     margin: 36px 20px 0 20px;
 }
 
-.guest-data {
+.guest-data,
+.lobby-data,
+.service-data,
+.food-data {
     margin: 36px 20px 0 20px;
 }
 
@@ -188,6 +189,22 @@
 
 .btn:hover {
     opacity: 0.8;
+}
+
+.prevBtn,
+.nextBtn {
+    line-height: 36px;
+    font-size: 18px;
+    padding: 0 10px;
+    margin: 0 4px;
+    
+}
+
+.prevBtn:hover,
+.nextBtn:hover {
+    border-radius: 45%;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .card {
@@ -630,6 +647,14 @@
     }
 }
 
+#datatablesService {
+    width: 50%;
+}
+
+#datatablesService + .datatable-bottom>nav:last-child {
+    float: left;
+}
+
 .pagination,
 .datatable-pagination ul {
     --bs-pagination-padding-x: 0.75rem;
@@ -918,6 +943,10 @@
 
 .datatable-pagination li.datatable-hidden {
     visibility: visible;
+}
+
+.datatable-pagination {
+    display: flex;
 }
 
 .btn-datatable {
@@ -1708,4 +1737,119 @@ textarea.form-control-lg {
 .input-group>.form-floating:not(:first-child)>.datatable-selector {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.selector {
+    display: flex;
+    align-items: center;
+    margin: 35px;
+    margin-bottom: 20px;
+}
+
+.selector label {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #333;
+}
+
+.selector select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.selector select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+}
+
+.form-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 10px;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    padding: 3px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.form-actions .btn-submit {
+    background: #007bff;
+    color: #fff;
+}
+
+.form-actions .btn-submit:hover {
+    background: #0056b3;
+}
+
+.form-actions .btn-cancel {
+    background: #f44336;
+    color: #fff;
+}
+
+.form-actions .btn-cancel:hover {
+    background: #c0392b;
 }
