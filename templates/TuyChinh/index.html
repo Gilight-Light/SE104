@@ -323,10 +323,10 @@
                             <div class="form-row" id="delete-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Xóa Sảnh</h2>
-                                    <form action="{{ url_for('tuychinh_bp.Themsanh') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.Xoasanh') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="code1">Mã sảnh</label>
-                                            <input type="text" id="code1" name="name2" required>
+                                            <input type="text" id="code1" name="MaSanh" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -338,7 +338,11 @@
                             <div class="form-row" id="edit-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Sửa Sảnh</h2>
-                                    <form action="{{ url_for('tuychinh_bp.Themsanh') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.SuaSanh') }}" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="lobby-name3">Mã sảnh</label>
+                                            <input type="text" id="lobby-name3" name="MaSanh" required>
+                                        </div>
                                         <div class="form-group">
                                             <label for="lobby-name3">Tên sảnh</label>
                                             <input type="text" id="lobby-name3" name="TenSanh" required>
@@ -398,11 +402,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for post in dichvu %}
                                                     <tr data-index="0">
-                                                        <td>1</td>
-                                                        <td>System Architect</td>
-                                                        <td>Edinburgh</td>
+                                                        <td>{{post['MaDichVu']}}</td>
+                                                        <td>{{post['TenDichVu']}}</td>
+                                                        <td>{{post['DonGia']}}</td>
                                                     </tr>
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                             
@@ -426,18 +432,18 @@
                             <div class="form-row" id="add-hall">
                                 <div class="form-container">
                                     <h2>Thêm Dịch Vụ Mới</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.ThemDichVu') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="service-name1">Tên dịch vụ</label>
-                                            <input type="text" id="service-name1" name="service-name1" required>
+                                            <input type="text" id="service-name1" name="TenDichVu" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="service-price1">Đơn giá</label>
-                                            <input type="number" id="service-price1" name="service-price1" required>
+                                            <input type="number" id="service-price1" name="DonGia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="service-image1">Upload hình ảnh</label>
-                                            <input type="file" id="service-image1" name="service-image1" accept="image/*" required>
+                                            <input type="file" id="service-image1" name="img" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -449,14 +455,10 @@
                             <div class="form-row" id="delete-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Xóa Dịch Vụ</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.XoaDichVu') }}" method="POST"enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="code2">Mã dịch vụ</label>
-                                            <input type="text" id="code2" name="name2" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="service-name2">Tên dịch vụ</label>
-                                            <input type="text" id="service-name2" name="service-name2" required>
+                                            <input type="text" id="code2" name="MaDichVu" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -468,18 +470,22 @@
                             <div class="form-row" id="edit-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Sửa Dịch Vụ</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.SuaDichVu') }}" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="service-name3">Mã Dịch Vụ</label>
+                                            <input type="text" id="service-name3" name="MaDichVu" required>
+                                        </div>
                                         <div class="form-group">
                                             <label for="service-name3">Tên dịch vụ</label>
-                                            <input type="text" id="service-name3" name="service-name3" required>
+                                            <input type="text" id="service-name3" name="TenDichVu" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="service-price3">Đơn giá</label>
-                                            <input type="number" id="service-price3" name="service-price3" required>
+                                            <input type="number" id="service-price3" name="DonGia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="service-image3">Upload hình ảnh</label>
-                                            <input type="file" id="service-image3" name="service-image3" accept="image/*" required>
+                                            <input type="file" id="service-image3" name="img" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -528,15 +534,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for post in thucdon %}
                                                     <tr data-index="0">
-                                                        <td>TD01</td>
-                                                        <td>Set Hoàng Gia</td>
-                                                        <td>Rau rác</td>
-                                                        <td>tôm hấp, bò xào, cá ...</td>
-                                                        <td>chè khúc bạch</td>
-                                                        <td>tiger, nước suối, pepsi</td>
-                                                        <td>$320,800</td>
+                                                        <td>{{post['MaThucDon']}}</td>
+                                                        <td>{{post['TenThucDon']}}</td>
+                                                        <td>{{post['MonKhaiVi']}}</td>
+                                                        <td>{{post['MonChinh']}}</td>
+                                                        <td>{{post['MonTrangMieng']}}</td>
+                                                        <td>{{post['ThucUong']}}</td>
+                                                        <td>${{post['DonGia']}}</td>
                                                     </tr>
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                             
@@ -563,19 +571,47 @@
                                     <form action="/submit" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="menu-name1">Tên thực đơn</label>
-                                            <input type="text" id="menu-name1" name="menu-name1" required>
+                                            <input type="text" id="menu-name1" name="TenThucDon" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="listFood1">Danh sách các món</label>
-                                            <textarea id="listFood1" name="listFood1" required></textarea>
+                                            <label for="menu-name1">Món Khai Vị</label>
+                                            <input type="text" id="menu-name1" name="MonKhaiVi" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Chính 1</label>
+                                            <input type="text" id="menu-name1" name="MonChinh1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Chính 2</label>
+                                            <input type="text" id="menu-name1" name="MonChinh2" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Chính 3</label>
+                                            <input type="text" id="menu-name1" name="MonChinh3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Lẩu</label>
+                                            <input type="text" id="menu-name1" name="MonLau" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Tráng Miệng</label>
+                                            <input type="text" id="menu-name1" name="MonTrangMieng" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Thức Uống Có Cồn</label>
+                                            <input type="text" id="menu-name1" name="Bia" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Nước Ngọt</label>
+                                            <input type="text" id="menu-name1" name="NuocNgot" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="menu-price1">Đơn giá</label>
-                                            <input type="number" id="menu-price1" name="menu-price1" required>
+                                            <input type="number" id="menu-price1" name="DonGia" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="menu-image1">Upload hình ảnh</label>
-                                            <input type="file" id="menu-image1" name="menu-image1" accept="image/*" required>
+                                            <input type="file" id="menu-image1" name="image" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>

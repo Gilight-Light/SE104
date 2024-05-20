@@ -20,6 +20,13 @@ def tuychinh():
         SELECT * FROM SANH
     """
     
+    sql_query_dichvu =  """
+        SELECT * FROM DICHVU
+    """
+    
+    sql_query_thucdon =  """
+        SELECT * FROM THUCDON
+    """
     # Thực thi câu lệnh SQL với tham số
     # Khách Hàng
     cursor.execute(sql_query)
@@ -38,7 +45,20 @@ def tuychinh():
               'DonGia': str(row[2]), 'DiaChi': str(row[3]), 'SoBan': str(random.choice(list(range(35,70,5))))} \
              for row in data_from_db_sanh]
 
-
+    # Dịch Vụ
+    cursor.execute(sql_query_dichvu)
+    data_from_db_dichvu = cursor.fetchall()
+    dichvu = [{'MaDichVu': str(row[0]), 'TenDichVu': str(row[1]),'DonGia': str(row[2])} \
+             for row in data_from_db]
+    
+    # Thực Đơn
+    cursor.execute(sql_query_thucdon)
+    data_from_db_dichvu = cursor.fetchall()
+    thucdon = [{'MaThucDon': str(row[0]), 'TenThucDon': str(row[10]),\
+              'MonKhaiVi': str(row[1]), 'MonChinh': str(row[2]) + ' - ' + str(row[3])+ ' - ' + str(row[4])+ ' - ' + str(row[5]),\
+                'MonTrangMieng': str(row[6]),'ThucUong': str(row[7]) + ' - ' + str(row[8]),\
+                    'DonGia': str(row[9])} \
+             for row in data_from_db]
     # Đóng kết nối
     cursor.close()
     conn.close()
@@ -48,7 +68,7 @@ def tuychinh():
     'phonenumber' : session['phonenumber']
     }
     
-    return render_template('TuyChinh/index.html',khachhang = khachhang, user = session['userid'], info = info, sanh = sanh) 
+    return render_template('TuyChinh/index.html',khachhang = khachhang, user = session['userid'], info = info, sanh = sanh, dichvu = dichvu, thucdon = thucdon) 
 
 @tuychinh_bp.route('/managesanh', methods = ["POST"])
 def Themsanh():
@@ -80,7 +100,163 @@ def Themsanh():
     cursor.close()
     conn.close()
     return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/XoaSanh', methods = ["POST"])
 def Xoasanh():
-    MaSanh = str(request.form.get('MaSanh'))
-    file_path = os.path.join('static')
-    
+    MaSanh = int(request.form.get('MaSanh'))
+    file_name = str(MaSanh) + '.jpg'
+    file_path = os.path.join('static','SanhCuoi','img',file_name)
+    os.remove(file_path)
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        exec XoaSanh @MaSanh = ?
+;
+    """
+    cursor.execute(sql_query, (MaSanh))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/Suasanh', methods = ["POST"])
+def SuaSanh():
+    MaSanh = int(request.form.get('MaSanh'))
+    TenSanh = str(request.form.get('TenSanh'))
+    DonGia = Decimal(str("{:.2f}".format(float(request.form.get('DonGia')))))
+    DiaChi = str(request.form.get('DiaChi'))
+    img = request.files['image']
+    file_name = str(MaSanh) + '.jpg'
+    file_path = os.path.join('static','SanhCuoi','img',file_name)
+    img.save(file_path)
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        UPDATE SANH
+        SET TenSanh = ?, DonGia = ?, DiaChi = ?
+        WHERE MaSanh = ?;
+    """
+    cursor.execute(sql_query, (TenSanh,DonGia,DiaChi,MaSanh))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+
+@tuychinh_bp.route('/ThemDichVu', methods = ["POST"])
+def ThemDichVu():
+    TenDichVu = str(request.form.get('TenDichVu'))
+    DonGia = Decimal(str("{:.2f}".format(float(request.form.get('DonGia')))))
+    img = request.files['image']
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        EXEC ThemDichVu @TenDichVu = ?, @DonGia = ?
+    """
+    cursor.execute(sql_query, (TenDichVu,DonGia))
+    file_name = cursor.fetchone()[0]
+    file_name = str(file_name) + ".jpg"
+    file_path = os.path.join('static', 'DichVu', 'img',file_name)
+    img.save(file_path)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/XoaDichVu', methods = ["POST"])
+def XoaDichVu():
+    MaDichVu = request.form.get('MaDichVu')
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        EXEC DeleteDichVuWithDependencies @MaDichVu = ?;
+    """
+    cursor.execute(sql_query, (MaDichVu))
+    file_name = str(MaDichVu)
+    file_name = str(file_name) + ".jpg"
+    file_path = os.path.join('static', 'DichVu', 'img',file_name)
+    os.remove(file_path)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+
+@tuychinh_bp.route('/SuaDichVu', methods = ["POST"])
+def SuaDichVu():
+    MaDichVu = int(request.form.get('MaDichVu'))
+    TenDichVu = str(request.form.get('TenDichVu'))
+    DonGia = Decimal(str("{:.2f}".format(float(request.form.get('DonGia')))))
+    img = request.files['image']
+    file_name = str(MaDichVu) + '.jpg'
+    file_path = os.path.join('static','DichVu','img',file_name)
+    img.save(file_path)
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        UPDATE DICHVU
+        SET TenDichVu = ?, DonGia = ?
+        WHERE MaDichVu = ?;
+    """
+    cursor.execute(sql_query, (TenDichVu,DonGia,MaDichVu))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/ThemThucDon', methods = ["POST"])
+def ThemThucDon():
+    TenThucDon = str(request.form.get('TenThucDon'))
+    MonKhaiVi = str(request.form.get('MonKhaiVi'))
+    MonChinh1 = str(request.form.get('MonChinh1'))
+    MonChinh2 = str(request.form.get('MonChinh2'))
+    MonChinh3 = str(request.form.get('MonChinh3'))
+    MonLau = str(request.form.get('MonLau'))
+    MonTrangMieng = str(request.form.get('MonTrangMieng'))
+    Bia = str(request.form.get('Bia'))
+    NuocNgot = str(request.form.get('NuocNgot'))
+    DonGia = Decimal(str("{:.2f}".format(float(request.form.get('DonGia')))))
+    img = request.files['image']
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+         EXEC ThemThucDon 
+            @MonKhaiVi = ?, 
+            @MonChinh1 = ?, 
+            @MonChinh2 = ?, 
+            @MonChinh3 = ?, 
+            @Lau = ?, 
+            @TrangMieng = ?, 
+            @Bia = ?, 
+            @NuocNgot = ?, 
+            @GiaThucDon = ?, 
+            @TenThucDon = ?
+    """
+    cursor.execute(sql_query, (MonKhaiVi, MonChinh1, MonChinh2, MonChinh3, MonLau,\
+                               MonTrangMieng, Bia, NuocNgot, DonGia, TenThucDon))
+    file_name = cursor.fetchone()[0]
+    file_name = str(file_name) + ".jpg"
+    file_path = os.path.join('static', 'Menu', 'img',file_name)
+    img.save(file_path)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))

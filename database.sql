@@ -62,12 +62,8 @@ create table HOADON
  TongTienBan int not null,
  TongTienThucDon int not null,
  TongTienHoaDon int not null,
-<<<<<<< HEAD
- TinhTrangThanhToan NVARCHAR(100)
-=======
- TinhTrangThanhToan NVARCHAR(20) NOT NULL,
+ TinhTrangThanhToan NVARCHAR(100) NOT NULL,
 
->>>>>>> dfdfc600baa2c631c5094b92881c91cc23ba9da8
 )
 
 CREATE TABLE THANHTOAN
@@ -972,3 +968,21 @@ BEGIN
     SELECT @NewMaSanh AS NewMaSanh;
 END;
 
+CREATE PROCEDURE ThemDichVu (
+    @TenDichVu NVARCHAR(255),
+    @DonGia DECIMAL(13, 2)
+)
+AS
+BEGIN
+    DECLARE @MaDichVu INT;
+
+    -- Tìm số lượng bản ghi hiện có trong bảng DICHVU
+    SELECT @MaDichVu = COUNT(*) + 1 FROM DICHVU;
+
+    -- Thêm dịch vụ mới vào bảng DICHVU
+    INSERT INTO DICHVU (MaDichVu, TenDichVu, DonGia)
+    VALUES (@MaDichVu, @TenDichVu, @DonGia);
+    
+    -- Trả về MaDichVu của dịch vụ vừa được thêm vào
+    SELECT @MaDichVu AS MaDichVu;
+END;
