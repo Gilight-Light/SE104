@@ -17,8 +17,8 @@
     <div class="main">
         <div class="user">
             <div class="user-info">
-                <p class="user-name">Van A</p>
-                <p class="user-email">useradmin@gmail.com</p>
+                <p class="user-name">{{info['fullname']}}</p>
+                <p class="user-email">{{info['email']}}</p>
             </div>
             <img src="static/TuyChinh/img/info.png" alt="" class="user-img">
         </div>
@@ -26,7 +26,7 @@
         <aside class="side-bar">
             <div class="navbar-user">
                 <img src="static/TuyChinh/img/info.png" alt="" class="navbar-user-img">
-                <span class="navbar-user-name">useradmin@gmail.com</span>
+                <span class="navbar-user-name">{{info['email']}}</span>
             </div>
 
             <div class="navbar">
@@ -443,7 +443,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="service-image1">Upload hình ảnh</label>
-                                            <input type="file" id="service-image1" name="img" accept="image/*" required>
+                                            <input type="file" id="service-image1" name="image" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -485,7 +485,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="service-image3">Upload hình ảnh</label>
-                                            <input type="file" id="service-image3" name="img" accept="image/*" required>
+                                            <input type="file" id="service-image3" name="image" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -568,7 +568,7 @@
                             <div class="form-row" id="add-hall">
                                 <div class="form-container">
                                     <h2>Thêm Thực Đơn Mới</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.ThemThucDon') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="menu-name1">Tên thực đơn</label>
                                             <input type="text" id="menu-name1" name="TenThucDon" required>
@@ -623,14 +623,10 @@
                             <div class="form-row" id="delete-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Xóa Thực Đơn</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.XoaThucDon') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="code2">Mã thực đơn</label>
-                                            <input type="text" id="code2" name="name2" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="menu-name2">Tên thực đơn</label>
-                                            <input type="text" id="menu-name2" name="menu-name2" required>
+                                            <input type="text" id="code2" name="MaThucDon" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -642,22 +638,54 @@
                             <div class="form-row" id="edit-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Sửa Thực Đơn</h2>
-                                    <form action="/submit" method="post" enctype="multipart/form-data">
+                                    <form action="{{ url_for('tuychinh_bp.SuaThucDon') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
-                                            <label for="menu-name3">Tên dịch vụ</label>
-                                            <input type="text" id="menu-name3" name="menu-name3" required>
+                                            <label for="menu-name1">Mã Thực Đơn</label>
+                                            <input type="text" id="menu-name1" name="MaThucDon" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="listFood2">Danh sách các món</label>
-                                            <textarea id="listFood2" name="listFood2" required></textarea>
+                                            <label for="menu-name1">Tên thực đơn</label>
+                                            <input type="text" id="menu-name1" name="TenThucDon" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="menu-price3">Đơn giá</label>
-                                            <input type="number" id="menu-price3" name="menu-price3" required>
+                                            <label for="menu-name1">Món Khai Vị</label>
+                                            <input type="text" id="menu-name1" name="MonKhaiVi" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="menu-image3">Upload hình ảnh</label>
-                                            <input type="file" id="menu-image3" name="menu-image3" accept="image/*" required>
+                                            <label for="menu-name1">Món Chính 1</label>
+                                            <input type="text" id="menu-name1" name="MonChinh1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Chính 2</label>
+                                            <input type="text" id="menu-name1" name="MonChinh2" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Chính 3</label>
+                                            <input type="text" id="menu-name1" name="MonChinh3" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Lẩu</label>
+                                            <input type="text" id="menu-name1" name="MonLau" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Món Tráng Miệng</label>
+                                            <input type="text" id="menu-name1" name="MonTrangMieng" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Thức Uống Có Cồn</label>
+                                            <input type="text" id="menu-name1" name="Bia" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-name1">Nước Ngọt</label>
+                                            <input type="text" id="menu-name1" name="NuocNgot" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-price1">Đơn giá</label>
+                                            <input type="number" id="menu-price1" name="DonGia" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="menu-image1">Upload hình ảnh</label>
+                                            <input type="file" id="menu-image1" name="image" accept="image/*" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>

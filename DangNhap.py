@@ -15,6 +15,7 @@ def login():
     session['Order_SanhCuoi'] = None
     session['Order_ThucDon'] = None
     session['Order_DichVu'] = None
+    session['TongTien'] = None
     return render_template('Dangnhap/signIn.html')
 
 

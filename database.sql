@@ -986,3 +986,20 @@ BEGIN
     -- Trả về MaDichVu của dịch vụ vừa được thêm vào
     SELECT @MaDichVu AS MaDichVu;
 END;
+
+
+
+IF EXISTS (
+    SELECT 1
+    FROM [SE104].[dbo].[CA]
+    WHERE [ThoiGianBatDau] > DATEADD(DAY, 2, GETDATE())
+)
+BEGIN
+    SELECT [MaCa], [ThoiGianBatDau], [ThoiGianKetThuc]
+    FROM [SE104].[dbo].[CA]
+    WHERE [ThoiGianBatDau] > DATEADD(DAY, 2, GETDATE())
+END
+ELSE
+BEGIN
+    SELECT N'Full Lịch' AS Result
+END

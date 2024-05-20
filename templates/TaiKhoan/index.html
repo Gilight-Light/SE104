@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/style.css') }}">
-    <link rel="stylesheet" href="../fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='TaiKhoan/css/wedding.css') }}">
+    <link rel="stylesheet" href="/fontawesome-free-6.4.2-web/css/all.min.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 
 </head>
 <body>
 
-    <nav>
-        <div class="toggle_menu"><ion-icon name="menu-outline"></ion-icon></div>
+      <nav>
         <ul>
             <li>
                 <a href="/home">
@@ -35,19 +36,25 @@
                 </a>
             </li>
             <li>
+                <a href="/thucdon">
+                    <ion-icon name="fast-food-outline"></ion-icon>
+                    <strong>Thực đơn</strong>
+                </a>
+            </li>
+            <li>
                 <a href="/offering">
-                    <ion-icon name="beer-outline"></ion-icon>
+                    <ion-icon name="wine-outline"></ion-icon>
                     <strong>Dịch vụ</strong>
                 </a>
             </li>
             {% if authe is not none %}
-                <li>
-                    <a href="/tuychinh">
-                        <ion-icon name="build-outline"></ion-icon>
-                        <strong>Tùy chỉnh</strong>
-                    </a>
-                </li>
-            {% endif %}
+            <li>
+                <a href="/tuychinh">
+                    <ion-icon name="build-outline"></ion-icon>
+                    <strong>Tùy chỉnh</strong>
+                </a>
+            </li>
+        {% endif %}
             <li class="change-password">
                 <a href="#">
                     <ion-icon name="key-outline"></ion-icon>
@@ -70,7 +77,6 @@
                     <h2>Thông tin người dùng</h2> 
                 </div>
             </div>
-            <div class="divider"></div>
             <div class="wrapper">
                     <div class="wrapper-info">
                         <h2>Profile</h2>
@@ -78,13 +84,13 @@
                             <form class="form" autocomplete="off">
                                 <div class="form-group">
                                     <label for="email"><strong>Email</strong></label>
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        id="email"
-                                        placeholder="{{info['email']}}"
-                                        class="form-input"
-                                    />
+                                        <input
+                                            type="email"
+                                            name="Email"
+                                            id="email"
+                                            placeholder="{{info['email']}}"
+                                            class="form-input"
+                                        />
                                 </div>
                                 <div class="form-group">
                                     <label for="name"><strong>Họ tên</strong></label>
@@ -97,14 +103,14 @@
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone-number"><strong>Số điện thoại</strong></label>
-                                    <input
-                                        type="text"
-                                        name="Số điện thoại"
-                                        id="phone-number"
-                                        placeholder="{{info['phonenumber']}}"
-                                        class="form-input"
-                                    />
+                                    <label for="phone"><strong>Số điện thoại</strong></label>
+                                         <input
+                                             type="tel"
+                                            name="Số điện thoại"
+                                            id="phone"
+                                            placeholder="{{info['phonenumber']}}"
+                                            class="form-input"
+                                        />
                                 </div>
                                 {% if authe is not none %}
                                     <div class="form-group">
@@ -129,9 +135,9 @@
                                         />
                                     </div>
                                 {% endif %}
-                                <button type="submit" class="form-btn">
-                                    Save
-                                </button>
+                                <div class="button-save">
+                                    <button id="saveButton">Save</button>
+                                </div>
                             </form>
                          </div>
                     </div>
@@ -145,9 +151,106 @@
                 </div>
                 <img src="static/TaiKhoan/img/info.png" alt="" class="img">
             </div>
-            <img src="static/TaiKhoan/img/info.png" alt="" width="300px">
-        </div>  
-    </main>
+            <div class="wrapper-wedding">
+                <div class="wrapper">
+                    <div class="wrapper-info">
+                        <h2>My Wedding</h2>
+                        <div class="checkoutLayout">
+                            <div class="main">
+                                <form action="{{ url_for('taikhoan_bp.update') }}" method="POST" enctype="multipart/form-data" id="weddingForm">
+                                    <div class="form-group">
+                                        <div for="name" class="client-name"><strong>Họ tên</strong></div>
+                                        <input
+                                            type="text"
+                                            name="HoTen"
+                                            id="name2"
+                                            placeholder="{{info['fullname']}}"
+                                            class="form-input"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <div for="appointment-time" class="time-tittle"><strong>Thời gian</strong></div>
+                                        <input type="datetime-local" name="ThoiGian" id="appointment-time" class="form-input" list="allowedTimes" />
+                                        <datalist id="allowedTimes">
+                                            <option value="2024-05-01T08:00:00">2024-05-01 08:00:00</option>
+                                            <option value="2024-05-01T12:00:00">2024-05-01 12:00:00</option>
+                                            <option value="2024-05-01T13:00:00">2024-05-01 13:00:00</option>
+                                            <option value="2024-05-01T17:00:00">2024-05-01 17:00:00</option>
+                                            <option value="2024-05-02T08:00:00">2024-05-02 08:00:00</option>
+                                            <option value="2024-05-02T12:00:00">2024-05-02 12:00:00</option>
+                                            <option value="2024-05-02T13:00:00">2024-05-02 13:00:00</option>
+                                            <option value="2024-05-02T17:00:00">2024-05-02 17:00:00</option>
+                                            <option value="2024-05-03T08:00:00">2024-05-03 08:00:00</option>
+                                            <option value="2024-05-03T12:00:00">2024-05-03 12:00:00</option>
+                                        </datalist>
+                                        <div for="payment-time" class="time-tittle"><strong>Ngày thanh toán</strong></div>
+                                        <input
+                                            type="datetime-local"
+                                            name="NgayThanhToan"
+                                            id="payment-time"
+                                            class="form-input"
+                                            readonly
+                                        />
+                                    </div>
+                                    <div id="checkoutForm">
+                                        <div class="section">
+                                            <h2>Sảnh cưới</h2>
+                                            <div class="venue">
+                                                <div class="info">
+                                                    <img src="{{ordersanh['DuongDanAnh']}}" class="image">
+                                                    <div class="name">{{ordersanh['TenSanh']}}</div>
+                                                    <div class="tables">Số lượng bàn: 20</div>
+                                                    <div class="price">Đơn giá: ${{ordersanh['DonGia']}}/Bàn</div>
+                                                    <div class="address">Địa chỉ: {{ordersanh['DiaChi']}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+            
+                                        <div class="section">
+                                            <h2>Thực đơn</h2>
+                                            <div class="menu">
+                                                <div class="info">
+                                                    <img src="{{orderthucdon['DuongDanAnh']}}" class="image">
+                                                    <div class="name">{{orderthucdon['TenThucDon']}}</div>
+                                                    <ul class="items">
+                                                        <li>{{orderthucdon['Mon1']}}</li>
+                                                        <li>{{orderthucdon['Mon2']}}</li>
+                                                        <li>{{orderthucdon['Mon3']}}</li>
+                                                        <li>{{orderthucdon['Mon4']}}</li>
+                                                        <li>{{orderthucdon['Mon5']}}</li>
+                                                        <li>{{orderthucdon['Mon6']}}</li>
+                                                        <li>{{orderthucdon['Bia']}} + {{orderthucdon['NuocNgot']}}</li>
+                                                    </ul>
+                                                    <div class="price">Đơn giá: ${{orderthucdon['DonGia']}}/Bàn</div>
+                                                </div>
+                                            </div>
+                                        </div>
+            
+                                        <div class="section">
+                                            <h2>Dịch vụ</h2>
+                                            {% for post in orderdichvu %}
+                                                <div class="service">
+                                                    <div class="info">
+                                                        <img src="{{post['DuongDanAnh']}}" class="image">
+                                                        <div class="name">{{post['TenDichVu']}}</div>
+                                                        <div class="price">Đơn giá: ${{post['DonGia']}}</div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            
+                                        </div>
+                                        <div class="total-price">Tổng thanh toán: ${{tongtien}}</div>
+                                        <button type="submit" id="confirmButton">Xác nhận</button>
+                                        <button type="reset" id="cancelButton">Hủy Đăng ký</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+         </div>  
+    </main>    
 
     <!-- Modal -->
     <div class="modal js-modal">
@@ -174,10 +277,31 @@
         </div>
     </div>
 
-    <script src="static/TaiKhoan/js/changePassword.js"></script>
-    <script src="static/TaiKhoan/js/scpript.js"></script>
+    <script src="./assets/js/changePassword.js"></script>
+    <script>
+        let today = new Date();
+        let formattedDate = today.toISOString().substring(0, 16);
+        document.getElementById('payment-time').value = formattedDate;
+    </script>
+    <script>
+    document.getElementById('confirmButton').addEventListener('click', function(event) {
+        // Optional: Add any confirmation logic here
+        if (!confirm('Bạn có chắc chắn muốn xác nhận?')) {
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('confirmButton').addEventListener('click', function(event) {
+        // Optional: Add any confirmation logic here
+        if (!confirm('Bạn có chắc chắn muốn xác nhận?')) {
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+</script>
+    
 </body>
 
 
 </html>
-

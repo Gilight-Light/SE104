@@ -15,7 +15,11 @@ def taikhoan():
     'fullname' : session['fullname'],
     'phonenumber' : session['phonenumber']
     }
-    return render_template('TaiKhoan/index.html', user = user, authe = authe, info = info)
+    session['TongTien'] = int(session['Order_SanhCuoi']['DonGia']) + int(session['Order_ThucDon']['DonGia']) + int(session['Order_DichVu'][0]['DonGia'])
+
+    return render_template('TaiKhoan/index.html', user = user, authe = authe, info = info,\
+                            ordersanh = session['Order_SanhCuoi'], orderthucdon = session['Order_ThucDon'], orderdichvu = session['Order_DichVu'],\
+                                tongtien = session['TongTien'])
 
 @taikhoan_bp.route('/update')
 def update():

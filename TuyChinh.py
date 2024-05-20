@@ -27,6 +27,10 @@ def tuychinh():
     sql_query_thucdon =  """
         SELECT * FROM THUCDON
     """
+
+    sql_query_hoadon =  """
+        SELECT * FROM HOADON
+    """
     # Thực thi câu lệnh SQL với tham số
     # Khách Hàng
     cursor.execute(sql_query)
@@ -49,16 +53,16 @@ def tuychinh():
     cursor.execute(sql_query_dichvu)
     data_from_db_dichvu = cursor.fetchall()
     dichvu = [{'MaDichVu': str(row[0]), 'TenDichVu': str(row[1]),'DonGia': str(row[2])} \
-             for row in data_from_db]
+             for row in data_from_db_dichvu]
     
     # Thực Đơn
     cursor.execute(sql_query_thucdon)
-    data_from_db_dichvu = cursor.fetchall()
+    data_from_db_ThucDon = cursor.fetchall()
     thucdon = [{'MaThucDon': str(row[0]), 'TenThucDon': str(row[10]),\
               'MonKhaiVi': str(row[1]), 'MonChinh': str(row[2]) + ' - ' + str(row[3])+ ' - ' + str(row[4])+ ' - ' + str(row[5]),\
                 'MonTrangMieng': str(row[6]),'ThucUong': str(row[7]) + ' - ' + str(row[8]),\
                     'DonGia': str(row[9])} \
-             for row in data_from_db]
+             for row in data_from_db_ThucDon]
     # Đóng kết nối
     cursor.close()
     conn.close()
@@ -163,6 +167,13 @@ def ThemDichVu():
         EXEC ThemDichVu @TenDichVu = ?, @DonGia = ?
     """
     cursor.execute(sql_query, (TenDichVu,DonGia))
+    conn.commit()
+    sql_query = """
+        SELECT TOP 1 MaDichVu  AS MaDichVu
+        FROM [SE104].[dbo].[DICHVU]
+        ORDER BY MaDichVu DESC;
+    """
+    cursor.execute(sql_query)
     file_name = cursor.fetchone()[0]
     file_name = str(file_name) + ".jpg"
     file_path = os.path.join('static', 'DichVu', 'img',file_name)
@@ -252,8 +263,71 @@ def ThemThucDon():
     """
     cursor.execute(sql_query, (MonKhaiVi, MonChinh1, MonChinh2, MonChinh3, MonLau,\
                                MonTrangMieng, Bia, NuocNgot, DonGia, TenThucDon))
+    conn.commit()
+    sql_query = """
+        SELECT TOP 1 MaThucDon  AS MaThucDon
+        FROM [SE104].[dbo].[THUCDON]
+        ORDER BY MaThucDon DESC;
+    """
+    cursor.execute(sql_query)
     file_name = cursor.fetchone()[0]
     file_name = str(file_name) + ".jpg"
+    file_path = os.path.join('static', 'Menu', 'img',file_name)
+    img.save(file_path)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+
+@tuychinh_bp.route('/XoaThucDon', methods = ["POST"])
+def XoaThucDon():
+    MaThucDon = request.form.get('MaThucDon')
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        EXEC XoaThucDon @MaThucDon = ?;
+    """
+    cursor.execute(sql_query, (MaThucDon))
+    file_name = str(MaThucDon)
+    file_name = str(file_name) + ".jpg"
+    file_path = os.path.join('static', 'Menu', 'img',file_name)
+    os.remove(file_path)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/SuaThucDon', methods = ["POST"])
+def SuaThucDon():
+    MaThucDon = str(request.form.get('MaThucDon'))
+    TenThucDon = str(request.form.get('TenThucDon'))
+    MonKhaiVi = str(request.form.get('MonKhaiVi'))
+    MonChinh1 = str(request.form.get('MonChinh1'))
+    MonChinh2 = str(request.form.get('MonChinh2'))
+    MonChinh3 = str(request.form.get('MonChinh3'))
+    MonLau = str(request.form.get('MonLau'))
+    MonTrangMieng = str(request.form.get('MonTrangMieng'))
+    Bia = str(request.form.get('Bia'))
+    NuocNgot = str(request.form.get('NuocNgot'))
+    DonGia = Decimal(str("{:.2f}".format(float(request.form.get('DonGia')))))
+    img = request.files['image']
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql_query = """
+        UPDATE THUCDON 
+        SET MonKhaiVi = ?, MonChinh1 = ?, MonChinh2 = ?, MonChinh3 = ?, Lau = ?, TrangMieng = ?, Bia = ?, NuocNgot = ?, GiaThucDon = ?, TenThucDon = ?
+        WHERE MaThucDon = ?
+     """
+    cursor.execute(sql_query, (MonKhaiVi, MonChinh1, MonChinh2, MonChinh3, MonLau,\
+                               MonTrangMieng, Bia, NuocNgot, DonGia, TenThucDon, MaThucDon))
+    file_name = str(MaThucDon) + ".jpg"
     file_path = os.path.join('static', 'Menu', 'img',file_name)
     img.save(file_path)
     conn.commit()

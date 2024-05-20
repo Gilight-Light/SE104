@@ -29,16 +29,21 @@ def offering():
 @offering_bp.route('/order', methods = ["POST"])
 def order():
     data = request.get_json()
+    ma_dich_vu_moi = int(data.get('MaDichVu'))
     if session['Order_DichVu'] is None:
         session['Order_DichVu'] = []
 
-    session['Order_DichVu'].append({
-        'MaDichVu': int(data.get('MaDichVu')),
-        'TenDichVu': str(data.get('TenDichVu'))[:250],
-        'DonGia': float(data.get('DonGia')),
-        'DuongDanAnh': str(data.get('DuongDanAnh'))[:250]
-    })
-    
+    exists = any(item['MaDichVu'] == ma_dich_vu_moi for item in session['Order_DichVu'])
+
+    # Nếu MaDichVu chưa tồn tại, thêm dịch vụ mới vào session
+    if not exists:
+        session['Order_DichVu'].append({
+            'MaDichVu': ma_dich_vu_moi,
+            'TenDichVu': str(data.get('TenDichVu'))[:250],
+            'DonGia': float(data.get('DonGia')),
+            'DuongDanAnh': str(data.get('DuongDanAnh'))[:250]
+        })
+        
     # Xử lý dữ liệu ở đây
     # Ví dụ: lưu vào database, xử lý đặt bàn, vv...
     return redirect(url_for('offering_bp.offering'))
