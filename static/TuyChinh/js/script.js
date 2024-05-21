@@ -49,7 +49,12 @@ arrayItem[2].onclick = function(e) {
         menu.classList.add("hidden")
     } else {
         statistical.classList.add("hidden")
-        
+    }
+    
+    // Loại bỏ lớp CSS .hidden khỏi phần chứa biểu đồ
+    var chartWrapper = document.querySelector('.chart-wrapper');
+    if (chartWrapper) {
+        chartWrapper.classList.remove('hidden');
     }
 }
 

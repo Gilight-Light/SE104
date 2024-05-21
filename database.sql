@@ -223,11 +223,11 @@ VALUES
 -- TABLE TIECCUOI
 INSERT INTO TIECCUOI (MaTiecCuoi, MaSanh, MaCa, MaThucDon, NgayToChuc, TienDatCoc, MaDichVu, SoLuongBan, SoLuongBanDuTru, UserID)
 VALUES
-    ('TC001', 1, 'Ca001', 1, '2024-05-01', 5000000, 1, 10, 2, 'KH001'),
-    ('TC002', 2, 'Ca002', 2, '2024-05-02', 6000000, 2, 15, 3, 'KH002'),
-    ('TC003', 3, 'Ca001', 3, '2024-05-03', 7000000, 3, 20, 4, 'KH003'),
-    ('TC004', 2, 'Ca002', 2, '2024-05-04', 8000000, 4, 25, 5, 'KH004'),
-    ('TC005', 1, 'Ca001', 1, '2024-05-05', 9000000, 5, 30, 6, 'KH005');
+    ('TC001', 1, 'Ca001', 1, 5000000, 1, 10, 2, 'KH001'),
+    ('TC002', 2, 'Ca002', 2, 6000000, 2, 15, 3, 'KH002'),
+    ('TC003', 3, 'Ca001', 3,  7000000, 3, 20, 4, 'KH003'),
+    ('TC004', 2, 'Ca002', 2, 8000000, 4, 25, 5, 'KH004'),
+    ('TC005', 1, 'Ca001', 1,  9000000, 5, 30, 6, 'KH005');
 
 -- TABLE NHANVIEN
 INSERT INTO NHANVIEN (MaNhanVien, MaCa, TenNhanVien, SoDienThoai, ChucVu)
@@ -1003,3 +1003,27 @@ ELSE
 BEGIN
     SELECT N'Full Lịch' AS Result
 END
+
+CREATE PROCEDURE InsertHoaDon
+    @MaTiecCuoi INT,
+    @NgayThanhToan DATE,
+    @TongTienThucDon DECIMAL(18, 2),
+    @TinhTrangThanhToan NVARCHAR(50),
+    @TienPhat INT
+AS
+BEGIN
+    -- Declare variables for the new MaHoaDon and for the calculated fields
+    DECLARE @NewMaHoaDon INT;
+    DECLARE @TongTienBan DECIMAL(18, 2) = 0; -- Assuming default value of 0, modify as needed
+    DECLARE @TongTienHoaDon DECIMAL(18, 2);
+
+    -- Get the next MaHoaDon value
+    SELECT @NewMaHoaDon = ISNULL(MAX(MaHoaDon), 0) + 1 FROM HOADON;
+
+    -- Calculate the total amount for the invoice
+    SET @TongTienHoaDon = @TongTienBan + @TongTienThucDon;
+
+    -- Insert the new record into the HOADON table
+    INSERT INTO HOADON (MaHoaDon, MaTiecCuoi, NgayThanhToan, TongTienBan, TongTienThucDon, TongTienHoaDon, TinhTrangThanhToan, TienPhat)
+    VALUES (@NewMaHoaDon, @MaTiecCuoi, @NgayThanhToan, @TongTienBan, @TongTienThucDon, @TongTienHoaDon, @TinhTrangThanhToan, @TienPhat);
+END;

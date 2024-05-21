@@ -16,6 +16,8 @@ def login():
     session['Order_ThucDon'] = None
     session['Order_DichVu'] = None
     session['TongTien'] = None
+    session['flag'] = None
+    session['flag_ex'] = None
     return render_template('Dangnhap/signIn.html')
 
 
@@ -111,6 +113,7 @@ def authesignup():
         conn.close()
         return render_template('Dangnhap/signUp.html', flag = 'Tạo thành công tài khoản')
     else: 
+        conn.close()
         return render_template('Dangnhap/signUp.html', flag = 'Tên đăng nhập đã tồn tại')
 
 

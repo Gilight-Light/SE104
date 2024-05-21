@@ -123,17 +123,21 @@
                                                         <td>${{post['TongTienThanhToan']}}</td>
                                                         <td>{{post['NgayThanhToan']}}</td>
                                                         <td>{{post['TinhTrangThanhToan']}}</td>
-                                                        <td>3000</td>
+                                                        <td>{{post['TienPhat']}}</td>
                                                         <td>
                                                             {% if post['TinhTrangThanhToan'] == "Quá Hạn" %}
-                                                            <button class="apply-penalty-button">Áp Dụng Phạt</button>
+                                                            <button class="apply-penalty-button" onclick="submitRole('{{ post.MaHoaDon }}','{{ post.TongTienThanhToan }}')">
+                                                                <a href="/tuychinh">Áp Dụng Phạt</a>
+                                                            </button>
                                                             {% else %}
                                                             <button class="apply-penalty-button" disabled>Áp Dụng Phạt</button>
                                                             {% endif %}                                           
                                                         </td>
                                                         <td>
                                                             {% if post['TinhTrangThanhToan'] != "Đã Thanh Toán" %}
-                                                            <button class="payment-button">Thanh Toán</button>
+                                                            <button class="payment-button" onclick="submitPay('{{ post.MaHoaDon }}','{{ post.TongTienThanhToan }}')">
+                                                                <a href="/tuychinh">Thanh Toán</a>
+                                                            </button>
                                                             {% else %}
                                                             <button class="payment-button" disabled>Thanh Toán</button>
                                                             {% endif %}
@@ -187,43 +191,46 @@
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="true" style="width: 10%;"><a
-                                                            href="#" class="datatable-sorter">Mã hóa đơn</a></th>
-                                                    <th data-sortable="true" style="width: 10%;"><a
-                                                            href="#" class="datatable-sorter">Mã tiệc cưới</a></th>
-                                         
-                                                    <th data-sortable="true" style="width: 14%;"><a
-                                                            href="#" class="datatable-sorter">Tổng tiền bàn</a></th>
-                                                    <th data-sortable="true" style="width: 14%;"><a
-                                                            href="#" class="datatable-sorter">Tổng tiền thực đơn</a></th>
-                                                    <th data-sortable="true" style="width: 14%;"><a
-                                                            href="#" class="datatable-sorter">Tổng tiền hóa đơn</a></th>
-                                                    <th data-sortable="true" style="width: 16%;"><a
-                                                            href="#" class="datatable-sorter">Tổng tiền hóa đơn</a></th>
-                                                    <th data-sortable="true" style="width: 16%;"><a
-                                                            href="#" class="datatable-sorter">Ngày Thanh Toán</a></th>
+                                                            href="#" class="datatable-sorter">Mã Báo Cáo</a></th>
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                                href="#" class="datatable-sorter">Tháng</a></th>
+                                            
+                                                        <th data-sortable="true" style="width: 14%;"><a
+                                                                href="#" class="datatable-sorter">Tổng Doanh Thu</a></th>
+                                                        <th data-sortable="true" style="width: 14%;"><a
+                                                                href="#" class="datatable-sorter">Tổng Tiền Giải Ngân</a></th>
+                                                        <th data-sortable="true" style="width: 14%;"><a
+                                                                href="#" class="datatable-sorter">Tổng Tiền Chưa Giải Ngân</a></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr data-index="0">
-                                                        <td>HD09</td>
-                                                        <td>TC09</td>
-
-                                                        <td>$231,200</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                        <td>$532.900</td>
-                                                        <td>$320,800</td>
-                                                    </tr>                                       
-
+                                                    {% for post in baocao %}
+                                                        <tr data-index="0">
+                                                            <td>{{post['MaBaoCao']}}</td>
+                                                            <td>{{post['Thang']}}</td>
+                                                            <td>{{post['TongDoanhThu']}}</td>
+                                                            <td>{{post['TienThu']}}</td>
+                                                            <td>{{post['TienNo']}}</td>
+                                                        </tr>
+                                                    {% endfor %}                                       
                                                 </tbody>
                                             </table>
                                             
-                                        </div>     
+                                        </div>   
+                                        
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+                        <div class="chart-wrapper">
+                            <div class="chart-container">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="lineChart"></canvas>
+                        </div>
+                        
                     </div>
 
                     <div class="lobby-management hidden">
@@ -719,11 +726,76 @@
         }
     </script>
 
-    
-    
-    
-    
-    
+<script>
+    function submitRole(MaHoaDon, TongTienThanhToan) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/role", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaHoaDon: MaHoaDon,
+            TongTienThanhToan: TongTienThanhToan
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+
+<script>
+    function submitPay(MaHoaDon, TongTienThanhToan) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/pay", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaHoaDon: MaHoaDon,
+            TongTienThanhToan: TongTienThanhToan
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Lấy dữ liệu từ Flask
+      const data = {{ baocao|tojson }};
+
+      // Vẽ biểu đồ đường
+      const lineChart = new Chart('lineChart', {
+        type: 'line',
+        data: {
+          labels: data.map(item => item.Thang),
+          datasets: [
+            { label: 'Tổng Doanh Thu', data: data.map(item => item.TongDoanhThu) },
+            { label: 'Tiền Đã Giải Ngân', data: data.map(item => item.TienThu) },
+            { label: 'Tiền Chưa Giải Ngân', data: data.map(item => item.TienNo) }
+          ]
+        }
+      });
+
+      // Vẽ biểu đồ cột
+      const barChart = new Chart('barChart', {
+        type: 'bar',
+        data: {
+          labels: data.map(item => item.Thang),
+          datasets: [
+            { label: 'Tổng Doanh Thu', data: data.map(item => item.TongDoanhThu) },
+            { label: 'Tiền Đã Giải Ngân', data: data.map(item => item.TienThu) },
+            { label: 'Tiền Chưa Giải Ngân', data: data.map(item => item.TienNo) }
+          ]
+        }
+      });
+    </script>
     
     
 </body>

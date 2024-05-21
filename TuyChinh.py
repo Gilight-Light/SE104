@@ -31,6 +31,9 @@ def tuychinh():
     sql_query_hoadon =  """
         SELECT * FROM HOADON
     """
+    sql_query_baocao = """
+        SELECT * FROM BAOCAODOANHTHU
+    """
     # Thực thi câu lệnh SQL với tham số
     # Khách Hàng
     cursor.execute(sql_query)
@@ -39,7 +42,7 @@ def tuychinh():
     data_from_db = cursor.fetchall()
     khachhang = [{'HoTen': str(row[0]), 'TenDangNhap': str(row[1]),\
               'SoDienThoai': str(row[2]), 'MaHoaDon': str(row[3]),'TongTienThanhToan': str(row[4]),\
-                'NgayThanhToan': str(row[5]),'TinhTrangThanhToan': str(row[6]), 'MaTiecCuoi': str(row[7])} \
+                'NgayThanhToan': str(row[5]),'TinhTrangThanhToan': str(row[6]), 'MaTiecCuoi': str(row[7]), 'TienPhat': str(row[8])} \
              for row in data_from_db]
     
     # Sảnh
@@ -63,6 +66,12 @@ def tuychinh():
                 'MonTrangMieng': str(row[6]),'ThucUong': str(row[7]) + ' - ' + str(row[8]),\
                     'DonGia': str(row[9])} \
              for row in data_from_db_ThucDon]
+    
+    # Báo Cáo Thống Kê
+    cursor.execute(sql_query_baocao)
+    data_from_db_baocao = cursor.fetchall()
+    baocao = [{'MaBaoCao': str(row[0]), 'Thang': str(row[1]),'TongDoanhThu': int(row[2])*100, 'TienThu':int(row[3])*100, 'TienNo': int(row[4])*100} \
+             for row in data_from_db_baocao]
     # Đóng kết nối
     cursor.close()
     conn.close()
@@ -72,7 +81,7 @@ def tuychinh():
     'phonenumber' : session['phonenumber']
     }
     
-    return render_template('TuyChinh/index.html',khachhang = khachhang, user = session['userid'], info = info, sanh = sanh, dichvu = dichvu, thucdon = thucdon) 
+    return render_template('TuyChinh/index.html',khachhang = khachhang, user = session['userid'], info = info, sanh = sanh, dichvu = dichvu, thucdon = thucdon, baocao =baocao) 
 
 @tuychinh_bp.route('/managesanh', methods = ["POST"])
 def Themsanh():
@@ -330,6 +339,52 @@ def SuaThucDon():
     file_name = str(MaThucDon) + ".jpg"
     file_path = os.path.join('static', 'Menu', 'img',file_name)
     img.save(file_path)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/role', methods = ['POST'])
+def role():
+    data = request.get_json()
+    MaHoaDon = int(data.get('MaHoaDon'))
+    TongTienThanhToan = int(data.get('TongTienThanhToan'))
+    TienPhat = int(TongTienThanhToan*0.09)
+    TinhTrangThanhToan = "Đã Áp Dụng Phạt"
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    sql_query = """
+        UPDATE HOADON
+        SET TienPhat = ? , TinhTrangThanhToan = ?
+        WHERE MaHoaDon = ?
+    """
+    
+    cursor = conn.cursor()
+    cursor.execute(sql_query,(TienPhat, TinhTrangThanhToan, MaHoaDon))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for('tuychinh_bp.tuychinh'))
+
+@tuychinh_bp.route('/pay', methods = ['POST'])
+def pay():
+    data = request.get_json()
+    MaHoaDon = int(data.get('MaHoaDon'))
+    TinhTrangThanhToan = 'Đã Thanh Toán'
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
+                              'SERVER=DESKTOP-VB58721;'
+                              'DATABASE=SE104;'
+                              'Trusted_Connection=yes;')
+    sql_query = """
+        UPDATE HOADON
+        SET TinhTrangThanhToan = ?
+        WHERE MaHoaDon = ?
+    """
+    
+    cursor = conn.cursor()
+    cursor.execute(sql_query,(TinhTrangThanhToan, MaHoaDon))
     conn.commit()
     cursor.close()
     conn.close()

@@ -5,13 +5,25 @@
     --ground: #FAFAF5;
     --stroke: #C2C2C2;
 }
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
+canvas {
+  max-width: 800px;
+  max-height: 300px; /* Tăng kích thước biểu đồ gấp đôi */
+  margin: 0 10px;
+}
 html, body{
     font-family: "Inter", sans-serif;
     font-size: 16px;
     height: 100%;
     box-sizing: border-box; 
 }
+
 .apply-penalty-button {
   background-color: red; /* Màu nền đỏ */
   color: white; /* Màu chữ trắng */
@@ -56,6 +68,12 @@ html, body{
     margin-top: 2%;
 
 }
+a.apply-penalty-button {
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  color: inherit; /* Kế thừa màu văn bản từ phần tử cha */
+}
+
+
 .success-message {
   position: fixed;
   bottom: 10px;

@@ -76,14 +76,20 @@
                             <div class="card-meta">
                                 <div class="card-price">
                                     <!-- Hiển thị giá -->
-                                    <b>{{ post['DonGia'] }}/ <span>Bàn</span></b>
+                                    <b>{{ post['DonGia'] }}<span>Bàn</span></b>
+                                </div>
+                                <div class="card-input">
+                                    <label for="soBan-{{ post['MaSanh'] }}">Số Bàn:</label>
+                                    <input type="number" id="soBan-{{ post['MaSanh'] }}" name="soBan" min="1" required>
                                 </div>
                             </div>
                             <div class="card-detail">
                                 <p class="card-desc">
                                     {{ post['DiaChi'] }} <!-- Hiển thị địa chỉ -->
                                 </p>
-                                <a href="/sanhcuoi" class="card-btn" onclick="submitBooking('{{ post.MaSanh }}','{{ post.TenSanh }}', '{{ post.DonGia }}', '{{ post.DiaChi }}', '{{ post.DuongDanAnh }}')">Đặt bàn</a>
+                                <div class="card-input-wrapper">
+                                    <a href="/sanhcuoi" class="card-btn" onclick="submitBooking('{{ post.MaSanh }}', '{{ post.TenSanh }}', '{{ post.DonGia }}', '{{ post.DiaChi }}', '{{ post.DuongDanAnh }}')">Đặt bàn</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -176,6 +182,7 @@
 
 <script>
     function submitBooking(MaSanh, TenSanh, DonGia, DiaChi, DuongDanAnh) {
+        
         // Sử dụng AJAX để gửi dữ liệu về server
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/sanhcuoi/order", true);
@@ -187,7 +194,7 @@
             TenSanh: TenSanh,
             DonGia: DonGia,
             DiaChi: DiaChi,
-            DuongDanAnh: DuongDanAnh
+            DuongDanAnh: DuongDanAnh,
         };
 
         // Gửi dữ liệu dưới dạng JSON

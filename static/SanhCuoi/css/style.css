@@ -15,7 +15,50 @@
     justify-content: space-between;
     align-items: center;
 }
+.card-meta {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  color: #426B1F;
+}
+a.apply-penalty-button {
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+  color: inherit; /* Kế thừa màu văn bản từ phần tử cha */
+}
 
+a.apply-penalty-button button {
+  /* Giữ nguyên các kiểu dáng ban đầu của thẻ <button> */
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  background-color: inherit;
+  border: inherit;
+  padding: inherit;
+  /* Và các thuộc tính CSS khác áp dụng cho thẻ <button> */
+}
+
+.card-input {
+  display: flex;
+  align-items: center;
+}
+
+.card-input label {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.card-input input {
+  width: 40px;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+}
 .header-nav_list{
     display: flex;
     align-items: center;
@@ -184,20 +227,21 @@ p{
 }
 
 .card-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    width: 55%;
-    background-color: #fef3c7;
-    color: #f59e0b;
-    font-size: 20px;
-    font-weight: 600;
-    padding: 12px 16px;
-    transition: linear 0.25s;
-    line-height: 1;
-    text-transform: capitalize;
-  }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  width: 93.5%;
+  background-color: #fef3c7;
+  color: #f59e0b;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 12px 16px;
+  transition: linear 0.25s;
+  line-height: 1;
+  text-transform: capitalize;
+  white-space: nowrap; /* Thêm thuộc tính này để ngăn chữ xuống dòng */
+}
 
  .card-btn:hover {
     background-color: #f59e0b;

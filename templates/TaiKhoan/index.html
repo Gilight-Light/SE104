@@ -151,104 +151,128 @@
                 </div>
                 <img src="static/TaiKhoan/img/info.png" alt="" class="img">
             </div>
-            <div class="wrapper-wedding">
-                <div class="wrapper">
-                    <div class="wrapper-info">
-                        <h2>My Wedding</h2>
-                        <div class="checkoutLayout">
-                            <div class="main">
-                                <form action="{{ url_for('taikhoan_bp.update') }}" method="POST" enctype="multipart/form-data" id="weddingForm">
-                                    <div class="form-group">
-                                        <div for="name" class="client-name"><strong>Họ tên</strong></div>
-                                        <input
-                                            type="text"
-                                            name="HoTen"
-                                            id="name2"
-                                            placeholder="{{info['fullname']}}"
-                                            class="form-input"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <div for="appointment-time" class="time-tittle"><strong>Thời gian</strong></div>
-                                        <input type="datetime-local" name="ThoiGian" id="appointment-time" class="form-input" list="allowedTimes" />
-                                        <datalist id="allowedTimes">
-                                            <option value="2024-05-01T08:00:00">2024-05-01 08:00:00</option>
-                                            <option value="2024-05-01T12:00:00">2024-05-01 12:00:00</option>
-                                            <option value="2024-05-01T13:00:00">2024-05-01 13:00:00</option>
-                                            <option value="2024-05-01T17:00:00">2024-05-01 17:00:00</option>
-                                            <option value="2024-05-02T08:00:00">2024-05-02 08:00:00</option>
-                                            <option value="2024-05-02T12:00:00">2024-05-02 12:00:00</option>
-                                            <option value="2024-05-02T13:00:00">2024-05-02 13:00:00</option>
-                                            <option value="2024-05-02T17:00:00">2024-05-02 17:00:00</option>
-                                            <option value="2024-05-03T08:00:00">2024-05-03 08:00:00</option>
-                                            <option value="2024-05-03T12:00:00">2024-05-03 12:00:00</option>
-                                        </datalist>
-                                        <div for="payment-time" class="time-tittle"><strong>Ngày thanh toán</strong></div>
-                                        <input
-                                            type="datetime-local"
-                                            name="NgayThanhToan"
-                                            id="payment-time"
-                                            class="form-input"
-                                            readonly
-                                        />
-                                    </div>
-                                    <div id="checkoutForm">
-                                        <div class="section">
-                                            <h2>Sảnh cưới</h2>
-                                            <div class="venue">
-                                                <div class="info">
-                                                    <img src="{{ordersanh['DuongDanAnh']}}" class="image">
-                                                    <div class="name">{{ordersanh['TenSanh']}}</div>
-                                                    <div class="tables">Số lượng bàn: 20</div>
-                                                    <div class="price">Đơn giá: ${{ordersanh['DonGia']}}/Bàn</div>
-                                                    <div class="address">Địa chỉ: {{ordersanh['DiaChi']}}</div>
-                                                </div>
-                                            </div>
+            {% if authe is none %}
+                <div class="wrapper-wedding">
+                    <div class="wrapper">
+                        <div class="wrapper-info">
+                            <h2>My Wedding</h2>
+                            {% if check is not none %}
+                            <span id="login-error" class="login-error" style="color: Blue;">Lịch Cưới Của Bạn Đã Có Trong Hệ Thống</span>
+                            {% else %}
+                                {% if flag is not none %}
+                                    <span id="login-error" class="login-error" style="color: red;">Sảnh và thời gian đã được đặt, Vui lòng chọn Thời Gian hoặc Sảnh Khác</span>
+                                {% endif %}
+                                {% if flag_ex is not none %}
+                                    <span id="login-error" class="login-error" style="color: Blue;">Đặt Lịch Cưới Thành Công</span>
+                                {% endif %}
+                            {% endif %}
+                            <div class="checkoutLayout">
+                                <div class="main">
+                                    <form action="{{ url_for('taikhoan_bp.add') }}" method="POST" enctype="multipart/form-data" id="weddingForm">
+                                        <div class="form-group">
+                                            <div for="name" class="client-name"><strong>Họ tên</strong></div>
+                                            <input
+                                                type="text"
+                                                name="HoTen"
+                                                id="name2"
+                                                placeholder="{{info['fullname']}}"
+                                                class="form-input"
+                                            />
                                         </div>
-            
-                                        <div class="section">
-                                            <h2>Thực đơn</h2>
-                                            <div class="menu">
-                                                <div class="info">
-                                                    <img src="{{orderthucdon['DuongDanAnh']}}" class="image">
-                                                    <div class="name">{{orderthucdon['TenThucDon']}}</div>
-                                                    <ul class="items">
-                                                        <li>{{orderthucdon['Mon1']}}</li>
-                                                        <li>{{orderthucdon['Mon2']}}</li>
-                                                        <li>{{orderthucdon['Mon3']}}</li>
-                                                        <li>{{orderthucdon['Mon4']}}</li>
-                                                        <li>{{orderthucdon['Mon5']}}</li>
-                                                        <li>{{orderthucdon['Mon6']}}</li>
-                                                        <li>{{orderthucdon['Bia']}} + {{orderthucdon['NuocNgot']}}</li>
-                                                    </ul>
-                                                    <div class="price">Đơn giá: ${{orderthucdon['DonGia']}}/Bàn</div>
-                                                </div>
-                                            </div>
-                                        </div>
-            
-                                        <div class="section">
-                                            <h2>Dịch vụ</h2>
-                                            {% for post in orderdichvu %}
-                                                <div class="service">
+                                        {% if check is not none %}
+                                            <div for="name" class="client-name"><strong>Ngày Tổ Chức</strong></div>
+                                                <input
+                                                    type="text"
+                                                    name="NgayThanhToan"
+                                                    id="name2"
+                                                    placeholder="{{ordersanh['NgayToChuc']}}"
+                                                    class="form-input"
+                                                />
+                                        {% else %}
+                                            <div class="form-group">
+                                                <div for="appointment-time" class="time-tittle"><strong>Thời gian</strong></div>
+                                                <input type="datetime-local" name="ThoiGian" id="appointment-time" class="form-input" list="allowedTimes" />
+                                                <datalist id="allowedTimes">
+                                                    <option value="2024-05-01T08:00:00">2024-05-01 08:00:00</option>
+                                                    <option value="2024-05-01T12:00:00">2024-05-01 12:00:00</option>
+                                                    <option value="2024-05-01T13:00:00">2024-05-01 13:00:00</option>
+                                                    <option value="2024-05-01T17:00:00">2024-05-01 17:00:00</option>
+                                                    <option value="2024-05-02T08:00:00">2024-05-02 08:00:00</option>
+                                                    <option value="2024-05-02T12:00:00">2024-05-02 12:00:00</option>
+                                                    <option value="2024-05-02T13:00:00">2024-05-02 13:00:00</option>
+                                                    <option value="2024-05-02T17:00:00">2024-05-02 17:00:00</option>
+                                                    <option value="2024-05-03T08:00:00">2024-05-03 08:00:00</option>
+                                                    <option value="2024-05-03T12:00:00">2024-05-03 12:00:00</option>
+                                                </datalist>
+                                        {% endif %}
+                                            <div for="name" class="client-name"><strong>Ngày Thanh Toán</strong></div>
+                                            <input
+                                                type="text"
+                                                name="NgayThanhToan"
+                                                id="name2"
+                                                placeholder="{{info['ngaythanhtoan']}}"
+                                                class="form-input"
+                                            />
+                                        <div id="checkoutForm">
+                                            <div class="section">
+                                                <h2>Sảnh cưới</h2>
+                                                <div class="venue">
                                                     <div class="info">
-                                                        <img src="{{post['DuongDanAnh']}}" class="image">
-                                                        <div class="name">{{post['TenDichVu']}}</div>
-                                                        <div class="price">Đơn giá: ${{post['DonGia']}}</div>
+                                                        <img src="{{ordersanh['DuongDanAnh']}}" class="image">
+                                                        <div class="name">{{ordersanh['TenSanh']}}</div>
+                                                        <div class="tables">Số lượng bàn: {{ordersanh['soBan']}}</div>
+                                                        <div class="price">Đơn giá: ${{ordersanh['DonGia']}}/Bàn</div>
+                                                        <div class="address">Địa chỉ: {{ordersanh['DiaChi']}}</div>
                                                     </div>
                                                 </div>
-                                            {% endfor %}
-                                            
+                                            </div>
+                
+                                            <div class="section">
+                                                <h2>Thực đơn</h2>
+                                                <div class="menu">
+                                                    <div class="info">
+                                                        <img src="{{orderthucdon['DuongDanAnh']}}" class="image">
+                                                        <div class="name">{{orderthucdon['TenThucDon']}}</div>
+                                                        <ul class="items">
+                                                            <li>{{orderthucdon['Mon1']}}</li>
+                                                            <li>{{orderthucdon['Mon2']}}</li>
+                                                            <li>{{orderthucdon['Mon3']}}</li>
+                                                            <li>{{orderthucdon['Mon4']}}</li>
+                                                            <li>{{orderthucdon['Mon5']}}</li>
+                                                            <li>{{orderthucdon['Mon6']}}</li>
+                                                            <li>{{orderthucdon['Bia']}} + {{orderthucdon['NuocNgot']}}</li>
+                                                        </ul>
+                                                        <div class="price">Đơn giá: ${{orderthucdon['DonGia']}}/Bàn</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="section">
+                                                <h2>Dịch vụ</h2>
+                                                {% for post in orderdichvu %}
+                                                    <div class="service">
+                                                        <div class="info">
+                                                            <img src="{{post['DuongDanAnh']}}" class="image">
+                                                            <div class="name">{{post['TenDichVu']}}</div>
+                                                            <div class="price">Đơn giá: ${{post['DonGia']}}</div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                                
+                                            </div>
+                                            <div class="total-price">Tổng thanh toán: ${{tongtien}} VND</div>
+                                            {% if check is none %}
+                                                <button type="submit" id="confirmButton">Xác nhận</button>
+                                                <button type="reset" id="cancelButton">Hủy Đăng ký</button>
+                                            {% endif %}
                                         </div>
-                                        <div class="total-price">Tổng thanh toán: ${{tongtien}}</div>
-                                        <button type="submit" id="confirmButton">Xác nhận</button>
-                                        <button type="reset" id="cancelButton">Hủy Đăng ký</button>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>  
+                </div>  
+            {% endif %}
          </div>  
     </main>    
 
@@ -300,7 +324,26 @@
         }
     });
 </script>
-    
+
+<script>
+    // Hàm tính toán ngày hiện tại cộng thêm 30 ngày
+    function getMinDate() {
+        var today = new Date();
+        today.setDate(today.getDate() + 30); // Cộng thêm 30 ngày
+
+        // Định dạng ngày theo chuẩn 'YYYY-MM-DDTHH:MM'
+        var year = today.getFullYear();
+        var month = String(today.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+        var day = String(today.getDate()).padStart(2, '0');
+        var hours = String(today.getHours()).padStart(2, '0');
+        var minutes = String(today.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    // Gán giá trị cho thuộc tính min của input
+    document.getElementById('payment-time').min = getMinDate();
+</script>
 </body>
 
 
