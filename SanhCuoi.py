@@ -20,7 +20,7 @@ def sanh():
     # Lấy kết quả
     data_from_db = cursor.fetchall()
     posts = [{'MaSanh': str(row[0]), 'TenSanh': str(row[1]), 'DonGia': str(row[2]), \
-              'DiaChi': str(row[3]), 'DuongDanAnh': f"static/SanhCuoi/img/{row[0]}.jpg"} \
+              'DiaChi': str(row[3]),'LoaiSanh' : str(row[4]), 'DuongDanAnh': f"static/SanhCuoi/img/{row[0]}.jpg"} \
              for row in data_from_db]
     # Đóng kết nối
     cursor.close()

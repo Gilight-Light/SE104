@@ -12,6 +12,10 @@
   margin-bottom: 20px;
 }
 
+.search-bar {
+     margin-bottom: 20px;
+}
+
 canvas {
   max-width: 800px;
   max-height: 300px; /* Tăng kích thước biểu đồ gấp đôi */
@@ -42,10 +46,41 @@ html, body{
   background-color: lightgrey; /* Màu nền xám nhạt khi nút bị tắt */
   cursor: not-allowed; /* Không cho click khi nút bị tắt */
 }
+/* Tăng kích thước và đường viền của dropdown */
+.custom-select {
+  font-size: 16px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Tùy chỉnh kiểu dáng mũi tên trong dropdown */
+.custom-select::-ms-expand {
+  display: none;
+}
+
+.custom-select {
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M16.59%208.59L12%2013.17%207.41%208.59%206%2010l6%206%206-6z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+}
+
+/* Tùy chỉnh kiểu dáng khi hover và focus trên dropdown */
+.custom-select:hover,
+.custom-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 
 .payment-button {
-  background-color: blue; /* Màu nền đỏ */
-  color: white; /* Màu chữ trắng */
+  background-color: rgb(33, 33, 143); /* Màu nền đỏ */
+  color: rgb(184, 154, 154); /* Màu chữ trắng */
   border: none; /* Loại bỏ viền */
   padding: 8px 16px; /* Khoảng cách padding */
   cursor: pointer; /* Con trỏ khi di chuột qua */

@@ -185,34 +185,22 @@
                                                     type="text"
                                                     name="NgayThanhToan"
                                                     id="name2"
-                                                    placeholder="{{ordersanh['NgayToChuc']}}"
+                                                    placeholder="{{ordersanh['NgayToChuc']}} - {{ordersanh['ThoiGian']}}"
                                                     class="form-input"
                                                 />
                                         {% else %}
                                             <div class="form-group">
-                                                <div for="appointment-time" class="time-tittle"><strong>Thời gian</strong></div>
-                                                <input type="datetime-local" name="ThoiGian" id="appointment-time" class="form-input" list="allowedTimes" />
-                                                <datalist id="allowedTimes">
-                                                    <option value="2024-05-01T08:00:00">2024-05-01 08:00:00</option>
-                                                    <option value="2024-05-01T12:00:00">2024-05-01 12:00:00</option>
-                                                    <option value="2024-05-01T13:00:00">2024-05-01 13:00:00</option>
-                                                    <option value="2024-05-01T17:00:00">2024-05-01 17:00:00</option>
-                                                    <option value="2024-05-02T08:00:00">2024-05-02 08:00:00</option>
-                                                    <option value="2024-05-02T12:00:00">2024-05-02 12:00:00</option>
-                                                    <option value="2024-05-02T13:00:00">2024-05-02 13:00:00</option>
-                                                    <option value="2024-05-02T17:00:00">2024-05-02 17:00:00</option>
-                                                    <option value="2024-05-03T08:00:00">2024-05-03 08:00:00</option>
-                                                    <option value="2024-05-03T12:00:00">2024-05-03 12:00:00</option>
-                                                </datalist>
+                                                <div for="appointment-time" class="time-tittle"><strong>Ngày Tổ Chức</strong></div>
+                                                <input type="date"  name="NgayToChuc" id="appointment-time" class="form-input" min="{{ dates[0] }}" max="{{ dates[-1] }}" />
+                                            </div>
+                                            <div for="name" class="client-name"><strong>Thời Gian Tổ Chức</strong></div>
+                                            <select name="ThoiGian" id="name2" class="form-input">
+                                                {% for time in times %}
+                                                    <option value="{{ time }}">{{ time }}</option>
+                                                {% endfor %}
+                                            </select>x
                                         {% endif %}
-                                            <div for="name" class="client-name"><strong>Ngày Thanh Toán</strong></div>
-                                            <input
-                                                type="text"
-                                                name="NgayThanhToan"
-                                                id="name2"
-                                                placeholder="{{info['ngaythanhtoan']}}"
-                                                class="form-input"
-                                            />
+                                            
                                         <div id="checkoutForm">
                                             <div class="section">
                                                 <h2>Sảnh cưới</h2>
@@ -242,7 +230,7 @@
                                                             <li>{{orderthucdon['Mon6']}}</li>
                                                             <li>{{orderthucdon['Bia']}} + {{orderthucdon['NuocNgot']}}</li>
                                                         </ul>
-                                                        <div class="price">Đơn giá: ${{orderthucdon['DonGia']}}/Bàn</div>
+                                                        <div class="price">Đơn giá: {{orderthucdon['DonGia']}}/Bàn</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -254,11 +242,10 @@
                                                         <div class="info">
                                                             <img src="{{post['DuongDanAnh']}}" class="image">
                                                             <div class="name">{{post['TenDichVu']}}</div>
-                                                            <div class="price">Đơn giá: ${{post['DonGia']}}</div>
+                                                            <div class="price">Đơn giá: {{post['DonGia']}}</div>
                                                         </div>
                                                     </div>
                                                 {% endfor %}
-                                                
                                             </div>
                                             <div class="total-price">Tổng thanh toán: ${{tongtien}} VND</div>
                                             {% if check is none %}

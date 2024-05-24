@@ -1,6 +1,37 @@
 .main {
     display: flex;
 }
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 .side-bar {
     position: fixed;
@@ -864,6 +895,14 @@
 /* TABLE */
 .datatable-table {
     border-collapse: collapse;
+}
+#datatablesSimple th,
+#datatablesSimple td {
+ overflow: hidden;
+}
+#datatablesSimple{
+    border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .datatable-table>tbody>tr>td,
@@ -1852,4 +1891,124 @@ textarea.form-control-lg {
 
 .form-actions .btn-cancel:hover {
     background: #c0392b;
+}
+
+.edit-guest-icon:hover,
+.edit-menu-icon:hover {
+    color: #0056b3;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-container {
+    background-color: #fff;
+    width: 600px;
+    max-width: calc(100% - 32px);
+    min-height: 300px;
+    position: relative;
+    animation: modalFadeIn ease 0.4s; 
+    border-radius: 6px;
+
+}
+
+.list-students-modal .modal-container {
+	width: 800px;
+}
+
+.list-students-modal .modal-container .datatable-container {
+	margin: 20px;
+	max-height: 300px;
+	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#datatablesListStudent .choose-student-to-class-input {
+	padding: 4px;
+}
+
+.choose-student-to-class-input {
+	 transform: scale(1.5);
+}
+
+.modal-icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px;
+    color: #fff;
+}
+
+.modal-icon-close:hover {
+	color: #333;
+	cursor: pointer;
+}
+
+.modal-header {
+	display: block;
+    background-color: #007bff;
+    text-align: center;
+    padding: 32px 16px;
+    font-size: 30px;
+    color: #fff;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+
+.modal-body {
+    padding: 16px;
+}
+
+.model-input-item {
+	display: flex;
+	margin: 15px 0
+}
+
+.modal-label {
+	display: flex;
+    align-items: center;
+    font-size: 15px;
+    min-width: 123px;
+}
+
+.modal-input {
+    font-size: 15px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.modal-footer {
+	display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-140px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

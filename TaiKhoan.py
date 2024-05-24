@@ -14,6 +14,10 @@ def taikhoan():
     current_date = datetime.now()
     future_date = current_date + timedelta(days=30)
 
+    
+    # Calculate dates from today to one month later Cần Thay đổi bằng select
+    today = datetime.today()
+    dates = [(today + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(31)]
     # Định dạng ngày theo chuẩn 'YYYY-MM-DDTHH:MM'
     # Định dạng ngày theo chuẩn 'D-M-Y'
     future_date_str = future_date.strftime('%Y-%m-%d')
@@ -55,7 +59,8 @@ def taikhoan():
                     TIECCUOI.SoLuongBanDuTru,
                     SANH.DonGia as DonGiaSanh,
                     SANH.DiaChi as DiaChiSanh,
-                    DICHVU.MaDichVu as MaDichVu
+                    DICHVU.MaDichVu as MaDichVu,
+                    TIECCUOI.NgayToChuc as NgayToChuc
                 FROM TIECCUOI
                     JOIN NGUOIDUNG ON TIECCUOI.UserID = NGUOIDUNG.UserID
                     JOIN SANH ON TIECCUOI.MaSanh = SANH.MaSanh
@@ -83,6 +88,12 @@ def taikhoan():
     cursor.execute(sql_query_check,(user,user))
     flag_check = cursor.fetchone()[0]
     conn.commit()
+    times = []
+    cursor.execute("SELECT ThoiGianBatDau FROM CA ")
+    ca = cursor.fetchall()
+    conn.commit()
+    for row in ca:
+        times.append(row[0])
     if flag_check != 0:
         check = int(1)
         cursor.execute(sql_query_check,(user,user))
@@ -93,7 +104,8 @@ def taikhoan():
             'soBan': data_from_db[17],
             'DonGia': data_from_db[19],
             'DiaChi' :data_from_db[20],
-            'NgayToChuc' : data_from_db[3]
+            'NgayToChuc' : data_from_db[22],
+            'ThoiGian': data_from_db[3]
         }
         orderthucdon = {
             'DuongDanAnh' : f"static/Menu/img/{data_from_db[4]}.jpg",
@@ -125,12 +137,12 @@ def taikhoan():
     return render_template('TaiKhoan/index.html', user = user, authe = authe, info = info,\
                             ordersanh = session['Order_SanhCuoi'], orderthucdon = session['Order_ThucDon'], orderdichvu = session['Order_DichVu'],\
                                 tongtien = session['TongTien'],\
-                                    flag = flag, flag_ex = session['flag_ex'], check = check)
+                                    flag = flag, flag_ex = session['flag_ex'], check = check, times=times, dates=dates)
 
 @taikhoan_bp.route('/add', methods = ['POST'])
 def add():
-    NgayToChuc = request.form.get('ThoiGian')
-    NgayToChuc = str((datetime.fromisoformat(NgayToChuc)).strftime('%Y-%m-%d %H:%M:%S'))
+    NgayToChuc = str(request.form.get('NgayToChuc'))
+    ThoiGianCa = str(request.form.get('ThoiGian'))
     conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
                               'SERVER=DESKTOP-VB58721;'
                               'DATABASE=SE104;'
@@ -155,7 +167,7 @@ def add():
     MaSanh = session['Order_SanhCuoi']['MaSanh']
     MaDichVu = session['Order_DichVu'][0]['MaDichVu']
 
-    cursor.execute(sql_query_MaCa,(NgayToChuc))
+    cursor.execute(sql_query_MaCa,(ThoiGianCa))
     MaCa = str(cursor.fetchone()[0])
 
     MaThucDon = session['Order_ThucDon']['MaThucDon']
@@ -167,13 +179,13 @@ def add():
         IF EXISTS (
             SELECT 1
             FROM TIECCUOI
-            WHERE MaSanh = ?  AND MaCa = ?
+            WHERE MaSanh = ?  AND MaCa = ? AND NgayToChuc = ?
         )
             SELECT 1
         ELSE
             SELECT 0
     """
-    cursor.execute(sql_query_flag,(MaSanh,MaCa))
+    cursor.execute(sql_query_flag,(MaSanh,MaCa,NgayToChuc))
     flag = cursor.fetchone()[0]
     if flag == 1:
         session['flag'] = 1
@@ -181,23 +193,20 @@ def add():
         conn.close()
         return redirect(url_for('taikhoan_bp.taikhoan'))
     sql_query = """
-        EXEC ThemTiecCuoi @MaTiecCuoi = ?, @MaSanh = ?, @MaCa = ?, @MaThucDon = ?, @TienDatCoc = ?, @MaDichVu = ?, @SoLuongBan = ?, @SoLuongBanDuTru = ?, @UserID = ?
+        EXEC ThemTiecCuoi @MaTiecCuoi = ?, @MaSanh = ?, @MaCa = ?, @MaThucDon = ?, @TienDatCoc = ?, @MaDichVu = ?, @SoLuongBan = ?, @SoLuongBanDuTru = ?, @UserID = ?, @NgayToChuc = ?
     """
-    cursor.execute(sql_query,(MaTiecCuoi,MaSanh,MaCa,MaThucDon,TienDatCoc,MaDichVu,SoBan,SoBanDuTru,UserID))
+    cursor.execute(sql_query,(MaTiecCuoi,MaSanh,MaCa,MaThucDon,TienDatCoc,MaDichVu,SoBan,SoBanDuTru,UserID, NgayToChuc))
     conn.commit()
     sql_query_hoadon = """
         EXEC InsertHoaDon @MaTiecCuoi = ?, @NgayThanhToan = ?,@TongTienBan = ?, @TongTienThucDon = ?,  @TongTienHoaDon = ?, @TinhTrangThanhToan = ?, @TienPhat = ?;
     """
-    current_date = datetime.now()
-    future_date = current_date + timedelta(days=30)
     # Định dạng ngày theo chuẩn 'D-M-Y'
-    future_date_str = future_date.strftime('%Y-%m-%d')
     tongtienban = int(session['Order_SanhCuoi']['soBan'])*int(session['Order_SanhCuoi']['DonGia'])
     tongtienthucdon = int(session['Order_SanhCuoi']['soBan'])*int(session['Order_ThucDon']['DonGia'])
     tongtienhoadon = session['TongTien']
     TinhTrangThanhToan = 'Chưa Thanh Toán'
     TienPhat = int(0)
-    cursor.execute(sql_query_hoadon,(MaTiecCuoi, future_date_str, tongtienban, tongtienthucdon, tongtienhoadon,TinhTrangThanhToan,TienPhat))
+    cursor.execute(sql_query_hoadon,(MaTiecCuoi, NgayToChuc, tongtienban, tongtienthucdon, tongtienhoadon,TinhTrangThanhToan,TienPhat))
     conn.commit()
     session['flag_ex'] = 1
     cursor.close()

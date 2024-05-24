@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/grid.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='TuyChinh/css/all.min.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -37,6 +40,7 @@
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-hotel"></i></i>Quản lý sảnh</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-wrench"></i></i>Quản lý dịch vụ</li>
                     <li class="navbar-item"><i class="navbar-icon fa-solid fa-utensils"></i></i>Quản lý món ăn</li>
+                    <li class="navbar-item"><i class="navbar-icon fa-solid fa-sun"></i></i>Quản lý ca</li>
                     <li class="navbar-item"><a href="/home"><i
                                 class="navbar-icon fa-solid fa-house"></i></i>Về trang chủ</a></li>
                 </ul>
@@ -48,7 +52,7 @@
                 <h2 class="heading"></h2>
 
                 <div class="content-wrap scroll">
-                    <div class="self-info hidden">
+                    <div class="content-page self-info hidden">
                         <div class="list-info">
                             <div class="info-wrap">
                                 <p class="title-info">Username</p>
@@ -78,7 +82,7 @@
                         </div>
                     </div>
 
-                    <div class="guest hidden">
+                    <div class="content-page guest hidden">
                         <div class="guest-data">
 
                             <div class="card mb-4">
@@ -91,12 +95,11 @@
                                         class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                         <div class="datatable-top">
                                             <div class="datatable-search">
-                                                <input class="datatable-input" placeholder="Search..." type="search"
-                                                    title="Search within table" aria-controls="datatablesSimple">
+                                                <input type="text" id="searchInput-khachhang" onkeyup="searchTableKhachHang()" placeholder="Tìm kiếm theo tên khách hàng...">
                                             </div>
                                         </div>
                                         <div class="datatable-container">
-                                            <table id="datatablesSimple" class="datatable-table">
+                                            <table id="datatablesSimple" class="datatable-table" >
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Họ Tên</a></th>
@@ -105,11 +108,12 @@
                                                         <th data-sortable="true" style="width: 6%;"><a href="#" class="datatable-sorter">Mã hóa đơn</a></th>
                                                         <th data-sortable="true" style="width: 8%;"><a href="#" class="datatable-sorter">Mã Tiệc Cưới</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Số tiền thanh toán</a></th>
-                                                        <th data-sortable="true" style="width: 9%;"><a href="#" class="datatable-sorter">Ngày thanh toán</a></th>
-                                                        <th data-sortable="true" style="width: 11%;"><a href="#" class="datatable-sorter">Tình trạng thanh toán</a></th>
-                                                        <th data-sortable="true" style="width: 10%;"><a href="#" class="datatable-sorter">Tiền Phạt</a></th>
+                                                        <th data-sortable="true" style="width: 9%;"><a href="#" class="datatable-sorter">Ngày Tổ Chức</a></th>
+                                                        <th data-sortable="true" style="width: 9%;"><a href="#" class="datatable-sorter">Tình trạng thanh toán</a></th>
+                                                        <th data-sortable="true" style="width: 7%;"><a href="#" class="datatable-sorter">Tiền Phạt</a></th>
                                                         <th style="width: 9%;"></th>
                                                         <th style="width: 9%;"></th>
+                                                        <th style="width: 5%;"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -141,20 +145,27 @@
                                                             {% else %}
                                                             <button class="payment-button" disabled>Thanh Toán</button>
                                                             {% endif %}
+                                                            <i class="edit-check edit-guest-icon fa-solid fa-pen-to-square"></i>
                                                         </td>
+
+                                                        <td><a href="/tuychinh" style="color: red;" onclick="submitXoaTiecCuoi('{{ post.MaTiecCuoi }}')">Xóa</a></td>
+                                                        <!-- 13 -->
+                                                        <td>{{post['MaSanh']}}</td>
+                                                        <td>{{post['MaDichVu']}}</td>
+                                                        <td>{{post['MaThucDon']}}</td>
+                                                        <td>{{post['TienCoc']}}</td>
                                                       </tr>
                                                     {% endfor %}
                                                 </tbody>
-                                            </table>
-                                        </div>
-                                        
+                                            </table>                                        
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="statistical hidden">
+                    <div class="content-page statistical hidden">
                         <div class="statistical-wrap">
                             <div class="statistical-selection">
                                 <label for="time-start">Thời gian bắt đầu: </label>
@@ -229,11 +240,11 @@
                             </div>
                             <div class="chart-container">
                                 <canvas id="lineChart"></canvas>
+                            </div>
                         </div>
-                        
                     </div>
 
-                    <div class="lobby-management hidden">
+                    <div class="content-page lobby-management hidden">
                         <div class="lobby-data">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -245,24 +256,28 @@
                                         class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                         <div class="datatable-top">
                                             <div class="datatable-search">
-                                                <input class="datatable-input" placeholder="Search..." type="search"
-                                                    title="Search within table" aria-controls="datatablesSimple">
+                                                <input type="text" id="searchInput" onkeyup="searchMaSanh()" placeholder="Tìm kiếm Mã sảnh" class="datatable-input">
                                             </div>
                                         </div>
+
                                         <div class="datatable-container">
                                             <table id="datatablesLobby" class="datatable-table">
                                                 <thead>
                                                     <tr>
                                                         <th data-sortable="true" style="width: 15%;"><a
                                                                 href="#" class="datatable-sorter">Mã sảnh</a></th>
-                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                        <th data-sortable="true" style="width: 10%;"><a
                                                                 href="#" class="datatable-sorter">Tên sảnh</a></th>
-                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                        <th data-sortable="true" style="width: 10%;"><a
+                                                                href="#" class="datatable-sorter">Loại sảnh</a></th>
+                                                        <th data-sortable="true" style="width: 15%;"><a
                                                                 href="#" class="datatable-sorter">Đơn giá</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a
                                                                 href="#" class="datatable-sorter">Số bàn</a></th>
                                                         <th data-sortable="true" style="width: 25%;"><a
                                                                 href="#" class="datatable-sorter">Địa chỉ</a></th>
+                                                        <th data-sortable="true" style="width: 8%;"></th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -270,14 +285,17 @@
                                                     <tr data-index="0">
                                                         <td>{{post['MaSanh']}}</td>
                                                         <td>{{post['TenSanh']}}</td>
+                                                        <td>{{post['LoaiSanh']}}</td>
                                                         <td>{{post['DonGia']}}</td>
                                                         <td>{{post['SoBan']}}</td>
                                                         <td>{{post['DiaChi']}}</td>
+                                                        
+                                                        <td ><a style="color: red;" onclick="submitXoaSanh('{{ post.MaSanh }}')" href="/tuychinh">Xóa</a></td>
                                                     </tr>
                                                     {% endfor %}
 
                                                 </tbody>
-                                            </table>
+                                            </table> 
                                             
                                         </div>     
                                     </div>
@@ -289,9 +307,7 @@
                         <div class="selector">
                             <label for="form-select">Chọn Phần:</label>
                             <select id="form-select-lobby">
-                                <option value=""></option>
                                 <option value="add-hall">Thêm Sảnh</option>
-                                <option value="delete-hall">Xóa Sảnh</option>
                                 <option value="edit-hall">Sửa Sảnh</option>
                             </select>
                         </div>
@@ -303,6 +319,16 @@
                                         <div class="form-group">
                                             <label for="lobby-name1">Tên sảnh</label>
                                             <input type="text" id="lobby-name1" name="TenSanh" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-type1">Loại sảnh</label>
+                                            <select id="lobby-type1" name="LoaiSanh" required>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                                <option value="E">E</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-price1">Đơn giá</label>
@@ -327,32 +353,31 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="form-row" id="delete-hall" style="display: none;">
-                                <div class="form-container">
-                                    <h2>Xóa Sảnh</h2>
-                                    <form action="{{ url_for('tuychinh_bp.Xoasanh') }}" method="POST" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="code1">Mã sảnh</label>
-                                            <input type="text" id="code1" name="MaSanh" required>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button type="submit" class="btn-submit">Xác Nhận</button>
-                                            <button type="reset" class="btn-cancel">Hủy</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                             <div class="form-row" id="edit-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Sửa Sảnh</h2>
                                     <form action="{{ url_for('tuychinh_bp.SuaSanh') }}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="lobby-name3">Mã sảnh</label>
-                                            <input type="text" id="lobby-name3" name="MaSanh" required>
+                                            <select id="lobby-type1" name="MaSanh" class="custom-select" required>
+                                                {% for post in sanh %}
+                                                <option value="{{ post['MaSanh'] }}">{{ post['MaSanh'] }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-name3">Tên sảnh</label>
                                             <input type="text" id="lobby-name3" name="TenSanh" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lobby-type1">Loại sảnh</label>
+                                            <select id="lobby-type1" name="LoaiSanh" required>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                                <option value="E">E</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="lobby-price3">Đơn giá</label>
@@ -380,7 +405,7 @@
                         </div>
                     </div>
 
-                    <div class="service-management hidden">
+                    <div class="content-page service-management hidden">
                         <div class="service-data">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -392,8 +417,7 @@
                                         class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                         <div class="datatable-top">
                                             <div class="datatable-search">
-                                                <input class="datatable-input" placeholder="Search..." type="search"
-                                                    title="Search within table" aria-controls="datatablesSimple">
+                                                <input id="searchMaDichVu" class="datatable-input" placeholder="Tìm Theo Mã Dịch Vụ..." type="search" title="Search within table" onkeyup="searchByMaDichVu()">
                                             </div>
                                         </div>
                                         <div class="datatable-container">
@@ -406,6 +430,8 @@
                                                                 href="#" class="datatable-sorter">Tên dịch vụ</a></th>
                                                         <th data-sortable="true" style="width: 40%;"><a
                                                                 href="#" class="datatable-sorter">Đơn giá</a></th>
+                                                        <th data-sortable="true" style="width: 8%;"></th>
+                                                        <th data-sortable="true" style="width: 7%;"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -414,6 +440,8 @@
                                                         <td>{{post['MaDichVu']}}</td>
                                                         <td>{{post['TenDichVu']}}</td>
                                                         <td>{{post['DonGia']}}</td>
+                                                        
+                                                        <td><a  onclick="submiXoaDichVu('{{ post.MaDichVu }}')" href="/tuychinh" style="color: red;">Xoa</a></td>
                                                     </tr>
                                                     {% endfor %}
                                                 </tbody>
@@ -431,7 +459,6 @@
                             <select id="form-select-service">
                                 <option value=""></option>
                                 <option value="add-hall">Thêm dịch vụ</option>
-                                <option value="delete-hall">Xóa dịch vụ</option>
                                 <option value="edit-hall">Sửa dịch vụ</option>
                             </select>
                         </div>
@@ -451,21 +478,6 @@
                                         <div class="form-group">
                                             <label for="service-image1">Upload hình ảnh</label>
                                             <input type="file" id="service-image1" name="image" accept="image/*" required>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button type="submit" class="btn-submit">Xác Nhận</button>
-                                            <button type="reset" class="btn-cancel">Hủy</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="form-row" id="delete-hall" style="display: none;">
-                                <div class="form-container">
-                                    <h2>Xóa Dịch Vụ</h2>
-                                    <form action="{{ url_for('tuychinh_bp.XoaDichVu') }}" method="POST"enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="code2">Mã dịch vụ</label>
-                                            <input type="text" id="code2" name="MaDichVu" required>
                                         </div>
                                         <div class="form-actions">
                                             <button type="submit" class="btn-submit">Xác Nhận</button>
@@ -504,7 +516,7 @@
                         </div>
                     </div>
 
-                    <div class="menu-management hidden">
+                    <div class="content-page menu-management hidden">
                         <div class="menu-data">
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -516,8 +528,7 @@
                                         class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                                         <div class="datatable-top">
                                             <div class="datatable-search">
-                                                <input class="datatable-input" placeholder="Search..." type="search"
-                                                    title="Search within table" aria-controls="datatablesSimple">
+                                                <input id="searchMaThucDon" class="datatable-input" placeholder="Search MaThucDon..." type="search" title="Search within table" onkeyup="searchByMaThucDon()">
                                             </div>
                                         </div>
                                         <div class="datatable-container">
@@ -534,10 +545,12 @@
                                                                 href="#" class="datatable-sorter">Món chính</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a
                                                                 href="#" class="datatable-sorter">Món tráng miệng</a></th>
-                                                        <th data-sortable="true" style="width: 25%;"><a
+                                                        <th data-sortable="true" style="width: 10%;"><a
                                                                 href="#" class="datatable-sorter">Thức uống</a></th>
                                                         <th data-sortable="true" style="width: 10%;"><a
                                                                 href="#" class="datatable-sorter">Đơn giá</a></th>
+                                                        <th data-sortable="true" style="width: 8%;"></th>
+                                                        <th data-sortable="true" style="width: 7%;"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -550,6 +563,10 @@
                                                         <td>{{post['MonTrangMieng']}}</td>
                                                         <td>{{post['ThucUong']}}</td>
                                                         <td>${{post['DonGia']}}</td>
+                                                        <td><i class="edit-menu-icon fa-solid fa-pen-to-square"></i></td>
+                                                        <td >
+                                                            <a onclick="submitXoaThucDon('{{ post.MaThucDon }}')" href="/tuychinh" style="color: red;">Xoa</a>
+                                                        </td>
                                                     </tr>
                                                     {% endfor %}
                                                 </tbody>
@@ -567,7 +584,6 @@
                             <select id="form-select-menu">
                                 <option value=""></option>
                                 <option value="add-hall">Thêm thực đơn</option>
-                                <option value="delete-hall">Xóa thực đơn</option>
                                 <option value="edit-hall">Sửa thực đơn</option>
                             </select>
                         </div>
@@ -627,21 +643,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="form-row" id="delete-hall" style="display: none;">
-                                <div class="form-container">
-                                    <h2>Xóa Thực Đơn</h2>
-                                    <form action="{{ url_for('tuychinh_bp.XoaThucDon') }}" method="POST" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="code2">Mã thực đơn</label>
-                                            <input type="text" id="code2" name="MaThucDon" required>
-                                        </div>
-                                        <div class="form-actions">
-                                            <button type="submit" class="btn-submit">Xác Nhận</button>
-                                            <button type="reset" class="btn-cancel">Hủy</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            
                             <div class="form-row" id="edit-hall" style="display: none;">
                                 <div class="form-container">
                                     <h2>Sửa Thực Đơn</h2>
@@ -703,14 +705,243 @@
                             </div>
                         </div>
                     </div>
+                    <div class="content-page shift-management hidden">
+                        <div class="shift-data">
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    Danh sách ca
+                                </div>
+                                <div class="card-body">
+                                    <div
+                                        class="datatable-wrapper">
+                                        <div class="datatable-container">
+                                            <table id="datatablesSimple" class="datatable-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" style="width: 20%;"><a href="#"
+                                                                class="datatable-sorter">Mã ca</a></th>
+                                                        <th data-sortable="true" style="width: 20%;"><a href="#"
+                                                                class="datatable-sorter">Thời gin bắt đầu</a></th>
+                                                        <th data-sortable="true" style="width: 30%;"><a href="#"
+                                                                class="datatable-sorter">Thời gian kết thúc</a></th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for post in ca %}
+                                                    <tr data-index="{{ loop.index }}">
+                                                        <td>{{post['MaCa']}}</td>
+                                                        <td>{{post['ThoiGianBatDau']}}</td>
+                                                        <td>{{post['ThoiGianKetThuc']}}</td>
+                                                       
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="selector">
+                            <label for="form-select">Chọn Phần:</label>
+                            <select id="form-select-ca">
+                                <option value="add-hall">Thêm CA</option>
+                                <option value="edit-hall">Sửa CA</option>
+                            </select>
+                        </div>
+                        <div class="form-ca hidden">
+                            <div class="form-row" id="add-hall">
+                                <div class="form-container">
+                                    <h2>Thêm Dịch Vụ Mới</h2>
+                                    <form action="{{ url_for('tuychinh_bp.ThemCa') }}" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="ca-time">Thời Gian Bắt Đầu</label>
+                                            <select type="time" id="ca-time" name="ThoiGianBatDau" class="form-input">
+                                                <option value="09:00:00">09:00:00</option>
+                                                <option value="10:00:00">10:00:00</option>
+                                                <option value="10:30:00">10:30:00</option>
+                                                <option value="11:00:00">11:00:00</option>
+                                                <option value="12:00:00">12:00:00</option>
+                                                <option value="12:30:00">12:30:00</option>
+                                                <option value="13:00:00">13:00:00</option>
+                                                <option value="13:30:00">13:30:00</option>
+                                                <option value="14:00:00">14:00:00</option>
+                                                <option value="14:30:00">14:30:00</option>
+                                                <option value="16:00:00">16:00:00</option>
+                                                <option value="16:30:00">16:30:00</option>
+                                                <option value="17:00:00">17:00:00</option>
+                                                <option value="17:30:00">17:30:00</option>
+                                                <option value="18:00:00">18:00:00</option>
+                                                <option value="19:00:00">19:00:00</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ca-time">Thời Gian Kết Thúc</label>
+                                            <select type="time" id="ca-time" name="ThoiGianKetThuc" class="form-input">
+                                                <option value="09:00:00">09:00:00</option>
+                                                <option value="10:00:00">10:00:00</option>
+                                                <option value="10:30:00">10:30:00</option>
+                                                <option value="11:00:00">11:00:00</option>
+                                                <option value="12:00:00">12:00:00</option>
+                                                <option value="12:30:00">12:30:00</option>
+                                                <option value="13:00:00">13:00:00</option>
+                                                
+                                                <option value="14:00:00">14:00:00</option>
+                                                <option value="14:30:00">14:30:00</option>
+                                                <option value="16:00:00">16:00:00</option>
+                                                <option value="16:30:00">16:30:00</option>
+                                                <option value="17:00:00">17:00:00</option>
+                                                <option value="17:30:00">17:30:00</option>
+                                                <option value="18:00:00">18:00:00</option>
+                                                <option value="19:00:00">19:00:00</option>
+                                                <option value="19:30:00">19:30:00</option>
+                                                <option value="20:00:00">20:00:00</option>
+                                                <option value="20:30:00">20:30:00</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="form-row" id="edit-hall" style="display: none;">
+                                <div class="form-container">
+                                    <h2>Sửa Dịch Vụ</h2>
+                                    <form action="{{ url_for('tuychinh_bp.SuaCa') }}" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="ca-name3">Mã Ca</label>
+                                            <input type="text" id="ca-name3" name="MaCa" required>
+                                        </div>
+                                        <label for="ca-time">Thời Gian Bắt Đầu</label>
+                                            <select type="time" id="ca-time" name="ThoiGianBatDau" class="form-input">
+                                                <option value="09:00:00">09:00:00</option>
+                                                <option value="10:00:00">10:00:00</option>
+                                                <option value="10:30:00">10:30:00</option>
+                                                <option value="11:00:00">11:00:00</option>
+                                                <option value="12:00:00">12:00:00</option>
+                                                <option value="12:30:00">12:30:00</option>
+                                                <option value="13:00:00">13:00:00</option>
+                                                <option value="13:30:00">13:30:00</option>
+                                                <option value="14:00:00">14:00:00</option>
+                                                <option value="14:30:00">14:30:00</option>
+                                                <option value="16:00:00">16:00:00</option>
+                                                <option value="16:30:00">16:30:00</option>
+                                                <option value="17:00:00">17:00:00</option>
+                                                <option value="17:30:00">17:30:00</option>
+                                                <option value="18:00:00">18:00:00</option>
+                                                <option value="19:00:00">19:00:00</option>
+                                            </select>
+
+                                        <div class="form-group">
+                                            <label for="ca-time">Thời Gian Kết Thúc</label>
+                                            <select type="time" id="ca-time" name="ThoiGianKetThuc" class="form-input">
+                                                <option value="09:00:00">09:00:00</option>
+                                                <option value="10:00:00">10:00:00</option>
+                                                <option value="10:30:00">10:30:00</option>
+                                                <option value="11:00:00">11:00:00</option>
+                                                <option value="12:00:00">12:00:00</option>
+                                                <option value="12:30:00">12:30:00</option>
+                                                <option value="13:00:00">13:00:00</option>
+                                                
+                                                <option value="14:00:00">14:00:00</option>
+                                                <option value="14:30:00">14:30:00</option>
+                                                <option value="16:00:00">16:00:00</option>
+                                                <option value="16:30:00">16:30:00</option>
+                                                <option value="17:00:00">17:00:00</option>
+                                                <option value="17:30:00">17:30:00</option>
+                                                <option value="18:00:00">18:00:00</option>
+                                                <option value="19:00:00">19:00:00</option>
+                                                <option value="19:30:00">19:30:00</option>
+                                                <option value="20:00:00">20:00:00</option>
+                                                <option value="20:30:00">20:30:00</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn-submit">Xác Nhận</button>
+                                            <button type="reset" class="btn-cancel">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
+    </div> <!-- Modal edit guest -->
+    <div class="modal edit-guest-modal">
+        <div class="modal-container edit-guest-modal-container">
+
+            <div class="icon-close js-modal-edit-guest-close">
+                <i class="modal-icon-close fa-solid fa-xmark"></i>
+            </div>
+
+            <header class="modal-header"> Sửa thông tin </header>
+            <form action="{{ url_for('tuychinh_bp.SuaTiecCuoi') }}" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+                
+                    <div class="model-input-item">
+                        <label for="lobby-name" class="modal-label">Tên Khách Hàng:</label>
+                        <input type="text" id="user-name" name="TehKhachHang" class="modal-input" placeholder="{{info['lobbyName']}}">
+                    </div>
+                    <div class="model-input-item">
+                        <label for="lobby-date" class="modal-label">Ngày tổ chức:</label>
+                        <input type ="date" id="lobby-date" name="NgayThanhToan" class="modal-input" placeholder="{{info['lobbyDate']}}" min="{{ dates[0] }}" max="{{ dates[-1] }}" />
+                    </div>
+                    <div class="model-input-item">
+                        <label for="lobby-date" class="modal-label">Thời Gian tổ chức:</label>
+                        <select name="ThoiGian" id="name2" class="form-input">
+                            {% for time in times %}
+                                <option value="{{ time }}">{{ time }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="model-input-item">
+                        <label for="lobby-name" class="modal-label">Mã Sảnh:</label>
+                        <input type="text" id="lobby-name" name="MaSanh" class="modal-input" placeholder="{{info['lobbyName']}}">
+                    </div>
+                    <div class="model-input-item">
+                        <label for="lobby-menu" class="modal-label">Mã thực đơn:</label>
+                        <input type="text" id="lobby-menu" name="MaThucDon" class="modal-input" placeholder="{{info['lobbyMenu']}}">
+                    </div>
+                    <div class="model-input-item">
+                        <label for="lobby-service" class="modal-label">Mã Dịch vụ:</label>
+                        <input type="text" id="lobby-service" name="MaDichVu" class="modal-input" placeholder="{{info['lobbyService']}}">
+                    </div>
+                    <div class="model-input-item">
+                        <label for="lobby-money" class="modal-label">Tiền đặt cọc:</label>
+                        <input type="text" id="lobby-money" name="TienCoc" class="modal-input" placeholder="{{info['lobbyMoney']}}">
+                    </div>
+
+                    <div class="model-input-item">
+                        <label for="lobby-SumMoney" class="modal-label">Tổng tiền hóa đơn:</label>
+                        <input type="text" id="lobby-SumMoney" class="modal-input" placeholder="{{info['lobbySumMoney']}}">
+                    </div>
+            </div>
+
+            <footer class="modal-footer">
+                <button type="reset" class="btn btn-primary cancel-edit-guest-btn">Hủy</button>
+                <button type="submit" class="btn btn-primary confirm-edit-guest-btn">
+                   <a href='#'> Xác nhận </a>
+                </button>
+            </footer>
+            </form>
+        </div>
     </div>
 
+ 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="static/TuyChinh/js/script.js"></script>
     <script src="static/TuyChinh/js/pagination.js"></script>
+    <script src="static/TuyChinh/js/modalEditGuestHandle.js"></script>
+    <script src="static/TuyChinh/js/modalEditMenuHandle.js"></script>
     <script>
         // Lấy giá trị của cột "Tình trạng thanh toán"
         var paymentStatus = document.querySelector("td:nth-child(8)").innerText.trim();
@@ -727,7 +958,7 @@
     </script>
 
 <script>
-    function submitRole(MaHoaDon, TongTienThanhToan) {
+    function submitRole(MaHoaDon, TongTienThanhToan,NgayThanhToan) {
         
         // Sử dụng AJAX để gửi dữ liệu về server
         var xhr = new XMLHttpRequest();
@@ -737,7 +968,124 @@
         // Dữ liệu để gửi
         var data = {
             MaHoaDon: MaHoaDon,
-            TongTienThanhToan: TongTienThanhToan
+            TongTienThanhToan: TongTienThanhToan,
+            NgayThanhToan: NgayThanhToan
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+
+<script>
+    function submitXoaSanh(MaSanh) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/XoaSanh", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaSanh : MaSanh
+            
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+
+<script>
+    function submitXoaThucDon(MaThucDon) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/XoaThucDon", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaThucDon : MaThucDon
+            
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+    function submitXoaCa(MaCa) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/XoaCa", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaCa : MaCa
+            
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+
+<script>
+    function submiXoaDichVu(MaDichVu) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/XoaDichVu", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaDichVu : MaDichVu
+            
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+
+<script>
+    function submitXoaSanh(MaSanh) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/XoaSanh", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaSanh : MaSanh
+            
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        xhr.send(JSON.stringify(data));
+    }
+
+</script>
+
+<script>
+    function submitXoaTiecCuoi(MaTiecCuoi) {
+        
+        // Sử dụng AJAX để gửi dữ liệu về server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tuychinh/XoaTiecCuoi", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Dữ liệu để gửi
+        var data = {
+            MaTiecCuoi: MaTiecCuoi
+            
         };
 
         // Gửi dữ liệu dưới dạng JSON
@@ -765,6 +1113,19 @@
     }
 
 </script>
+
+<script>
+const timeInput = document.getElementById('service-time');
+const existingTimes = [{% for time in times %}'{{ time }}',{% endfor %}];
+
+timeInput.addEventListener('change', () => {
+    const selectedTime = timeInput.value;
+    if (existingTimes.includes(selectedTime)) {
+        // Hiển thị thông báo lỗi hoặc xử lý phù hợp
+        alert('Thời gian đã tồn tại trong danh sách. Vui lòng chọn thời gian khác.');
+    }
+});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       // Lấy dữ liệu từ Flask
@@ -774,7 +1135,7 @@
       const lineChart = new Chart('lineChart', {
         type: 'line',
         data: {
-          labels: data.map(item => item.Thang),
+          labels: data.map(item => item.Ngay),
           datasets: [
             { label: 'Tổng Doanh Thu', data: data.map(item => item.TongDoanhThu) },
             { label: 'Tiền Đã Giải Ngân', data: data.map(item => item.TienThu) },
@@ -787,7 +1148,7 @@
       const barChart = new Chart('barChart', {
         type: 'bar',
         data: {
-          labels: data.map(item => item.Thang),
+          labels: data.map(item => item.Ngay),
           datasets: [
             { label: 'Tổng Doanh Thu', data: data.map(item => item.TongDoanhThu) },
             { label: 'Tiền Đã Giải Ngân', data: data.map(item => item.TienThu) },
@@ -795,9 +1156,126 @@
           ]
         }
       });
+      
     </script>
     
+    <script>
+        function searchMaSanh() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("datatablesLobby");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Get the first <td> element (Mã sảnh)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        function searchTableKhachHang() {
+            // Lấy giá trị người dùng nhập vào ô tìm kiếm
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput-khachhang");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("datatablesSimple");
+            tr = table.getElementsByTagName("tr");
     
+            // Lặp qua tất cả các hàng trong bảng và ẩn những hàng không khớp với từ khóa tìm kiếm
+            for (i = 1; i < tr.length; i++) { // Bắt đầu từ 1 để bỏ qua hàng tiêu đề
+                td = tr[i].getElementsByTagName("td")[0]; // Cột 'Họ Tên' là cột đầu tiên (index 0)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+<script>
+    // Thêm hàm để xử lý sự kiện tìm kiếm
+function searchByMaDichVu() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchMaDichVu");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("datatablesService");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0]; // Lấy ô đầu tiên trong mỗi hàng (chứa MaDichVu)
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+</script>
+
+<script>
+    function searchByMaThucDon() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchMaThucDon");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("datatablesMenu");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0]; // Lấy ô đầu tiên trong mỗi hàng (chứa MaThucDon)
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.edit-guest-icon').click(function() {
+            var row = $(this).closest('tr');
+            var hoTen = row.find('td:nth-child(1)').text();
+            var tenDangNhap = row.find('td:nth-child(2)').text();
+            var soDienThoai = row.find('td:nth-child(3)').text();
+            var maHoaDon = row.find('td:nth-child(4)').text();
+            var maTiecCuoi = row.find('td:nth-child(5)').text();
+            var tongTienThanhToan = row.find('td:nth-child(6)').text().replace('$', '');
+            var ngayThanhToan = row.find('td:nth-child(7)').text();
+            var tinhTrangThanhToan = row.find('td:nth-child(8)').text();
+            var tienPhat = row.find('td:nth-child(9)').text();
+
+            $('#hoTenInput').val(hoTen);
+            $('#tenDangNhapInput').val(tenDangNhap);
+            $('#soDienThoaiInput').val(soDienThoai);
+            $('#maHoaDonInput').val(maHoaDon);
+            $('#maTiecCuoiInput').val(maTiecCuoi);
+            $('#tongTienThanhToanInput').val(tongTienThanhToan);
+            $('#ngayThanhToanInput').val(ngayThanhToan);
+            $('#tinhTrangThanhToanInput').val(tinhTrangThanhToan);
+            $('#tienPhatInput').val(tienPhat);
+
+            $('#editModal').addClass('open');
+        });
+    });
+</script>
 </body>
 
 </html>

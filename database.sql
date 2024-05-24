@@ -56,13 +56,14 @@ CREATE TABLE NGUOIDUNG (
 
 create table HOADON 
 (
- MaHoaDon varchar(10) Primary key,
+ MaHoaDon int(10) Primary key,
  MaTiecCuoi char(10) not null,
  NgayThanhToan date not null,
  TongTienBan int not null,
  TongTienThucDon int not null,
  TongTienHoaDon int not null,
  TinhTrangThanhToan NVARCHAR(100) NOT NULL,
+ TienPhat INT
 
 )
 
@@ -275,14 +276,14 @@ VALUES
     ('CTBC020', '2024-01-20', 200, 20000000, 19500000, 1900000),
     ('CTBC021', '2024-01-21', 210, 21000000, 20500000, 2000000),
     ('CTBC022', '2024-01-22', 220, 22000000, 21500000, 2100000),
-    ('CTBC023', '2024-01-23', 230, 23000000, 22500000, 2200000),
-    ('CTBC024', '2024-01-24', 240, 24000000, 23500000, 2300000),
-    ('CTBC025', '2024-01-25', 250, 25000000, 24500000, 2400000),
-    ('CTBC026', '2024-01-26', 260, 26000000, 25500000, 2500000),
-    ('CTBC027', '2024-01-27', 270, 27000000, 26500000, 2600000),
-    ('CTBC028', '2024-01-28', 280, 28000000, 27500000, 2700000),
-    ('CTBC029', '2024-01-29', 290, 29000000, 28500000, 2800000),
-    ('CTBC030', '2024-01-30', 300, 30000000, 29500000, 2900000);
+    ('CTBC023', '2024-05-23', 230, 23000000, 22500000, 2200000),
+    ('CTBC024', '2024-05-24', 240, 24000000, 23500000, 2300000),
+    ('CTBC025', '2024-05-25', 250, 25000000, 24500000, 2400000),
+    ('CTBC026', '2024-05-26', 260, 26000000, 25500000, 2500000),
+    ('CTBC027', '2024-05-27', 270, 27000000, 26500000, 2600000),
+    ('CTBC028', '2024-05-28', 280, 28000000, 27500000, 2700000),
+    ('CTBC029', '2024-05-29', 290, 29000000, 28500000, 2800000),
+    ('CTBC030', '2024-05-30', 300, 30000000, 29500000, 2900000);
 
 
 -- TABLE BaoCaoDoanhThu
@@ -557,6 +558,7 @@ BEGIN
         NgayThanhToan = @NgayToChuc, 
         TongTienBan = (SELECT SoLuongBan * DonGia FROM TIECCUOI tc JOIN SANH s ON tc.MaSanh = s.MaSanh WHERE tc.MaTiecCuoi = @MaTiecCuoi),
         TongTienThucDon = (SELECT SoLuongBan * GiaThucDon FROM TIECCUOI tc JOIN THUCDON td ON tc.MaThucDon = td.MaThucDon WHERE tc.MaTiecCuoi = @MaTiecCuoi)
+        TongTienHoaDon = 
     WHERE 
         MaTiecCuoi = @MaTiecCuoi;
 END;
@@ -585,7 +587,8 @@ CREATE PROCEDURE ThemTiecCuoi
     @MaDichVu INT,
     @SoLuongBan INT,
     @SoLuongBanDuTru INT,
-    @UserID CHAR(10)
+    @UserID CHAR(10),
+    @NgayToChuc DATE
 AS
 BEGIN
     -- Kiểm tra trùng lặp MaSanh và MaCa
@@ -609,7 +612,8 @@ BEGIN
             MaDichVu, 
             SoLuongBan, 
             SoLuongBanDuTru, 
-            UserID
+            UserID,
+            NgayToChuc
         )
         VALUES (
             @MaTiecCuoi, 
@@ -621,7 +625,8 @@ BEGIN
             @MaDichVu, 
             @SoLuongBan, 
             @SoLuongBanDuTru, 
-            @UserID
+            @UserID,
+            @NgayToChuc
         );
 
         -- Trả về thông báo thành công
@@ -799,8 +804,14 @@ BEGIN
         ND.PhoneNumber AS 'Số điện thoại',
         HD.MaHoaDon AS 'Mã hóa đơn',
         HD.TongTienHoaDon AS 'Tổng tiền thanh toán',
-        HD.NgayThanhToan AS 'Ngày thanh toán',
-        HD.TinhTrangThanhToan AS 'Tình trạng thanh toán'
+        TC.NgayToChuc AS 'Ngày thanh toán',
+        HD.TinhTrangThanhToan AS 'Tình trạng thanh toán',
+		TC.MaTiecCuoi AS 'Ma Tiec Cuoi',
+		HD.TienPhat AS 'TienPhat',
+		TC.MaSanh AS 'Ma Sanh',
+		TC.MaThucDon AS 'Ma Thuc Don',
+		TC.MaDichVu AS 'MaDichVu',
+		TC.TienDatCoc as 'TienCoc'
     FROM
         HOADON HD
     JOIN
@@ -808,6 +819,7 @@ BEGIN
     JOIN
         NGUOIDUNG ND ON TC.UserID = ND.UserID;
 END;
+
 
 EXEC GetAllInvoiceDetails;
 --- Trigger => yêu cầu :  Mỗi khi update ChiTietBaoCao => DoanhThu & TienNo & TienThu của BaoCaoDoanhThu sẽ bằng DoanhThu & TienThu &  TienNo các ngày cùng tháng cộng lại
@@ -947,10 +959,11 @@ SELECT * FROM ChiTietBaoCao;
 SELECT * FROM HOADON;
 
 
-CREATE PROCEDURE InsertSanh
+CREATE or ALTER PROCEDURE InsertSanh
     @TenSanh NVARCHAR(255),
     @DonGia DECIMAL(18, 2),
-    @DiaChi NVARCHAR(255)
+    @DiaChi NVARCHAR(255),
+	@LoaiSanh NVARCHAR(255)
 AS
 BEGIN
     -- Declare a variable to store the new MaSanh
@@ -961,8 +974,8 @@ BEGIN
     FROM [SE104].[dbo].[SANH];
     
     -- Insert the new record into the SANH table
-    INSERT INTO [SE104].[dbo].[SANH] (MaSanh, TenSanh, DonGia, DiaChi)
-    VALUES (@NewMaSanh, @TenSanh, @DonGia, @DiaChi);
+    INSERT INTO [SE104].[dbo].[SANH] (MaSanh, TenSanh, DonGia, DiaChi, LoaiSanh)
+    VALUES (@NewMaSanh, @TenSanh, @DonGia, @DiaChi, @LoaiSanh);
     
     -- Optionally, return the new MaSanh
     SELECT @NewMaSanh AS NewMaSanh;
@@ -1004,26 +1017,62 @@ BEGIN
     SELECT N'Full Lịch' AS Result
 END
 
-CREATE PROCEDURE InsertHoaDon
-    @MaTiecCuoi INT,
+CREATE  or ALTER PROCEDURE InsertHoaDon
+    @MaTiecCuoi CHAR(10),
     @NgayThanhToan DATE,
-    @TongTienThucDon DECIMAL(18, 2),
-    @TinhTrangThanhToan NVARCHAR(50),
+    @TongTienBan INT,
+    @TongTienThucDon INT,
+    @TongTienHoaDon INT,
+    @TinhTrangThanhToan NVARCHAR(100),
     @TienPhat INT
 AS
 BEGIN
-    -- Declare variables for the new MaHoaDon and for the calculated fields
-    DECLARE @NewMaHoaDon INT;
-    DECLARE @TongTienBan DECIMAL(18, 2) = 0; -- Assuming default value of 0, modify as needed
-    DECLARE @TongTienHoaDon DECIMAL(18, 2);
+    DECLARE @LastId INT;
 
-    -- Get the next MaHoaDon value
-    SELECT @NewMaHoaDon = ISNULL(MAX(MaHoaDon), 0) + 1 FROM HOADON;
+    -- Tìm MaHoaDon lớn nhất trong bảng
+    SELECT @LastId = ISNULL(MAX(MaHoaDon), 0) FROM HOADON;
 
-    -- Calculate the total amount for the invoice
-    SET @TongTienHoaDon = @TongTienBan + @TongTienThucDon;
+    -- Tăng giá trị MaHoaDon lên 1
+    SET @LastId = @LastId + 1;
 
-    -- Insert the new record into the HOADON table
+    -- Thêm bản ghi mới vào bảng HOADON
     INSERT INTO HOADON (MaHoaDon, MaTiecCuoi, NgayThanhToan, TongTienBan, TongTienThucDon, TongTienHoaDon, TinhTrangThanhToan, TienPhat)
-    VALUES (@NewMaHoaDon, @MaTiecCuoi, @NgayThanhToan, @TongTienBan, @TongTienThucDon, @TongTienHoaDon, @TinhTrangThanhToan, @TienPhat);
+    VALUES (@LastId, @MaTiecCuoi, @NgayThanhToan, @TongTienBan, @TongTienThucDon, @TongTienHoaDon, @TinhTrangThanhToan, @TienPhat);
 END;
+
+
+CREATE or alter PROCEDURE XoaTiecCuoi
+    @MaTiecCuoi CHAR(10)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Xóa dữ liệu liên quan trong bảng HOADON
+    DELETE FROM HOADON
+    WHERE MaTiecCuoi = @MaTiecCuoi;
+
+    -- Xóa dữ liệu trong bảng TIECCUOI
+    DELETE FROM TIECCUOI
+    WHERE MaTiecCuoi = @MaTiecCuoi;
+END
+
+CREATE  or alter PROCEDURE sp_InsertCA
+    @ThoiGianBatDau time,
+    @ThoiGianKetThuc time
+AS
+BEGIN
+    DECLARE @NewMaCa varchar(10)
+    DECLARE @MaxMaCaNumber int
+
+    -- Lấy số lớn nhất trong MaCa từ bảng
+    SELECT @MaxMaCaNumber = MAX(CAST(SUBSTRING(MaCa, 4, LEN(MaCa)) AS int))
+    FROM [SE104].[dbo].[CA]
+    WHERE MaCa LIKE 'CA%'
+
+    -- Tạo MaCa mới với định dạng CA005
+    SET @NewMaCa = 'CA' + RIGHT('000' + CAST(@MaxMaCaNumber + 1 AS varchar), 3)
+
+    -- Insert dữ liệu vào bảng
+    INSERT INTO [SE104].[dbo].[CA] (MaCa, ThoiGianBatDau, ThoiGianKetThuc)
+    VALUES (@NewMaCa, @ThoiGianBatDau, @ThoiGianKetThuc)
+END
